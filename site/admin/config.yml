@@ -153,56 +153,56 @@ collections:
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: servicii
                 label: Servicii
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: oferte
                 label: Oferte
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: galerie
                 label: Galerie
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: echipa
                 label: Echipă
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: despre-noi
                 label: Despre noi
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: rezerva
                 label: Rezervă
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: date-identificare
                 label: Date identificare societate
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
 
       - name: coduri
@@ -258,8 +258,8 @@ collections:
       - { name: pret_de_la, label: Preț de la (lei), widget: number, value_type: int }
       - { name: imagine, label: Poza principală, widget: image, required: false }
       - { name: imagine_detaliu, label: A doua poză, widget: image, required: false }
-      - { name: imagine_alt, label: Descrierea pozei, widget: string, required: false }
-      - { name: seo_titlu, label: "SEO – titlu (gol = „<Titlu> – prețuri și programare”)", widget: string, required: false }
+      - { name: imagine_alt, label: "Descrierea pozei (opțional; gol = „<Titlu> - salon de înfrumusețare iGlow Studio”)", widget: string, required: false }
+      - { name: seo_titlu, label: "SEO – titlu (opțional; gol = „<Titlu> - iGlow Studio”)", widget: string, required: false }
       - { name: seo_descriere, label: "SEO – descriere (gol = rezumatul)", widget: text, required: false }
       - name: pasi
         label: Cum lucrăm (pași)
