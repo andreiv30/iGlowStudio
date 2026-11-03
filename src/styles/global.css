@@ -133,11 +133,11 @@ p { text-wrap: pretty; }
 .btn--block { width: 100%; }
 @media (hover: hover) and (pointer: fine) {
   /* hover: fundal puțin mai închis, lumină aurie-maronie sub buton, ridicare ușoară */
-  .btn:hover { background: var(--caramel-btn-hover); transform: translateY(-2px); box-shadow: 0 16px 36px -10px rgb(201 155 88 / 0.9), 0 4px 14px -4px rgb(122 92 56 / 0.5); }
-  .btn--outline:hover { background: #f6f0e9; border-color: var(--caramel); box-shadow: 0 16px 34px -12px rgb(201 155 88 / 0.7), 0 4px 12px -6px rgb(122 92 56 / 0.3); }
+  .btn:hover { background: var(--caramel-btn-hover); transform: translateY(-2px); box-shadow: 0 0 0 4px rgb(212 180 138 / 0.22), 0 14px 34px -6px rgb(201 155 88 / 0.85), 0 0 28px 2px rgb(212 170 110 / 0.45); }
+  .btn--outline:hover { background: #f6f0e9; border-color: var(--caramel); box-shadow: 0 0 0 4px rgb(212 180 138 / 0.2), 0 14px 32px -8px rgb(201 155 88 / 0.7), 0 0 24px rgb(212 170 110 / 0.35); }
   .btn--dark:hover { background: var(--cacao); }
   .btn--light:hover { background: rgb(251 251 250 / 0.12); border-color: var(--alb-cald); }
-  .btn--gold:hover { background: #c4a072; box-shadow: 0 16px 38px -10px rgb(212 180 138 / 0.65), 0 4px 14px -4px rgb(177 139 90 / 0.5); }
+  .btn--gold:hover { background: #c4a072; box-shadow: 0 0 0 4px rgb(212 180 138 / 0.22), 0 14px 36px -6px rgb(212 180 138 / 0.8), 0 0 32px 4px rgb(212 180 138 / 0.4); }
   .btn:active { transform: translateY(0) scale(0.97); }
   .btn:hover svg { transform: translateX(3px); }
 }
@@ -168,8 +168,8 @@ p { text-wrap: pretty; }
 
 /* ---------- mișcare (după tasteskill.dev; conținutul rămâne vizibil fără JavaScript) ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-load] { opacity: 0; transform: translateY(14px); filter: blur(6px); animation: load-in 900ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .js [data-load] { animation: load-in 900ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
   .js [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: calc(var(--i, 0) * 65ms); }
   .js [data-reveal].is-in { opacity: 1; transform: none; }
 }
-@keyframes load-in { to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes load-in { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } }
