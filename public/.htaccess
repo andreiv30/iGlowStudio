@@ -1,0 +1,25 @@
+# iGlow Studio — setări Apache pentru găzduirea statică din public_html
+
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html
+Options -Indexes
+
+# HTTPS (decomentează după ce certificatul SSL e activ)
+# RewriteEngine On
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Fișierul cu secretele OAuth nu se servește niciodată
+<FilesMatch "^(\.config|_config)\.php$">
+  Require all denied
+</FilesMatch>
+
+# Cache lung pentru fișierele cu hash din numele lor (CSS, fonturi)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|woff2?|svg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

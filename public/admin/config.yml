@@ -1,11 +1,11 @@
 # Panoul de administrare iGlow Studio (Decap CMS)
-# Fiecare salvare face un commit în repo; site-ul se actualizează după un nou build/deploy.
+# Fiecare salvare face un commit pe main; GitHub Actions reconstruiește site-ul și îl urcă prin FTP.
 backend:
   name: github
   repo: andreiv30/iGlowStudio
   branch: main
-  base_url: https://www.iglowstudio.ro   # adresa site-ului (unde rulează /api/auth)
-  auth_endpoint: api/auth
+  base_url: https://www.iglowstudio.ro   # adresa site-ului (unde stă api/auth.php)
+  auth_endpoint: api/auth.php
   commit_messages:
     create: 'Adaugă {{collection}} „{{slug}}”'
     update: 'Actualizează {{collection}} „{{slug}}”'

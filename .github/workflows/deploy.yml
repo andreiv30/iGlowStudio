@@ -1,0 +1,77 @@
+# Construiește site-ul la fiecare modificare pe main (inclusiv salvările din /admin)
+# și îl urcă prin FTP în public_html.
+#
+# Secrete necesare (GitHub → Settings → Secrets and variables → Actions):
+#   FTP_SERVER          ex. ftp.iglowstudio.ro
+#   FTP_USERNAME        contul FTP din cPanel
+#   FTP_PASSWORD        parola contului FTP
+#   FTP_SERVER_DIR      folderul de pe server, cu / la final (ex. /public_html/; implicit ./)
+#   FTP_PROTOCOL        opțional: ftps (implicit) sau ftp, dacă serverul nu acceptă FTPS
+#   SITE_URL            ex. https://www.iglowstudio.ro
+#   OAUTH_CLIENT_ID     din GitHub OAuth App (pentru /admin)
+#   OAUTH_CLIENT_SECRET din GitHub OAuth App (pentru /admin)
+#
+# Fără secretele FTP, site-ul se construiește oricum și se poate descărca ca arhivă
+# din pagina rulării (secțiunea Artifacts), pentru urcare manuală în public_html.
+
+name: Build și deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: ${{ secrets.SITE_URL }}
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Scrie configurația OAuth pentru /admin
+        env:
+          OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+          OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
+        run: |
+          php -r '
+            $c = ["client_id" => getenv("OAUTH_CLIENT_ID") ?: "", "client_secret" => getenv("OAUTH_CLIENT_SECRET") ?: "", "site_url" => getenv("SITE_URL") ?: ""];
+            file_put_contents("dist/api/.config.php", "<?php\nreturn " . var_export($c, true) . ";\n");
+          '
+
+      - name: Arhivă pentru urcare manuală (fără secrete)
+        run: |
+          mkdir -p /tmp/site && cp -a dist/. /tmp/site/ && rm -f /tmp/site/api/.config.php
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-public_html
+          path: /tmp/site
+          include-hidden-files: true
+          retention-days: 14
+
+      - name: Urcă în public_html prin FTP
+        if: env.FTP_SERVER != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          local-dir: ./dist/
+          protocol: ${{ secrets.FTP_PROTOCOL || 'ftps' }}
