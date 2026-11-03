@@ -19,13 +19,13 @@ modificare în /admin sau în cod → commit pe main → GitHub Actions: npm run
 Autentificarea GitHub trece prin `public/api/auth.php` și `public/api/callback.php`, care rulează pe PHP-ul găzduirii.
 
 1. Creează un GitHub OAuth App (GitHub → Settings → Developer settings → OAuth Apps):
-   - Homepage URL: `https://www.iglowstudio.ro`
-   - Authorization callback URL: `https://www.iglowstudio.ro/api/callback.php`
+   - Homepage URL: `https://iglowstudio.ro`
+   - Authorization callback URL: `https://iglowstudio.ro/api/callback.php`
 2. Creează o singură dată pe server, din File Manager, fișierul `public_html/api/.config.php` (nu este în repo, iar `.htaccess` îl blochează; deploy-ul nu îl șterge):
 
 ```php
 <?php
-return ['client_id' => '...', 'client_secret' => '...', 'site_url' => 'https://www.iglowstudio.ro'];
+return ['client_id' => '...', 'client_secret' => '...', 'site_url' => 'https://iglowstudio.ro'];
 ```
 
 3. Dacă domeniul diferă, schimbă `base_url`, `site_url` și `display_url` în `public/admin/config.yml`.
