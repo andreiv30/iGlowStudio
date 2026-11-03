@@ -1,4 +1,5 @@
 ---
+import sharp from 'sharp';
 import { seoPagina, altImg } from '../lib/seo';
 // Galeria: doar fotografii, așezate în coloane (masonry), ca pe Caracter.
 // Pozele se adaugă din /admin → Galerie. Până atunci rămân cadre goale.
@@ -10,6 +11,11 @@ import galerie from '../data/galerie.json';
 
 type Img = { imagine: string; descriere?: string };
 const imagini = galerie.imagini as Img[];
+// lățimea și înălțimea fiecărei poze, citite la build: browserul le face loc dinainte și pagina nu „sare” la încărcare
+const dim = await Promise.all(imagini.map(async (img) => {
+  try { const m = await sharp(`public${decodeURI(img.imagine)}`).metadata(); return m.width && m.height ? { width: m.width, height: m.height } : {}; }
+  catch { return {}; }
+}));
 // cadre goale cu proporții diferite, ca să se vadă așezarea până vin pozele
 const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '4 / 5', '3 / 4', '4 / 5', '9 / 16', '3 / 4'];
 ---
@@ -21,7 +27,7 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
       ? imagini.map((img, i) => (
           <figure class="masonry__item" data-reveal style={`--i: ${i % 4}`}>
             <button type="button" class="masonry__open" data-lb-open={i} aria-label={`Deschide fotografia ${i + 1} din ${imagini.length}`}>
-              <img src={img.imagine} alt={altImg(`Lucrare de coafură și culoare ${i + 1}`, img.descriere)} loading={i < 8 ? 'eager' : 'lazy'} decoding="async" />
+              <img src={img.imagine} alt={altImg(`Lucrare de coafură și culoare ${i + 1}`, img.descriere)} loading={i < 4 ? 'eager' : 'lazy'} decoding="async" {...dim[i]} />
               <span class="masonry__zoom" aria-hidden="true"><Icon name="expand" size={18} /></span>
             </button>
           </figure>
@@ -38,8 +44,8 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
         <figcaption class="lb__count" data-lb-count aria-live="polite"></figcaption>
       </figure>
       <button type="button" class="lb__btn lb__close" data-lb-close aria-label="Închide galeria"><Icon name="close" size={22} /></button>
-      <button type="button" class="lb__btn lb__prev" data-lb-prev aria-label="Fotografia anterioară"><Icon name="arrow-left" size={22} /></button>
-      <button type="button" class="lb__btn lb__next" data-lb-next aria-label="Fotografia următoare"><Icon name="arrow" size={22} /></button>
+      {imagini.length > 1 && <button type="button" class="lb__btn lb__prev" data-lb-prev aria-label="Fotografia anterioară"><Icon name="arrow-left" size={22} /></button>}
+      {imagini.length > 1 && <button type="button" class="lb__btn lb__next" data-lb-next aria-label="Fotografia următoare"><Icon name="arrow" size={22} /></button>}
     </dialog>
   )}
 </Base>
@@ -59,7 +65,7 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
       img.src = srcs[cur].src; img.alt = srcs[cur].alt;
       count.textContent = `${cur + 1} / ${srcs.length}`;
       requestAnimationFrame(() => img.classList.add('is-in'));
-      [cur + 1, cur - 1].forEach((j) => { const p = new Image(); p.src = srcs[(j + srcs.length) % srcs.length].src; });
+      if (srcs.length > 1) [cur + 1, cur - 1].forEach((j) => { const p = new Image(); p.src = srcs[(j + srcs.length) % srcs.length].src; });
     };
     let opener: HTMLElement | null = null;
     thumbs.forEach((b, i) => b.addEventListener('click', () => {
@@ -67,9 +73,9 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
     }));
     dlg.addEventListener('close', () => { document.documentElement.classList.remove('lb-open'); opener?.focus(); });
     dlg.querySelector('[data-lb-close]')!.addEventListener('click', () => dlg.close());
-    dlg.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(cur - 1));
-    dlg.querySelector('[data-lb-next]')!.addEventListener('click', () => show(cur + 1));
-    dlg.addEventListener('keydown', (e) => {
+    dlg.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(cur - 1));
+    dlg.querySelector('[data-lb-next]')?.addEventListener('click', () => show(cur + 1));
+    if (srcs.length > 1) dlg.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); }
       if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1); }
     });
@@ -79,7 +85,7 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
     dlg.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
     dlg.addEventListener('touchend', (e) => {
       const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1));
+      if (srcs.length > 1 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1));
     });
   }
 </script>

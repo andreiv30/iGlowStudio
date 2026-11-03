@@ -22,7 +22,7 @@ const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine 
             <h2 id={`cat-${s.id}`} class="cat__title">{s.data.titlu}</h2>
             <p class="muted cat__count">{s.data.preturi.length} {s.data.preturi.length === 1 ? 'serviciu' : 'servicii'}</p>
           </div>
-          <a class="more cat__link" href={`/servicii/${s.id}`}>Vezi categoria <Icon name="arrow" size={14} /></a>
+          <a class="more cat__link" href={`/servicii/${s.id}/`}>Vezi categoria <Icon name="arrow" size={14} /></a>
         </header>
         <div class="cat__grid">
           {s.data.preturi.map((p, i) => (

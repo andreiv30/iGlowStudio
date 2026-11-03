@@ -1,0 +1,10 @@
+# Panoul /admin: fișierele de aici (galerie-widget.js, config.yml) nu au hash în nume,
+# deci browserul trebuie să verifice la fiecare deschidere dacă s-au schimbat.
+# Înlocuiește regula „un an, immutable” pentru .js din public_html/.htaccess. E tot într-un <FilesMatch>,
+# pentru că serverul aplică secțiunile <FilesMatch> după restul regulilor: așa regula de aici vine ultima și câștigă.
+<IfModule mod_headers.c>
+  <FilesMatch ".">
+    Header set Cache-Control "no-cache"
+    Header set X-Robots-Tag "noindex, nofollow"
+  </FilesMatch>
+</IfModule>

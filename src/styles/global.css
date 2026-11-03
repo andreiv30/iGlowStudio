@@ -2,9 +2,10 @@
    Structura: după atelier-caracter.ro. Stilul: flyerul iGlow (titluri serif, etichete spațiate,
    buton auriu rotunjit, iconițe în cerc). Paleta: artefactul „Paletă iGlow Hair”, pe fundal alb. */
 
-@import '@fontsource-variable/source-serif-4/opsz.css';
-@import '@fontsource-variable/source-serif-4/opsz-italic.css';
-@import '@fontsource-variable/inter/opsz.css';
+/* fonturile variabile doar pe axa de grosime (wght): de ~2,5 ori mai mici decât variantele cu „optical size” (opsz) */
+@import '@fontsource-variable/source-serif-4/wght.css';
+@import '@fontsource-variable/source-serif-4/wght-italic.css';
+@import '@fontsource-variable/inter/wght.css';
 @import '@fontsource/montserrat/latin-400.css';
 @import '@fontsource/montserrat/latin-ext-400.css';
 
@@ -172,4 +173,7 @@ p { text-wrap: pretty; }
   .js [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: calc(var(--i, 0) * 65ms); }
   .js [data-reveal].is-in { opacity: 1; transform: none; }
 }
+/* animațiile care se repetă la nesfârșit stau pe pauză cât timp nu sunt pe ecran (site.ts, [data-anim]) */
+.is-offscreen, .is-offscreen * { animation-play-state: paused !important; }
+
 @keyframes load-in { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } }

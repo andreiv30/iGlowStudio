@@ -24,6 +24,8 @@ const setMenu = (open: boolean) => {
   toggle.setAttribute('aria-expanded', String(open));
   panel.hidden = !open;
   root.classList.toggle('menu-open', open);
+  // cât timp meniul e deschis, Tab și cititoarele de ecran nu ajung la pagina din spate
+  document.querySelectorAll<HTMLElement>('main, footer').forEach((el) => { el.inert = open; });
   document.body.style.overflow = open ? 'hidden' : '';
   if (label) label.textContent = open ? 'Închide meniul' : 'Deschide meniul';
 };
@@ -63,13 +65,18 @@ if (heroMedia && !reduce.matches) {
   window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
 }
 
-// ---------- video din hero: oprit pentru „reduce motion” și când nu se vede pe ecran ----------
+// ---------- video din hero ----------
+// Videoul are preload="none" și nu pornește singur: îl pornim de aici doar dacă are sens, ca să nu se descarce degeaba
+// (pentru „reduce motion”, „economizor de date” sau o conexiune foarte lentă rămâne poza). Când nu se vede pe ecran, stă pe pauză.
 const heroVideo = document.querySelector<HTMLVideoElement>('[data-hero-video]');
-if (heroVideo) {
-  if (reduce.matches) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
-  else if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => { if (e.isIntersecting) heroVideo.play().catch(() => {}); else heroVideo.pause(); }).observe(heroVideo);
-  }
+const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+const dateleSunt = !conn?.saveData && !/(^|-)2g$/.test(conn?.effectiveType ?? '');
+if (heroVideo && !reduce.matches && dateleSunt) {
+  heroVideo.muted = true;
+  const play = () => { heroVideo.play().catch(() => {}); };
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) play(); else heroVideo.pause(); }).observe(heroVideo);
+  } else play();
 }
 
 // ---------- carusel (servicii): săgețile derulează cu un card ----------
@@ -102,6 +109,8 @@ document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((wrap) => {
   });
   track.addEventListener('pointermove', (e) => {
     if (!down) return;
+    // butonul a fost eliberat în afara caruselului (fără pointerup aici): nu mai tragem
+    if (e.buttons === 0) { end(e); return; }
     const dx = e.clientX - startX;
     if (!moved && Math.abs(dx) < 5) return;
     if (!moved) { moved = true; track.classList.add('is-dragging'); track.setPointerCapture(e.pointerId); }
@@ -181,6 +190,15 @@ document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((wrap) => {
     if (label) label.textContent = paused ? 'Pornește derularea' : 'Oprește derularea';
   });
 });
+
+// ---------- animațiile decorative (banda, luminile, recenziile) stau pe pauză când nu sunt pe ecran ----------
+const anims = document.querySelectorAll<HTMLElement>('[data-anim]');
+if (anims.length && 'IntersectionObserver' in window) {
+  const ioAnim = new IntersectionObserver((entries) => {
+    for (const e of entries) e.target.classList.toggle('is-offscreen', !e.isIntersecting);
+  }, { rootMargin: '100px 0px' });
+  anims.forEach((el) => ioAnim.observe(el));
+}
 
 // ---------- acordeonul din footer: pe mobil o singură secțiune deschisă, prima la început ----------
 const accs = [...document.querySelectorAll<HTMLDetailsElement>('[data-acc]')];
