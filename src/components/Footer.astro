@@ -57,19 +57,20 @@ const social = [
       </details>
     </div>
 
-    <ul class="footer__anpc" aria-label="Soluționarea litigiilor">
+    <div class="footer__bottom">
+      <div class="footer__legal">
+        <p>© {an} {setari.nume}. Toate drepturile rezervate.</p>
+        <p class="footer__firma">
+          <span>{setari.firma.denumire}</span>
+          <span>CUI {setari.firma.cui}</span>
+          <span>{setari.firma.reg_com}</span>
+          <a href={setari.link_harta} rel="noopener" target="_blank">{setari.firma.sediu}</a>
+        </p>
+      </div>
+      <ul class="footer__anpc" aria-label="Soluționarea litigiilor">
       <li><a href="https://anpc.ro/ce-este-sal/" rel="noopener" target="_blank"><img src="/anpc/anpc-sal.svg" alt="ANPC – Soluționarea alternativă a litigiilor" width="250" height="62" loading="lazy" decoding="async" /></a></li>
       <li><a href="https://ec.europa.eu/consumers/odr" rel="noopener" target="_blank"><img src="/anpc/anpc-sol.svg" alt="Soluționarea online a litigiilor" width="250" height="62" loading="lazy" decoding="async" /></a></li>
     </ul>
-
-    <div class="footer__bottom">
-      <p>© {an} {setari.nume}. Toate drepturile rezervate.</p>
-      <p class="footer__firma">
-        <span>{setari.firma.denumire}</span>
-        <span>CUI {setari.firma.cui}</span>
-        <span>{setari.firma.reg_com}</span>
-        <a href={setari.link_harta} rel="noopener" target="_blank">{setari.firma.sediu}</a>
-      </p>
     </div>
   </div>
 </footer>
@@ -86,8 +87,16 @@ const social = [
   .footer__logo { display: block; height: 4.5rem; color: var(--alb-cald); align-self: flex-start; }
   .footer__brand p { color: var(--nisip); font-size: 0.9375rem; max-width: 22rem; }
   .footer__social { display: flex; gap: 0.6rem; }
-  .footer__social a { width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgb(251 251 250 / 0.35); display: inline-flex; align-items: center; justify-content: center; transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease; }
-  @media (hover: hover) and (pointer: fine) { .footer__social a:hover { background: var(--caramel); border-color: var(--caramel); color: var(--espresso); } }
+  .footer__social a { width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgb(251 251 250 / 0.35); display: inline-flex; align-items: center; justify-content: center; }
+  /* hover cu umplere: un cerc auriu crește din centru, iconița devine închisă */
+  .footer__social a, .footer__contact .ring { position: relative; isolation: isolate; overflow: hidden; transition: border-color 300ms ease, color 300ms ease; }
+  .footer__social a::before, .footer__contact .ring::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--caramel); transform: scale(0); transition: transform 380ms var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) {
+    .footer__social a:hover, .footer__contact a:hover .ring { border-color: var(--caramel); color: var(--espresso); }
+    .footer__social a:hover::before, .footer__contact a:hover .ring::before { transform: scale(1); }
+  }
+  .footer__social a:focus-visible::before, .footer__contact a:focus-visible .ring::before { transform: scale(1); }
+  .footer__social a:focus-visible, .footer__contact a:focus-visible .ring { color: var(--espresso); }
 
   .acc summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
   .acc summary::-webkit-details-marker { display: none; }
@@ -106,14 +115,15 @@ const social = [
   .footer__links a { display: inline-block; padding-block: 0.3rem; text-decoration: none; color: var(--nisip); transition: color 200ms ease; }
   @media (hover: hover) and (pointer: fine) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
 
-  .footer__firma { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; justify-content: flex-end; letter-spacing: 0.12em; }
+  .footer__legal { display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer__firma { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; letter-spacing: 0.12em; }
   .footer__firma a { color: inherit; text-decoration: none; transition: color 200ms ease; }
   @media (hover: hover) and (pointer: fine) { .footer__firma a:hover { color: var(--auriu); } }
-  .footer__anpc { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: -1.5rem; }
+  .footer__anpc { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.6rem; margin-left: auto; align-self: flex-end; }
   .footer__anpc a { display: block; border-radius: 10px; transition: transform 200ms var(--ease-out), opacity 200ms ease; opacity: 0.92; }
-  .footer__anpc img { width: 10.5rem; height: auto; }
+  .footer__anpc img { width: 8.4rem; height: auto; }
   @media (hover: hover) and (pointer: fine) { .footer__anpc a:hover { opacity: 1; transform: translateY(-2px); } }
-  .footer__bottom { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1.75rem; border-top: 1px solid rgb(251 251 250 / 0.14); font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--nisip); }
+  .footer__bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem 2rem; flex-wrap: wrap; padding-top: 1.75rem; border-top: 1px solid rgb(251 251 250 / 0.14); font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--nisip); }
 
   @media (max-width: 64rem) { .footer__grid { grid-template-columns: 1fr 1fr; } }
   /* pe mobil: Contact, Legal și Explorează devin acordeon, cu o singură secțiune deschisă */
@@ -128,7 +138,7 @@ const social = [
     .acc[open] .acc__chev { transform: rotate(180deg); }
     .footer__contact, .footer__links { margin-top: 0.25rem; padding-bottom: 1.5rem; }
     .footer__bottom { flex-direction: column; border-top: 0; padding-top: 0; }
-    .footer__anpc { margin-top: 0; justify-content: center; }
-    .footer__firma { justify-content: flex-start; flex-direction: column; }
+    .footer__bottom { align-items: flex-start; }
+    .footer__firma { flex-direction: column; }
   }
 </style>
