@@ -305,7 +305,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .marquee :global(.marquee__col) { overflow: hidden; }
   .marquee :global(.marquee__inner) { display: flex; flex-direction: column; will-change: transform; animation: marquee-up var(--dur, 60s) linear infinite; animation-delay: var(--delay, 0s); }
   .marquee :global(.marquee__group) { display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: 1.5rem; }
-  .marquee__viewport:hover :global(.marquee__inner), .marquee__viewport:focus-within :global(.marquee__inner), .marquee.is-paused :global(.marquee__inner) { animation-play-state: paused; }
+  .marquee.is-paused :global(.marquee__inner) { animation-play-state: paused; }
   @keyframes marquee-up { to { transform: translate3d(0, -50%, 0); } }
 
   .rv { display: flex; flex-direction: column; gap: 0.9rem; padding: 1.75rem 1.75rem 1.4rem; border-radius: 18px; background: rgb(255 255 255 / 0.92); border: 1px solid rgb(177 139 90 / 0.12); box-shadow: 0 1px 2px rgb(26 19 13 / 0.03), 0 16px 36px -24px rgb(81 63 51 / 0.32); }
