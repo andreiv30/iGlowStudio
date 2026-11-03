@@ -1,5 +1,5 @@
 ---
-import { seoPagina } from '../lib/seo';
+import { seoPagina, altImg } from '../lib/seo';
 // Galeria: doar fotografii, așezate în coloane (masonry), ca pe Caracter.
 // Pozele se adaugă din /admin → Galerie. Până atunci rămân cadre goale.
 import Base from '../layouts/Base.astro';
@@ -19,7 +19,7 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
     {imagini.length > 0
       ? imagini.map((img, i) => (
           <figure class="masonry__item" data-reveal style={`--i: ${i % 4}`}>
-            <img src={img.imagine} alt={img.descriere ?? ''} loading={i < 8 ? 'eager' : 'lazy'} />
+            <img src={img.imagine} alt={altImg(`Lucrare de coafură și culoare ${i + 1}`, img.descriere)} loading={i < 8 ? 'eager' : 'lazy'} />
           </figure>
         ))
       : goale.map((r, i) => (

@@ -1,5 +1,5 @@
 ---
-import { seoPagina } from '../lib/seo';
+import { seoPagina, altImg } from '../lib/seo';
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
@@ -20,7 +20,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
   <section class="team container" aria-label="Membrii echipei">
     {membri.map(({ m, Content }, i) => (
       <article class="person" data-reveal style={`--i: ${i % 4}`}>
-        <Photo src={m.data.foto} alt={`${m.data.nume}, ${m.data.rol}`} ratio="4 / 5" />
+        <Photo src={m.data.foto} alt={altImg(`${m.data.nume}, ${m.data.rol}`)} ratio="4 / 5" />
         <div class="person__body">
           <h2 class="person__name">{m.data.nume}</h2>
           <p class="person__role">{m.data.rol}</p>

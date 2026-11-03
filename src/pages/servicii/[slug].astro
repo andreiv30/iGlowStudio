@@ -9,7 +9,7 @@ import PriceCard from '../../components/PriceCard.astro';
 import Faq from '../../components/Faq.astro';
 import CtaCard from '../../components/CtaCard.astro';
 import { rezervaHref, rezervaExtern } from '../../lib/nav';
-import { schemaBreadcrumb, schemaFaq } from '../../lib/seo';
+import { schemaBreadcrumb, schemaFaq, altImg } from '../../lib/seo';
 import setari from '../../data/setari.json';
 
 export async function getStaticPaths() {
@@ -43,7 +43,7 @@ const schema = [
 ];
 const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
 ---
-<Base title={s.data.seo_titlu || `${s.data.titlu} – prețuri și programare`} description={s.data.seo_descriere || s.data.rezumat} image={s.data.imagine} schema={schema}>
+<Base title={s.data.titlu} seoTitle={s.data.seo_titlu} description={s.data.seo_descriere || s.data.rezumat} image={s.data.imagine} schema={schema}>
   <!-- începutul: text în stânga, poza serviciului în dreapta -->
   <section class="svc-head">
     <div class="container svc-head__inner">
@@ -61,7 +61,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
           <a class="btn btn--outline" href="#preturi">Vezi prețurile</a>
         </div>
       </div>
-      <div data-load style="--i: 2"><Photo src={s.data.imagine} alt={s.data.imagine_alt} ratio="4 / 5" eager /></div>
+      <div data-load style="--i: 2"><Photo src={s.data.imagine} alt={altImg(s.data.titlu, s.data.imagine_alt)} ratio="4 / 5" eager /></div>
     </div>
   </section>
 
@@ -89,7 +89,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
   <!-- despre serviciu: textul din /admin, lângă o a doua poză -->
   <section class="about section" aria-labelledby="about-title">
     <div class="container about__inner">
-      <div data-reveal><Photo src={s.data.imagine_detaliu} alt={s.data.imagine_alt} ratio="1 / 1" /></div>
+      <div data-reveal><Photo src={s.data.imagine_detaliu} alt={altImg(`${s.data.titlu}, detaliu`, s.data.imagine_alt)} ratio="1 / 1" /></div>
       <div class="head">
         <p class="eyebrow" data-reveal>Despre serviciu</p>
         <h2 id="about-title" class="h2" data-reveal style="--i: 1">Ce înseamnă <em>{s.data.titlu.toLowerCase()}</em> la iGlow</h2>
@@ -136,7 +136,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
         {altele.map((o, i) => (
           <li class="card others__card" data-reveal style={`--i: ${i}`}>
             <a href={`/servicii/${o.id}`}>
-              <Photo src={o.data.imagine} alt="" ratio="4 / 3" rounded={false} />
+              <Photo src={o.data.imagine} alt={altImg(o.data.titlu, o.data.imagine_alt)} ratio="4 / 3" rounded={false} />
               <span class="others__body">
                 <span class="others__label">{o.data.eticheta}</span>
                 <span class="others__name">{o.data.titlu}</span>
