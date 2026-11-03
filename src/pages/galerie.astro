@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Swatch from '../components/Swatch.astro';
+import CtaBand from '../components/CtaBand.astro';
+import galerie from '../data/galerie.json';
+import setari from '../data/setari.json';
+
+type Img = { imagine: string; descriere: string; serviciu?: string };
+const imagini = galerie.imagini as Img[];
+const tonuri = ['espresso', 'mocha', 'cacao', 'taupe', 'piatra', 'greige', 'caramel', 'auriu'];
+---
+<Base title="Galerie" description="Lucrări realizate la iGlow Studio: tunsori, culoare și balayage.">
+  <header class="page-head wrap">
+    <h1 class="display" data-load>Galerie</h1>
+    <p class="lead" data-load style="--i: 1">Tunsori, culori și balayage realizate în salon, fotografiate la lumina zilei.</p>
+  </header>
+
+  {imagini.length > 0 ? (
+    <section class="grid-gal wrap" aria-label="Fotografii">
+      {imagini.map((img, i) => (
+        <figure class="grid-gal__item" data-shutter style={`--i: ${i % 3}`}>
+          <img src={img.imagine} alt={img.descriere} loading={i < 3 ? 'eager' : 'lazy'} width="1200" height="1500" />
+          <figcaption class="small muted">{img.descriere}</figcaption>
+        </figure>
+      ))}
+    </section>
+  ) : (
+    <section class="soon wrap" aria-labelledby="soon-title">
+      <div class="soon__shades" aria-hidden="true">
+        {tonuri.map((t, i) => <div class="soon__hank" data-reveal style={`--i: ${i}`}><Swatch tone={t} seed={`gal-${t}`} /></div>)}
+      </div>
+      <div class="soon__copy">
+        <h2 id="soon-title" class="head" data-reveal>Primele fotografii vin în curând</h2>
+        <p class="lead" data-reveal style="--i: 1">Până atunci, lucrările recente sunt pe Instagram, puse în ordinea în care au ieșit din salon.</p>
+        <a class="button" href={setari.instagram} rel="noopener" target="_blank" data-reveal style="--i: 2">Vezi pe Instagram</a>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</Base>
+
+<style>
+  .grid-gal { columns: 3 18rem; column-gap: var(--gutter); padding-bottom: var(--section); }
+  .grid-gal__item { break-inside: avoid; margin: 0 0 var(--gutter); display: flex; flex-direction: column; gap: 0.5rem; }
+  .grid-gal__item img { width: 100%; height: auto; }
+  .soon { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 3rem; padding-bottom: var(--section); align-items: center; }
+  .soon__shades { grid-column: 1 / 7; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0.5rem; }
+  .soon__hank :global(.swatch) { height: clamp(14rem, 28vw, 26rem); }
+  .soon__copy { grid-column: 8 / 13; display: flex; flex-direction: column; gap: 1.75rem; align-items: flex-start; }
+  @media (max-width: 48rem) {
+    .soon__shades, .soon__copy { grid-column: 1 / -1; }
+    .soon__hank :global(.swatch) { height: 12rem; }
+  }
+</style>

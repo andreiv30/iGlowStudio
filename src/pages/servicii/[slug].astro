@@ -1,0 +1,158 @@
+---
+// Șablonul paginii unui serviciu. Conținutul vine din src/content/servicii/<slug>.md
+// și se editează din /admin → Servicii. Exemplul de referință: /servicii/tuns.
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import Icon from '../../components/Icon.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+export async function getStaticPaths() {
+  const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
+  return servicii.map((s) => ({ params: { slug: s.id }, props: { s, toate: servicii } }));
+}
+
+const { s, toate } = Astro.props;
+const { Content } = await render(s);
+const altele = toate.filter((x) => x.id !== s.id);
+---
+<Base title={s.data.titlu} description={s.data.rezumat}>
+  <section class="svc-hero wrap" aria-labelledby="svc-title">
+    <div class="svc-hero__copy">
+      <nav class="small svc-hero__crumbs" aria-label="Unde te afli" data-load><a class="link" href="/servicii">Servicii</a> / <span aria-current="page">{s.data.titlu}</span></nav>
+      <h1 id="svc-title" class="display" data-load style="--i: 1">{s.data.titlu}</h1>
+      <p class="lead" data-load style="--i: 2">{s.data.rezumat}</p>
+      <dl class="svc-hero__facts nums" data-load style="--i: 3">
+        <div><dt>Durată</dt><dd>{s.data.durata}</dd></div>
+        <div><dt>Preț</dt><dd>de la {s.data.pret_de_la} lei</dd></div>
+      </dl>
+      <div class="svc-hero__actions" data-load style="--i: 4">
+        <a class="button" href="/rezerva">Rezervă {s.data.titlu.toLowerCase()} <Icon name="arrow" /></a>
+        <a class="button button--quiet" href="#preturi">Vezi prețurile</a>
+      </div>
+    </div>
+    <Media src={s.data.imagine} alt={s.data.imagine_alt} tone={s.data.ton} seed={`svc-${s.id}`} ratio="4 / 5" eager class="svc-hero__pic" />
+  </section>
+
+  {s.data.pasi.length > 0 && (
+    <section class="steps field-surface" aria-labelledby="steps-title">
+      <div class="steps__inner wrap">
+        <h2 id="steps-title" class="head" data-reveal>Cum lucrăm</h2>
+        <ol class="steps__list">
+          {s.data.pasi.map((p, i) => (
+            <li data-reveal style={`--i: ${i}`}>
+              <h3 class="title">{p.titlu}</h3>
+              <p>{p.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  <section class="detail wrap" aria-labelledby="detail-title">
+    <div class="detail__aside">
+      <h2 id="detail-title" class="head" data-reveal>Despre {s.data.titlu.toLowerCase()}</h2>
+      <Media tone={s.data.ton} seed={`detail-${s.id}`} variant="closeup" ratio="1 / 1" class="detail__pic" />
+    </div>
+    <div class="prose detail__text" data-reveal style="--i: 1"><Content /></div>
+  </section>
+
+  {s.data.preturi.length > 0 && (
+    <section class="prices wrap" id="preturi" aria-labelledby="prices-title">
+      <h2 id="prices-title" class="head" data-reveal>Prețuri</h2>
+      <div class="prices__table" data-reveal style="--i: 1">
+        <table class="nums">
+          <caption class="sr-only">Prețuri pentru {s.data.titlu}</caption>
+          <thead><tr><th scope="col">Serviciu</th><th scope="col">Durată</th><th scope="col">Preț</th></tr></thead>
+          <tbody>
+            {s.data.preturi.map((p) => <tr><th scope="row">{p.nume}</th><td>{p.durata}</td><td>{p.pret}</td></tr>)}
+          </tbody>
+        </table>
+        <p class="small muted">Prețurile sunt orientative. Prețul final depinde de lungimea și densitatea părului și îl afli înainte să începem.</p>
+      </div>
+    </section>
+  )}
+
+  {s.data.intrebari.length > 0 && (
+    <section class="questions wrap" aria-labelledby="q-title">
+      <h2 id="q-title" class="head" data-reveal>Întrebări despre {s.data.titlu.toLowerCase()}</h2>
+      <div class="questions__list"><Faq items={s.data.intrebari} /></div>
+    </section>
+  )}
+
+  <section class="others wrap" aria-labelledby="others-title">
+    <h2 id="others-title" class="head" data-reveal>Alte servicii</h2>
+    <ul class="others__list">
+      {altele.map((o, i) => (
+        <li data-reveal style={`--i: ${i}`}>
+          <a href={`/servicii/${o.id}`}>
+            <Media src={o.data.imagine} alt="" tone={o.data.ton} seed={`svc-${o.id}`} ratio="3 / 4" shutter={false} />
+            <span class="others__name">{o.data.titlu}</span>
+            <span class="small muted nums">de la {o.data.pret_de_la} lei</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <CtaBand text={`Rezervă ${s.data.titlu.toLowerCase()}: alege ziua și ora, iar noi îți confirmăm programarea.`} />
+</Base>
+
+<style>
+  .svc-hero { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2.5rem; padding-block: clamp(2rem, 5vw, 4rem) calc(var(--section) / 2); align-items: end; }
+  .svc-hero__copy { grid-column: 1 / 7; display: flex; flex-direction: column; gap: 1.75rem; }
+  .svc-hero :global(.svc-hero__pic) { grid-column: 8 / 13; }
+  .svc-hero__crumbs { color: var(--muted); }
+  .svc-hero h1 { font-size: clamp(3rem, 1rem + 6.4vw, 7.5rem); }
+  .svc-hero__facts { display: flex; gap: 2.5rem; margin: 0; }
+  .svc-hero__facts dt { font-size: var(--step-small); color: var(--muted); }
+  .svc-hero__facts dd { margin: 0; font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); letter-spacing: -0.015em; }
+  .svc-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  .steps__inner { padding-block: calc(var(--section) / 2); display: flex; flex-direction: column; gap: 3rem; }
+  .steps__list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); }
+  .steps__list li { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.75rem; background: var(--bg); }
+  .steps__list li:nth-child(even) { margin-top: 3rem; }
+
+  .detail { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; padding-block: var(--section) calc(var(--section) / 2); }
+  .detail__aside { grid-column: 1 / 6; display: flex; flex-direction: column; gap: 2.5rem; }
+  .detail__aside :global(.detail__pic) { width: 70%; }
+  .detail__text { grid-column: 7 / 13; font-size: 1.125rem; }
+
+  .prices { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; padding-block: calc(var(--section) / 2); }
+  .prices h2 { grid-column: 1 / 6; }
+  .prices__table { grid-column: 7 / 13; display: flex; flex-direction: column; gap: 1rem; }
+  .prices table { width: 100%; border-collapse: collapse; font-size: 1.125rem; }
+  .prices thead th { font-size: var(--step-small); font-weight: 500; color: var(--muted); text-align: left; padding-bottom: 0.75rem; }
+  .prices thead th:last-child, .prices td:last-child { text-align: right; }
+  .prices tbody th { text-align: left; font-weight: 400; }
+  .prices tbody th, .prices tbody td { padding: 1rem 0; border-top: 1px solid #ebe4dc; }
+  .prices td { color: var(--muted); padding-left: 1rem !important; white-space: nowrap; }
+  .prices td:last-child { color: var(--ink); }
+
+  .questions { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; padding-block: calc(var(--section) / 2); }
+  .questions h2 { grid-column: 1 / 6; }
+  .questions__list { grid-column: 7 / 13; }
+
+  .others { padding-block: calc(var(--section) / 2) var(--section); display: flex; flex-direction: column; gap: 2.5rem; }
+  .others__list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); }
+  .others__list a { display: flex; flex-direction: column; gap: 0.6rem; text-decoration: none; }
+  .others__list :global(.media__inner) { transition: transform 500ms var(--ease-out); }
+  .others__name { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -0.015em; margin-top: 0.5rem; }
+  @media (hover: hover) and (pointer: fine) { .others__list a:hover :global(.media__inner) { transform: translateY(-6px); } }
+
+  @media (max-width: 64rem) {
+    .steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .others__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 48rem) {
+    .svc-hero, .detail, .prices, .questions { grid-template-columns: 1fr; }
+    .svc-hero__copy, .svc-hero :global(.svc-hero__pic), .detail__aside, .detail__text, .prices h2, .prices__table, .questions h2, .questions__list { grid-column: 1; }
+    .svc-hero :global(.svc-hero__pic) { grid-row: 1; width: 72%; margin-left: auto; }
+    .steps__list { grid-template-columns: 1fr; }
+    .steps__list li:nth-child(even) { margin-top: 0; margin-left: 12%; }
+    .prices td:nth-child(2), .prices thead th:nth-child(2) { display: none; }
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+// Mostră de păr desenată în tonul ales (ca pe paleta unui colorist).
+import { hank, closeUp, hashSeed } from '../lib/strands';
+interface Props { tone: string; seed?: string; variant?: 'hank' | 'closeup'; label?: string; class?: string }
+const { tone, seed = tone, variant = 'hank', label, class: cls } = Astro.props;
+const n = hashSeed(seed + variant);
+const colour = { lo: 'var(--tone-lo)', mid: 'var(--tone)', hi: 'var(--tone-hi)' };
+const h = variant === 'hank' ? hank(n) : null;
+const c = variant === 'closeup' ? closeUp(n) : [];
+const clipId = `clip-${n.toString(36)}`;
+---
+{h ? (
+  <svg class:list={['swatch', `tone-${tone}`, cls]} viewBox="0 0 200 800" preserveAspectRatio="xMidYMid meet" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+    <defs><clipPath id={clipId}><path d={h.outline} /></clipPath></defs>
+    <path d={h.outline} fill="var(--tone)" />
+    <g clip-path={`url(#${clipId})`} fill="none" stroke-linecap="round">
+      {h.strands.map((s) => <path d={s.d} stroke={colour[s.c]} stroke-width={s.w} opacity={s.o} />)}
+    </g>
+    <rect x="62" y="56" width="76" height="44" rx="6" fill="var(--espresso)" />
+    <rect x="62" y="56" width="76" height="12" rx="4" fill="var(--cacao)" />
+  </svg>
+) : (
+  <svg class:list={['swatch swatch--closeup', `tone-${tone}`, cls]} viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+    <rect width="800" height="1000" fill="var(--tone)" />
+    <g fill="none" stroke-linecap="round">
+      {c.map((s) => <path d={s.d} stroke={colour[s.c]} stroke-width={s.w} opacity={s.o} />)}
+    </g>
+  </svg>
+)}
+<style>
+  .swatch { width: 100%; height: 100%; display: block; }
+</style>

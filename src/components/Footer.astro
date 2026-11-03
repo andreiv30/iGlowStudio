@@ -1,0 +1,112 @@
+---
+import Icon from './Icon.astro';
+import Wordmark from './Wordmark.astro';
+import setari from '../data/setari.json';
+import { meniu, legale } from '../lib/nav';
+
+const an = new Date().getFullYear();
+const tel = setari.telefon.replace(/\s/g, '');
+const social = [
+  { href: setari.instagram, label: 'Instagram', icon: 'instagram' },
+  { href: setari.facebook, label: 'Facebook', icon: 'facebook' },
+  { href: setari.tiktok, label: 'TikTok', icon: 'tiktok' },
+  { href: `https://wa.me/${setari.whatsapp}`, label: 'WhatsApp', icon: 'whatsapp' },
+].filter((s) => s.href);
+---
+<footer class="footer" data-ink="#fbfbfa">
+  <div class="footer__brand field-dark">
+    <div class="footer__brand-inner wrap">
+      <a href="/" class="footer__wordmark" aria-label={`${setari.nume}, pagina principală`}><Wordmark size="large" /></a>
+      <p class="footer__about">{setari.descriere_scurta}</p>
+      <ul class="footer__social" aria-label="Rețele sociale">
+        {social.map((s) => (
+          <li><a href={s.href} aria-label={s.label} rel="noopener" target="_blank"><Icon name={s.icon} size={20} /></a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__info wrap">
+    <div class="footer__groups" data-acc-group>
+      <details class="acc footer__contact" open data-acc>
+        <summary class="acc__summary"><h2 class="acc__title">Contact</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
+        <ul class="footer__contact-list">
+          <li><a href={`tel:${tel}`}><Icon name="phone" /><span><span class="footer__k">Telefon</span>{setari.telefon}</span></a></li>
+          <li><a href={`https://wa.me/${setari.whatsapp}`} rel="noopener" target="_blank"><Icon name="whatsapp" /><span><span class="footer__k">WhatsApp</span>Scrie-ne un mesaj</span></a></li>
+          <li><a href={`mailto:${setari.email}`}><Icon name="mail" /><span><span class="footer__k">Email</span>{setari.email}</span></a></li>
+          <li><a href={setari.link_harta} rel="noopener" target="_blank"><Icon name="pin" /><span><span class="footer__k">Adresă</span>{setari.adresa}, {setari.oras}</span></a></li>
+        </ul>
+      </details>
+
+      <details class="acc footer__legal" data-acc>
+        <summary class="acc__summary"><h2 class="acc__title">Informații legale</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
+        <ul class="footer__list">
+          {legale.map((l) => <li><a class="link" href={l.href}>{l.label}</a></li>)}
+          <li><a class="link" href="https://anpc.ro/" rel="noopener" target="_blank">ANPC</a></li>
+          <li><a class="link" href="https://anpc.ro/ce-este-sal/" rel="noopener" target="_blank">ANPC – SAL (soluționarea alternativă a litigiilor)</a></li>
+        </ul>
+      </details>
+
+      <details class="acc footer__menu" data-acc>
+        <summary class="acc__summary"><h2 class="acc__title">Meniu</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
+        <ul class="footer__nav">
+          {meniu.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
+        </ul>
+      </details>
+    </div>
+
+    <p class="footer__copy small">© {an} {setari.nume} · {setari.firma.denumire}. Toate drepturile rezervate.</p>
+  </div>
+</footer>
+
+<style>
+  .footer { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); background: var(--surface); }
+  .footer__brand { grid-column: 1 / 7; display: flex; }
+  .footer__brand-inner { display: flex; flex-direction: column; justify-content: space-between; gap: 3rem; padding-block: clamp(3rem, 6vw, 6rem); width: 100%; }
+  .footer__wordmark { text-decoration: none; color: var(--field-ink); }
+  .footer__about { color: var(--field-muted); max-width: 36ch; }
+  .footer__social { display: flex; gap: 0.5rem; }
+  .footer__social a { width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background: var(--cacao); color: var(--field-ink); transition: background-color var(--t-hover) ease, transform var(--t-press) var(--ease-out); }
+  .footer__social a:active { transform: scale(0.94); }
+  @media (hover: hover) and (pointer: fine) { .footer__social a:hover { background: var(--caramel); color: var(--espresso); } }
+
+  .footer__info { grid-column: 7 / 13; display: flex; flex-direction: column; justify-content: space-between; gap: 3rem; padding-block: clamp(3rem, 6vw, 6rem); }
+  .footer__groups { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: 'menu menu' 'contact legal'; gap: 3rem 2rem; }
+  .footer__menu { grid-area: menu; }
+  .footer__contact { grid-area: contact; }
+  .footer__legal { grid-area: legal; }
+
+  .acc__summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .acc__summary::-webkit-details-marker { display: none; }
+  .acc__title { font-family: var(--font-text); font-size: var(--step-small); font-weight: 600; color: var(--muted); }
+  .acc__chev { display: none; transition: transform 300ms var(--ease-out); }
+
+  .footer__nav { display: flex; flex-direction: column; gap: 0.15rem; margin-top: 1rem; }
+  .footer__nav a { font-family: var(--font-display); font-size: clamp(1.75rem, 2.6vw, 2.5rem); line-height: 1.15; letter-spacing: -0.02em; text-decoration: none; display: inline-block; transition: transform 300ms var(--ease-out), color var(--t-hover) ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .footer__nav:hover a { color: var(--muted); }
+    .footer__nav a:hover { color: var(--ink); transform: translateX(12px); }
+  }
+  .footer__list { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 1rem; font-size: 0.9375rem; }
+  .footer__list a { display: inline-block; padding-block: 0.2rem; }
+  .footer__contact-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; font-size: 0.9375rem; }
+  .footer__contact-list a { display: flex; gap: 0.75rem; align-items: flex-start; text-decoration: none; min-height: 44px; }
+  .footer__contact-list a > svg { flex: none; margin-top: 0.15rem; color: var(--taupe); }
+  .footer__contact-list span { display: flex; flex-direction: column; }
+  .footer__k { font-size: var(--step-small); color: var(--muted); }
+  .footer__copy { color: var(--muted); }
+
+  @media (max-width: 56rem) {
+    .footer { grid-template-columns: 1fr; }
+    .footer__brand, .footer__info { grid-column: 1 / -1; }
+    .footer__groups { display: flex; flex-direction: column; gap: 0; }
+    .acc { border-bottom: 2px solid #ebe4dc; }
+    .acc__summary { min-height: 3.75rem; cursor: pointer; }
+    .acc__title { font-size: 1.0625rem; color: var(--ink); }
+    .acc__chev { display: inline-flex; }
+    .acc[open] .acc__chev { transform: rotate(180deg); }
+    .acc[open] > :not(summary) { padding-bottom: 1.5rem; }
+    .footer__nav { margin-top: 0; }
+    .footer__list, .footer__contact-list { margin-top: 0; }
+  }
+</style>

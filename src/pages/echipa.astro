@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const echipa = (await getCollection('echipa')).sort((a, b) => a.data.ordine - b.data.ordine);
+const servicii = await getCollection('servicii');
+const titlu = (slug: string) => servicii.find((s) => s.id === slug)?.data.titlu;
+const membri = await Promise.all(echipa.map(async (m) => ({ m, Content: (await render(m)).Content })));
+---
+<Base title="Echipa" description="Oamenii din spatele iGlow Studio.">
+  <header class="page-head wrap">
+    <h1 class="display" data-load>Echipa</h1>
+    <p class="lead" data-load style="--i: 1">Alege specialistul care ți se potrivește și rezervă-te direct la el.</p>
+  </header>
+
+  <div class="team">
+    {membri.map(({ m, Content }, i) => (
+      <section class:list={['member wrap', i % 2 === 1 && 'member--flip']} aria-labelledby={`m-${m.id}`}>
+        <Media src={m.data.foto} alt={`${m.data.nume}, ${m.data.rol}`} tone={m.data.ton} seed={`team-${m.id}`} ratio="4 / 5" class="member__pic" eager={i === 0} label={m.data.foto ? undefined : `Locul fotografiei: ${m.data.nume}`} />
+        <div class="member__copy">
+          <h2 id={`m-${m.id}`} class="head" data-reveal>{m.data.nume}</h2>
+          <p class="lead" data-reveal style="--i: 1">{m.data.rol}</p>
+          <div class="prose" data-reveal style="--i: 2"><Content /></div>
+          {m.data.servicii.length > 0 && (
+            <ul class="member__services" data-reveal style="--i: 3" aria-label={`Servicii oferite de ${m.data.nume}`}>
+              {m.data.servicii.map((slug) => titlu(slug) && <li><a href={`/servicii/${slug}`}>{titlu(slug)}</a></li>)}
+            </ul>
+          )}
+          <a class="button" href="/rezerva" data-reveal style="--i: 4">Rezervă la {m.data.nume.split(' ')[0]} <Icon name="arrow" /></a>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .team { display: flex; flex-direction: column; gap: var(--section); padding-bottom: var(--section); }
+  .member { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; align-items: end; }
+  .member :global(.member__pic) { grid-column: 1 / 7; }
+  .member__copy { grid-column: 8 / 13; display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+  .member--flip :global(.member__pic) { grid-column: 7 / 13; grid-row: 1; }
+  .member--flip .member__copy { grid-column: 1 / 6; grid-row: 1; }
+  .member__services { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .member__services a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; background: var(--surface); border-radius: 999px; text-decoration: none; transition: background-color var(--t-hover) ease; }
+  @media (hover: hover) and (pointer: fine) { .member__services a:hover { background: #ebe4dc; } }
+  @media (max-width: 48rem) {
+    .member { grid-template-columns: 1fr; }
+    .member :global(.member__pic), .member__copy, .member--flip :global(.member__pic), .member--flip .member__copy { grid-column: 1; grid-row: auto; }
+  }
+</style>

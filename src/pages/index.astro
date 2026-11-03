@@ -1,0 +1,304 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Media from '../components/Media.astro';
+import Swatch from '../components/Swatch.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import acasa from '../data/acasa.json';
+import setari from '../data/setari.json';
+import galerie from '../data/galerie.json';
+
+const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
+const oferte = (await getCollection('oferte')).filter((o) => o.data.activ).sort((a, b) => a.data.ordine - b.data.ordine);
+const oferta = oferte[0];
+const echipa = (await getCollection('echipa')).sort((a, b) => a.data.ordine - b.data.ordine);
+const andreea = echipa[0];
+
+// Paleta coloristului: tonurile iGlow, fiecare cu serviciul care duce la el.
+const nuante = [
+  { id: 'espresso', nume: 'Espresso', hex: '#1a130d', text: 'Brunet profund, aproape negru. Un singur ton, cu gloss pentru strălucire.', serviciu: 'vopsit' },
+  { id: 'mocha', nume: 'Mocha', hex: '#261b15', text: 'Șaten închis, cald. Acoperă bine firele albe pe părul închis.', serviciu: 'vopsit' },
+  { id: 'cacao', nume: 'Cacao', hex: '#3c2d23', text: 'Șaten ciocolatiu. Arată și mai bine cu puțină lumină în jurul feței.', serviciu: 'vopsit' },
+  { id: 'taupe', nume: 'Taupe', hex: '#513f33', text: 'Șaten rece, cenușiu. Se obține prin vopsit și tonifiere.', serviciu: 'vopsit' },
+  { id: 'piatra', nume: 'Piatră', hex: '#605750', text: 'Blond închis, rece. Un punct bun de plecare pentru balayage.', serviciu: 'balayage' },
+  { id: 'greige', nume: 'Greige', hex: '#9b8f80', text: 'Blond cenușiu, între bej și gri. Decolorare treptată și tonifiere.', serviciu: 'balayage' },
+  { id: 'caramel', nume: 'Caramel', hex: '#b18b5a', text: 'Blond cald, auriu, care crește frumos. Cea mai cerută lumină.', serviciu: 'balayage' },
+  { id: 'auriu', nume: 'Auriu deschis', hex: '#d4b48a', text: 'Blond luminos. Balayage cu tratament de reconstrucție.', serviciu: 'balayage' },
+];
+const titluServiciu = (slug: string) => servicii.find((s) => s.id === slug)?.data.titlu ?? 'Servicii';
+const start = nuante[6];
+
+const intrebari = [
+  { intrebare: 'Cum mă programez?', raspuns: 'Online, din butonul Rezervă, telefonic sau pe WhatsApp. Alegi serviciul, ziua și ora, iar noi îți confirmăm programarea.' },
+  { intrebare: 'Cât durează o vizită?', raspuns: 'Un tuns durează aproximativ o oră, un vopsit două–trei ore, iar un balayage trei–patru ore. Durata exactă o afli la fiecare serviciu.' },
+  { intrebare: 'Pot anula sau muta programarea?', raspuns: 'Da. Te rugăm să ne anunți cu cel puțin 24 de ore înainte, ca să putem oferi ora altei cliente.' },
+  { intrebare: 'Pot veni cu poze cu ce îmi doresc?', raspuns: 'Te rugăm. Ne ajută să înțelegem ce îți place și îți spunem sincer ce se potrivește părului tău.' },
+];
+---
+<Base title={setari.nume}>
+  <!-- 1. Primul ecran: titlul și paleta de nuanțe -->
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="display hero__title" data-load>{acasa.titlu}</h1>
+    <div class="hero__body">
+      <div class="hero__copy">
+        <p class="lead" data-load style="--i: 1">{acasa.subtitlu}</p>
+        <div class="hero__actions" data-load style="--i: 2">
+          <a class="button" href="/rezerva">Rezervă o programare <Icon name="arrow" /></a>
+          <a class="button button--quiet" href="/servicii">Servicii și prețuri</a>
+        </div>
+        <p class="small muted hero__where" data-load style="--i: 3">{setari.adresa}, {setari.oras} · {setari.program[0].zile}, {setari.program[0].ore}</p>
+      </div>
+
+      <div class="shades" data-shades data-load style={`--i: 2; --picked: ${start.hex}`}>
+        <h2 class="sr-only">Alege nuanța</h2>
+        <div class="shades__row" role="group" aria-label="Nuanțe de păr">
+          {nuante.map((n) => (
+            <button
+              type="button"
+              class="shades__hank"
+              aria-pressed={n.id === start.id ? 'true' : 'false'}
+              data-shade
+              data-name={n.nume}
+              data-text={n.text}
+              data-color={n.hex}
+              data-href={`/servicii/${n.serviciu}`}
+              data-service={titluServiciu(n.serviciu)}
+            >
+              <Swatch tone={n.id} seed={`hero-${n.id}`} />
+              <span class="shades__label">{n.nume}</span>
+            </button>
+          ))}
+        </div>
+        <div class="shades__out" data-shade-out aria-live="polite">
+          <p class="title" data-shade-name>{start.nume}</p>
+          <p class="shades__text" data-shade-text>{start.text}</p>
+          <a class="arrow-link" href={`/servicii/${start.serviciu}`} data-shade-link><span>{titluServiciu(start.serviciu)}</span> <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Vizita: fraza rămâne fixată, pașii trec pe lângă ea -->
+  <section class="visit wrap" aria-labelledby="visit-title">
+    <div class="visit__pin">
+      <h2 id="visit-title" class="head" data-reveal>Cum arată o vizită</h2>
+      <p class="visit__statement" data-reveal style="--i: 1">{acasa.fraza_vizita}</p>
+    </div>
+    <ol class="visit__steps">
+      {acasa.vizita.map((pas, i) => (
+        <li class="visit__step" style={`--i: ${i}`}>
+          <Media tone={['taupe', 'caramel', 'cacao'][i % 3]} seed={`visit-${i}`} variant="closeup" ratio="4 / 5" />
+          <h3 class="title" data-reveal>{pas.titlu}</h3>
+          <p class="muted" data-reveal style="--i: 1">{pas.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- 3. Servicii: imaginea fixată se schimbă după rândul activ -->
+  <section class="services wrap" aria-labelledby="services-title" data-service-list>
+    <div class="services__pics" aria-hidden="true">
+      {servicii.map((s, i) => (
+        <div class:list={['services__pic', i === 0 && 'is-active']} data-pic={s.id}>
+          <Media src={s.data.imagine} alt="" tone={s.data.ton} seed={`svc-${s.id}`} ratio="4 / 5" shutter={false} />
+        </div>
+      ))}
+    </div>
+    <div class="services__list">
+      <h2 id="services-title" class="head" data-reveal>Servicii și prețuri</h2>
+      <ul class="services__rows">
+        {servicii.map((s, i) => (
+          <li class:list={['services__row', i === 0 && 'is-active']} data-row={s.id} data-reveal style={`--i: ${i}`}>
+            <a href={`/servicii/${s.id}`}>
+              <span class="services__name">{s.data.titlu}</span>
+              <span class="services__meta nums">de la {s.data.pret_de_la} lei · {s.data.durata}</span>
+              <span class="services__desc">{s.data.rezumat}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="arrow-link" href="/servicii" data-reveal>Toate serviciile și prețurile <Icon name="arrow" /></a>
+    </div>
+  </section>
+
+  <!-- 4. Oferta lunii: prim-plan pe tot ecranul, cu fișa ofertei -->
+  {oferta && (
+    <section class="offer" aria-labelledby="offer-title">
+      <div class="offer__bg">
+        <Media src={oferta.data.imagine} alt="" tone={oferta.data.ton} seed={`offer-${oferta.id}`} variant="closeup" ratio="auto" />
+      </div>
+      <div class="offer__card field-dark" data-reveal>
+        <p class="small offer__when">{oferta.data.valabil_pana ? `Oferta lunii · până la ${oferta.data.valabil_pana}` : 'Oferta lunii'}</p>
+        <h2 id="offer-title" class="title">{oferta.data.titlu}</h2>
+        <p class="offer__detail">{oferta.data.detaliu}</p>
+        <p class="offer__price nums">{oferta.data.pret} {oferta.data.pret_vechi && <s class="muted">{oferta.data.pret_vechi}</s>}</p>
+        <a class="button" href="/rezerva">Rezervă oferta</a>
+        {oferte.length > 1 && <a class="arrow-link offer__more" href="/oferte">Toate ofertele <Icon name="arrow" /></a>}
+      </div>
+    </section>
+  )}
+
+  <!-- 5. Despre: Andreea Pamfiloiu Concept -->
+  <section class="about wrap" aria-labelledby="about-title">
+    <Media src={andreea?.data.foto} alt={andreea ? `${andreea.data.nume}, ${andreea.data.rol}` : ''} tone="taupe" seed="about" ratio="4 / 5" class="about__pic" label={andreea ? `Locul fotografiei: ${andreea.data.nume}` : undefined} />
+    <div class="about__copy">
+      <h2 id="about-title" class="head" data-reveal>{acasa.despre_titlu}</h2>
+      <p class="lead" data-reveal style="--i: 1">{acasa.despre_text}</p>
+      <div class="about__links" data-reveal style="--i: 2">
+        <a class="arrow-link" href="/despre-noi">Povestea salonului <Icon name="arrow" /></a>
+        <a class="arrow-link" href="/echipa">Echipa <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Galerie (apare când există fotografii încărcate) -->
+  {galerie.imagini.length > 0 && (
+    <section class="gallery wrap" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" class="head" data-reveal>Lucrări recente</h2>
+      <div class="gallery__row">
+        {galerie.imagini.slice(0, 3).map((img: { imagine: string; descriere: string }, i: number) => (
+          <figure data-shutter style={`--i: ${i}`}><img src={img.imagine} alt={img.descriere} loading="lazy" width="1200" height="1500" /><figcaption class="small">{img.descriere}</figcaption></figure>
+        ))}
+      </div>
+      <a class="arrow-link" href="/galerie">Toată galeria <Icon name="arrow" /></a>
+    </section>
+  )}
+
+  <!-- 7. Programări și întrebări -->
+  <section class="info field-surface" aria-labelledby="info-title">
+    <div class="info__inner wrap">
+      <div class="info__copy">
+        <h2 id="info-title" class="head" data-reveal>Programări și întrebări</h2>
+        <dl class="info__facts" data-reveal style="--i: 1">
+          <div><dt>Adresă</dt><dd><a class="link-plain" href={setari.link_harta} rel="noopener" target="_blank">{setari.adresa}, {setari.oras}</a></dd></div>
+          {setari.program.map((p) => <div><dt>{p.zile}</dt><dd class="nums">{p.ore}</dd></div>)}
+          <div><dt>Telefon</dt><dd><a class="link-plain" href={`tel:${setari.telefon.replace(/\s/g, '')}`}>{setari.telefon}</a></dd></div>
+        </dl>
+        <Faq items={intrebari} />
+        <div class="info__actions">
+          <a class="button button--ink" href="/rezerva">Rezervă o programare</a>
+          <a class="arrow-link" href={`https://wa.me/${setari.whatsapp}`} rel="noopener" target="_blank"><Icon name="whatsapp" /> Scrie-ne pe WhatsApp</a>
+        </div>
+      </div>
+      <div class="info__pics">
+        <Media tone="caramel" seed="info-tall" ratio="3 / 4" class="info__tall" />
+        <Media tone="auriu" seed="info-square" variant="closeup" ratio="1 / 1" class="info__square" i={1} />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  /* ---------- primul ecran ---------- */
+  .hero { padding-top: clamp(2.5rem, 7vw, 6rem); padding-bottom: calc(var(--section) / 2); }
+  .hero__title { max-width: 11ch; }
+  .hero__body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 3rem; margin-top: clamp(2rem, 4vw, 3.5rem); align-items: start; }
+  .hero__copy { grid-column: 1 / 6; display: flex; flex-direction: column; gap: 2rem; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .hero__where { margin-top: -0.5rem; }
+
+  .shades { grid-column: 6 / 13; display: flex; flex-direction: column; gap: 1.5rem; }
+  .shades__row { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: clamp(0.25rem, 0.8vw, 0.75rem); align-items: end; }
+  .shades__hank { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0; transition: transform 400ms var(--ease-out); transform-origin: top center; }
+  .shades__hank :global(.swatch) { height: clamp(15rem, 30vw, 28rem); }
+  .shades__label { font-size: var(--step-small); color: var(--muted); white-space: nowrap; transition: color var(--t-hover) ease; }
+  .shades__hank[aria-pressed='true'] { transform: translateY(-14px); }
+  .shades__hank[aria-pressed='true'] .shades__label { color: var(--ink); font-weight: 600; }
+  .shades__hank:active { transform: translateY(-10px) scale(0.98); }
+  .shades__out { display: grid; grid-template-columns: auto 1fr; column-gap: 1.5rem; row-gap: 0.25rem; align-items: baseline; padding: 1.5rem 1.75rem; background: var(--surface); }
+  .shades__out .title { grid-row: span 2; }
+  .shades__text { max-width: 44ch; }
+
+  /* ---------- vizita ---------- */
+  .visit { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding-block: calc(var(--section) / 2); }
+  .visit__pin { grid-column: 1 / 6; position: sticky; top: calc(var(--header-h) + 3rem); align-self: start; display: flex; flex-direction: column; gap: 2rem; }
+  .visit__statement { font-family: var(--font-display); font-size: clamp(1.5rem, 1rem + 1.4vw, 2.25rem); line-height: 1.2; letter-spacing: -0.015em; max-width: 24ch; }
+  .visit__steps { grid-column: 7 / 13; list-style: none; padding: 0; display: flex; flex-direction: column; gap: clamp(4rem, 10vw, 9rem); }
+  .visit__step { display: flex; flex-direction: column; gap: 1rem; }
+  .visit__step:nth-child(2) { margin-left: 18%; }
+  .visit__step:nth-child(3) { margin-right: 22%; }
+  .visit__step :global(.media) { margin-bottom: 0.5rem; }
+
+  /* ---------- servicii ---------- */
+  .services { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding-block: calc(var(--section) / 2); }
+  .services__pics { grid-column: 1 / 6; position: sticky; top: calc(var(--header-h) + 2rem); align-self: start; display: grid; }
+  .services__pic { grid-area: 1 / 1; opacity: 0; transition: opacity 300ms ease; }
+  .services__pic.is-active { opacity: 1; }
+  .services__list { grid-column: 7 / 13; display: flex; flex-direction: column; gap: 2rem; }
+  .services__rows { display: flex; flex-direction: column; }
+  .services__row a { display: grid; grid-template-columns: 1fr auto; column-gap: 1rem; row-gap: 0.25rem; padding-block: 1.1rem; text-decoration: none; }
+  .services__name { font-family: var(--font-display); font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem); letter-spacing: -0.02em; line-height: 1.1; color: var(--muted); transition: color var(--t-hover) ease, transform 300ms var(--ease-out); }
+  .services__meta { align-self: center; font-size: 0.9375rem; color: var(--muted); }
+  .services__desc { grid-column: 1 / -1; color: var(--muted); max-width: 46ch; font-size: 1rem; }
+  .services__row.is-active .services__name { color: var(--ink); transform: translateX(10px); }
+  .services__row.is-active .services__meta { color: var(--ink); }
+
+  /* ---------- oferta ---------- */
+  .offer { position: relative; min-height: 100svh; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; padding-inline: var(--margin); }
+  .offer__bg { position: absolute; inset: 0; }
+  .offer__bg :global(.media) { position: absolute; inset: 0; aspect-ratio: auto; }
+  .offer__card { position: relative; grid-column: 2; min-height: 52svh; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; justify-content: flex-end; min-width: 18rem; }
+  .offer__when { color: var(--field-muted); }
+  .offer__detail { color: var(--field-muted); font-size: 1rem; }
+  .offer__price { font-family: var(--font-display); font-size: clamp(2rem, 1.5rem + 1.5vw, 3rem); letter-spacing: -0.02em; display: flex; gap: 0.75rem; align-items: baseline; }
+  .offer__price s { font-size: 1.125rem; font-family: var(--font-text); letter-spacing: 0; }
+  .offer__card .button { align-self: stretch; }
+  .offer__more { color: var(--auriu); }
+
+  /* ---------- despre ---------- */
+  .about { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2.5rem; padding-block: var(--section) calc(var(--section) / 2); align-items: end; }
+  .about :global(.about__pic) { grid-column: 1 / 6; }
+  .about__copy { grid-column: 7 / 13; display: flex; flex-direction: column; gap: 2rem; padding-bottom: 2rem; }
+  .about__links { display: flex; gap: 2rem; flex-wrap: wrap; }
+
+  /* ---------- galerie ---------- */
+  .gallery { padding-block: calc(var(--section) / 2); display: flex; flex-direction: column; gap: 2.5rem; }
+  .gallery__row { display: grid; grid-template-columns: 5fr 3fr 4fr; gap: var(--gutter); align-items: start; }
+  .gallery__row img { width: 100%; height: auto; }
+
+  /* ---------- programări și întrebări ---------- */
+  .info__inner { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 3rem; padding-block: calc(var(--section) / 2); }
+  .info__copy { grid-column: 1 / 6; display: flex; flex-direction: column; gap: 2.5rem; }
+  .info__facts { display: flex; flex-direction: column; gap: 0.4rem; margin: 0; font-size: 1.0625rem; }
+  .info__facts div { display: grid; grid-template-columns: 9rem 1fr; gap: 1rem; }
+  .info__facts dt { color: var(--muted); }
+  .info__facts dd { margin: 0; }
+  .info__actions { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+  .info__pics { grid-column: 7 / 13; position: relative; padding-bottom: 5rem; }
+  .info__pics :global(.info__square) { position: absolute; width: 38%; left: -2.5rem; bottom: 0; }
+
+  /* ---------- tabletă și telefon ---------- */
+  @media (max-width: 64rem) {
+    .hero__copy, .shades { grid-column: 1 / -1; }
+    .visit__pin { grid-column: 1 / 7; }
+    .visit__steps { grid-column: 8 / 13; }
+  }
+  @media (max-width: 48rem) {
+    .shades__row { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 4.5rem; overflow-x: auto; padding-top: 1rem; scroll-snap-type: x mandatory; margin-inline: calc(var(--margin) * -1); padding-inline: var(--margin); scrollbar-width: none; }
+    .shades__hank { scroll-snap-align: start; }
+    .shades__hank :global(.swatch) { height: 17rem; }
+    .shades__out { grid-template-columns: 1fr; padding: 1.25rem; }
+    .shades__out .title { grid-row: auto; }
+
+    .visit, .services, .about, .info__inner { grid-template-columns: 1fr; }
+    .visit__pin { position: relative; top: auto; grid-column: 1; margin-bottom: 3rem; }
+    .visit__steps, .services__list, .about__copy, .info__copy, .info__pics { grid-column: 1; }
+    .visit__step:nth-child(2) { margin-left: 22%; }
+    .visit__step:nth-child(3) { margin-right: 14%; }
+
+    .services__pics { grid-column: 1; top: var(--header-h); z-index: 2; margin-inline: calc(var(--margin) * -1); background: var(--bg); padding-bottom: 1rem; }
+    .services__pics :global(.media) { aspect-ratio: 4 / 3; }
+    .services__list { margin-top: 1.5rem; }
+
+    .offer { grid-template-columns: 1fr; align-items: end; padding: 0; }
+    .offer__card { grid-column: 1; min-height: 46svh; min-width: 0; padding: 1.5rem var(--margin) 2rem; }
+
+    .about :global(.about__pic) { grid-column: 1; }
+    .info__facts div { grid-template-columns: 7.5rem 1fr; }
+    .info__pics :global(.info__square) { left: auto; right: -0.5rem; width: 40%; }
+  }
+</style>

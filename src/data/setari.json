@@ -1,0 +1,29 @@
+{
+  "nume": "iGlow Studio",
+  "semnatura": "Andreea Pamfiloiu Concept",
+  "descriere_scurta": "Salon de coafură și colorare creat de Andreea Pamfiloiu. Tuns, vopsit, balayage și tratamente, cu programare.",
+  "oras": "[Oraș]",
+  "adresa": "[Strada, număr]",
+  "adresa_detalii": "[Reper: etaj, interfon, parcare]",
+  "link_harta": "https://maps.google.com/?q=iGlow+Studio",
+  "telefon": "+40 7XX XXX XXX",
+  "whatsapp": "407XXXXXXXX",
+  "email": "contact@iglowstudio.ro",
+  "program": [
+    { "zile": "Luni – Vineri", "ore": "10:00 – 20:00" },
+    { "zile": "Sâmbătă", "ore": "10:00 – 16:00" },
+    { "zile": "Duminică", "ore": "Închis" }
+  ],
+  "link_rezervare": "",
+  "instagram": "https://www.instagram.com/",
+  "facebook": "https://www.facebook.com/",
+  "tiktok": "",
+  "firma": {
+    "denumire": "[Denumire SRL]",
+    "cui": "[CUI]",
+    "reg_com": "[J00/0000/2026]",
+    "sediu": "[Adresa sediului social]",
+    "capital": "[Capital social]",
+    "banca": "[Banca, IBAN]"
+  }
+}

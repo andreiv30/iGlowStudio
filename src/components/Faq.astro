@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { intrebare: string; raspuns: string }[] }
+const { items } = Astro.props;
+---
+<div class="faq">
+  {items.map((q, i) => (
+    <details class="faq__item" data-reveal style={`--i: ${i}`}>
+      <summary><span>{q.intrebare}</span><span class="faq__chev"><Icon name="chevron" /></span></summary>
+      <p>{q.raspuns}</p>
+    </details>
+  ))}
+</div>
+<style>
+  .faq { display: flex; flex-direction: column; gap: 0.5rem; }
+  .faq__item summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 3.5rem; cursor: pointer; font-size: 1.25rem; font-family: var(--font-display); letter-spacing: -0.01em; }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__chev { flex: none; display: inline-flex; transition: transform 300ms var(--ease-out); color: var(--taupe); }
+  .faq__item[open] .faq__chev { transform: rotate(180deg); }
+  .faq__item p { padding: 0.25rem 0 1.25rem; color: var(--muted); max-width: 52ch; }
+  @media (hover: hover) and (pointer: fine) { .faq__item summary:hover span:first-child { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 0.06em; } }
+</style>

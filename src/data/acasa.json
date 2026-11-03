@@ -1,0 +1,12 @@
+{
+  "titlu": "Păr care strălucește.",
+  "subtitlu": "Salon de coafură și colorare creat de Andreea Pamfiloiu. Tuns, vopsit, balayage și tratamente, cu programare.",
+  "fraza_vizita": "Fiecare vizită începe cu o discuție despre ce îți dorești și se termină cu un păr pe care îl porți ușor acasă.",
+  "vizita": [
+    { "titlu": "Discuția", "text": "Ne spui ce îți place, ce nu mai vrei și cât timp ai dimineața pentru păr. Ne arăți poze, dacă ai." },
+    { "titlu": "Diagnosticul", "text": "Ne uităm la textura, porozitatea și istoricul culorii. Îți spunem sincer ce se poate obține într-o vizită și ce în două." },
+    { "titlu": "Acasă", "text": "Pleci cu rutina scrisă: ce produs, cât de des și când revii pentru întreținere." }
+  ],
+  "despre_titlu": "Andreea Pamfiloiu Concept",
+  "despre_text": "iGlow e salonul Andreei Pamfiloiu: un salon în care fiecare programare are timpul ei. Culoarea și tunsoarea se gândesc împreună, ca părul să arate bine și la trei săptămâni după vizită."
+}

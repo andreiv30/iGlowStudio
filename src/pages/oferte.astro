@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import setari from '../data/setari.json';
+
+const oferte = (await getCollection('oferte')).filter((o) => o.data.activ).sort((a, b) => a.data.ordine - b.data.ordine);
+---
+<Base title="Oferte" description="Ofertele lunii la iGlow Studio: pachete de tuns, culoare și tratamente.">
+  <header class="page-head wrap">
+    <h1 class="display" data-load>Ofertele lunii</h1>
+    <p class="lead" data-load style="--i: 1">Pachete gândite pentru o vizită completă, cu prețul afișat de la început. Valabile în perioada scrisă, în limita locurilor.</p>
+  </header>
+
+  {oferte.length === 0 ? (
+    <section class="empty wrap">
+      <p class="lead">Momentan nu avem oferte active. Urmărește-ne pe <a class="link-plain" href={setari.instagram} rel="noopener" target="_blank">Instagram</a> ca să le afli primele.</p>
+      <a class="button" href="/servicii">Vezi serviciile și prețurile</a>
+    </section>
+  ) : (
+    <div class="offers">
+      {oferte.map((o, i) => (
+        <section class="offer" aria-labelledby={`o-${o.id}`} style={`--col: ${(i % 3) + 2}`}>
+          <div class="offer__bg"><Media src={o.data.imagine} alt="" tone={o.data.ton} seed={`offer-${o.id}`} variant="closeup" ratio="auto" /></div>
+          <div class="offer__card field-dark" data-reveal>
+            <p class="small offer__when">{o.data.valabil_pana ? `Valabilă până la ${o.data.valabil_pana}` : 'Ofertă permanentă'}</p>
+            <h2 id={`o-${o.id}`} class="title">{o.data.titlu}</h2>
+            <p class="offer__detail">{o.data.detaliu}</p>
+            <p class="offer__price nums">{o.data.pret} {o.data.pret_vechi && <s>{o.data.pret_vechi}</s>}</p>
+            <a class="button" href="/rezerva">Rezervă oferta <Icon name="arrow" /></a>
+          </div>
+        </section>
+      ))}
+    </div>
+  )}
+
+  <section class="terms wrap" aria-labelledby="terms-title">
+    <h2 id="terms-title" class="title" data-reveal>Condiții</h2>
+    <p class="muted" data-reveal style="--i: 1">Ofertele nu se cumulează cu alte reduceri, dacă nu scrie altfel. Prețul se poate ajusta pentru păr foarte lung sau foarte des și îl afli înainte să începem. Detalii în <a class="link-plain" href="/termeni-si-conditii">Termeni și condiții</a>.</p>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .empty { padding-block: 2rem var(--section); display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; }
+  .offers { display: flex; flex-direction: column; }
+  .offer { position: relative; min-height: 100svh; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; padding-inline: var(--margin); }
+  .offer__bg { position: absolute; inset: 0; }
+  .offer__bg :global(.media) { position: absolute; inset: 0; aspect-ratio: auto; }
+  .offer__card { position: relative; grid-column: var(--col); min-height: 52svh; min-width: 19rem; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; justify-content: flex-end; }
+  .offer__when, .offer__detail { color: var(--field-muted); }
+  .offer__detail { font-size: 1rem; }
+  .offer__price { font-family: var(--font-display); font-size: clamp(2rem, 1.5rem + 1.5vw, 3rem); letter-spacing: -0.02em; display: flex; gap: 0.75rem; align-items: baseline; }
+  .offer__price s { font-size: 1.125rem; font-family: var(--font-text); letter-spacing: 0; color: var(--field-muted); }
+  .offer__card .button { align-self: stretch; }
+  .terms { padding-block: calc(var(--section) / 2); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 1rem; }
+  .terms h2 { grid-column: 1 / 6; }
+  .terms p { grid-column: 7 / 13; }
+  @media (max-width: 48rem) {
+    .offer { grid-template-columns: 1fr; align-items: end; padding: 0; }
+    .offer__card { grid-column: 1; min-width: 0; min-height: 46svh; padding: 1.5rem var(--margin) 2rem; }
+    .terms h2, .terms p { grid-column: 1 / -1; }
+  }
+</style>

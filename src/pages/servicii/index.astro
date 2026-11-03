@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
+---
+<Base title="Servicii și prețuri" description="Tuns, vopsit, balayage, tratamente și coafat la iGlow Studio, cu prețuri și durate.">
+  <header class="page-head wrap">
+    <h1 class="display" data-load>Servicii și prețuri</h1>
+    <p class="lead" data-load style="--i: 1">Fiecare serviciu începe cu o discuție și se termină cu rutina ta pentru acasă. Prețul final depinde de lungimea și densitatea părului și îl afli înainte să începem.</p>
+  </header>
+
+  <div class="svc-list">
+    {servicii.map((s, i) => (
+      <section class:list={['svc wrap', i % 2 === 1 && 'svc--flip']} aria-labelledby={`svc-${s.id}`}>
+        <Media src={s.data.imagine} alt={s.data.imagine_alt} tone={s.data.ton} seed={`svc-${s.id}`} ratio="4 / 5" class="svc__pic" eager={i === 0} />
+        <div class="svc__copy">
+          <h2 id={`svc-${s.id}`} class="head" data-reveal><a href={`/servicii/${s.id}`}>{s.data.titlu}</a></h2>
+          <p class="lead" data-reveal style="--i: 1">{s.data.rezumat}</p>
+          <table class="svc__prices nums" data-reveal style="--i: 2">
+            <caption class="sr-only">Prețuri {s.data.titlu}</caption>
+            <tbody>
+              {s.data.preturi.slice(0, 4).map((p) => (
+                <tr><th scope="row">{p.nume}</th><td class="muted">{p.durata}</td><td>{p.pret}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          <div class="svc__actions" data-reveal style="--i: 3">
+            <a class="button" href="/rezerva">Rezervă</a>
+            <a class="arrow-link" href={`/servicii/${s.id}`}>Despre {s.data.titlu.toLowerCase()} <Icon name="arrow" /></a>
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .svc-list { display: flex; flex-direction: column; gap: var(--section); padding-bottom: var(--section); }
+  .svc { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; align-items: center; }
+  .svc :global(.svc__pic) { grid-column: 1 / 6; }
+  .svc__copy { grid-column: 7 / 13; display: flex; flex-direction: column; gap: 1.75rem; }
+  .svc--flip :global(.svc__pic) { grid-column: 8 / 13; grid-row: 1; }
+  .svc--flip .svc__copy { grid-column: 1 / 7; grid-row: 1; }
+  .svc h2 a { text-decoration: none; }
+  .svc__prices { width: 100%; border-collapse: collapse; font-size: 1.0625rem; }
+  .svc__prices th { text-align: left; font-weight: 400; padding: 0.7rem 0; }
+  .svc__prices td { text-align: right; padding: 0.7rem 0 0.7rem 1rem; white-space: nowrap; }
+  .svc__prices tr + tr { border-top: 1px solid #ebe4dc; }
+  .svc__actions { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+  @media (max-width: 48rem) {
+    .svc { grid-template-columns: 1fr; }
+    .svc :global(.svc__pic), .svc__copy, .svc--flip :global(.svc__pic), .svc--flip .svc__copy { grid-column: 1; grid-row: auto; }
+    .svc :global(.svc__pic) { width: 78%; }
+    .svc--flip :global(.svc__pic) { margin-left: auto; }
+    .svc__prices td.muted { display: none; }
+  }
+</style>

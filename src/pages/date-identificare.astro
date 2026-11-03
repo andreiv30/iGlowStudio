@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import setari from '../data/setari.json';
+const f = setari.firma;
+const rows = [
+  ['Denumire', f.denumire],
+  ['Cod unic de înregistrare (CUI)', f.cui],
+  ['Nr. Registrul Comerțului', f.reg_com],
+  ['Sediu social', f.sediu],
+  ['Capital social', f.capital],
+  ['Cont bancar', f.banca],
+  ['Punct de lucru', `${setari.adresa}, ${setari.oras}`],
+  ['Telefon', setari.telefon],
+  ['Email', setari.email],
+];
+---
+<Base title="Date identificare societate" description="Datele de identificare ale societății care administrează iGlow Studio.">
+  <section class="ids wrap" aria-labelledby="ids-title">
+    <h1 id="ids-title" class="head" data-load>Date identificare societate</h1>
+    <dl class="ids__list" data-load style="--i: 1">
+      {rows.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+    </dl>
+  </section>
+</Base>
+<style>
+  .ids { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2.5rem; padding-block: clamp(3rem, 8vw, 7rem) var(--section); }
+  .ids h1 { grid-column: 1 / 5; }
+  .ids__list { grid-column: 6 / 13; margin: 0; display: flex; flex-direction: column; }
+  .ids__list div { display: grid; grid-template-columns: 16rem 1fr; gap: 1rem; padding-block: 1rem; }
+  .ids__list div:nth-child(odd) { background: var(--surface); padding-inline: 1rem; }
+  .ids__list div:nth-child(even) { padding-inline: 1rem; }
+  .ids__list dt { color: var(--muted); }
+  .ids__list dd { margin: 0; }
+  @media (max-width: 56rem) {
+    .ids h1, .ids__list { grid-column: 1 / -1; }
+    .ids__list div { grid-template-columns: 1fr; gap: 0.25rem; }
+  }
+</style>

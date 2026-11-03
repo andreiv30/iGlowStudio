@@ -1,0 +1,90 @@
+---
+import Icon from './Icon.astro';
+import Wordmark from './Wordmark.astro';
+import setari from '../data/setari.json';
+import { meniu } from '../lib/nav';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+---
+<header class="site-header" data-header>
+  <div class="site-header__bar wrap">
+    <a class="site-header__brand" href="/" aria-label={`${setari.nume}, pagina principală`}>
+      <Wordmark />
+    </a>
+    <nav class="site-header__nav" aria-label="Meniu principal">
+      <ul class="site-header__links">
+        {meniu.filter((m) => m.href !== '/rezerva').map((m) => (
+          <li><a href={m.href} class="site-header__link" aria-current={isActive(m.href) ? 'page' : undefined}>{m.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      <a class="button site-header__cta" href="/rezerva" aria-current={isActive('/rezerva') ? 'page' : undefined}>Rezervă</a>
+      <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="menu-mobil" data-menu-toggle>
+        <span class="sr-only" data-menu-label>Deschide meniul</span>
+        <span class="site-header__icon site-header__icon--open"><Icon name="menu" size={24} /></span>
+        <span class="site-header__icon site-header__icon--close"><Icon name="close" size={24} /></span>
+      </button>
+    </div>
+  </div>
+</header>
+<!-- panoul stă în afara header-ului: backdrop-filter ar face din header containerul elementelor fixe -->
+<div class="menu-mobil" id="menu-mobil" data-menu hidden>
+    <nav class="wrap" aria-label="Meniu principal pe mobil">
+      <ul class="menu-mobil__links">
+        {meniu.map((m, i) => (
+          <li style={`--i: ${i}`}><a href={m.href} aria-current={isActive(m.href) ? 'page' : undefined}>{m.label}</a></li>
+        ))}
+      </ul>
+      <div class="menu-mobil__contact">
+        <a class="arrow-link" href={`tel:${setari.telefon.replace(/\s/g, '')}`}><Icon name="phone" />{setari.telefon}</a>
+        <a class="arrow-link" href={`https://wa.me/${setari.whatsapp}`}><Icon name="whatsapp" />WhatsApp</a>
+      </div>
+    </nav>
+</div>
+
+<style>
+  .site-header {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    border-bottom: 1px solid transparent;
+    transition: background-color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+  }
+  /* la scroll: alb translucid cu blur, ca pe tasteskill.dev */
+  :global(.header-scrolled) .site-header,
+  :global(.menu-open) .site-header {
+    background-color: rgb(255 255 255 / 0.85);
+    border-bottom-color: rgb(26 19 13 / 0.06);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    backdrop-filter: blur(24px) saturate(1.5);
+  }
+  .site-header__bar { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .site-header__brand { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+  .site-header__links { display: flex; gap: clamp(1rem, 2vw, 2rem); }
+  .site-header__link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 0.9375rem; color: var(--ink); position: relative; }
+  .site-header__link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 8px; height: 2px; background: var(--caramel); transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--ease-out); }
+  .site-header__link[aria-current='page']::after { transform: scaleX(1); }
+  @media (hover: hover) and (pointer: fine) { .site-header__link:hover::after { transform: scaleX(1); } }
+  .site-header__actions { display: flex; align-items: center; gap: 0.5rem; }
+  .site-header__cta { min-height: 2.75rem; padding: 0 1.25rem; }
+  .site-header__toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 999px; }
+  .site-header__icon--close { display: none; }
+  :global(.menu-open) .site-header__icon--open { display: none; }
+  :global(.menu-open) .site-header__icon--close { display: inline-flex; }
+
+  .menu-mobil { position: fixed; z-index: 99; inset: var(--header-h) 0 0 0; background: var(--bg); overflow-y: auto; padding-block: 1.5rem 3rem; }
+  .menu-mobil__links { display: flex; flex-direction: column; }
+  .menu-mobil__links a { display: block; font-family: var(--font-display); font-size: clamp(2.25rem, 9vw, 3.5rem); line-height: 1.15; letter-spacing: -0.02em; text-decoration: none; padding-block: 0.25rem; }
+  .menu-mobil__links a[aria-current='page'] { color: var(--caramel); }
+  .menu-mobil__contact { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    .menu-mobil:not([hidden]) .menu-mobil__links li { animation: menu-in 600ms var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
+  }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(14px); } }
+
+  @media (max-width: 64rem) {
+    .site-header__nav { display: none; }
+    .site-header__toggle { display: inline-flex; }
+  }
+  @media (max-width: 22rem) { .site-header__cta { display: none; } }
+</style>

@@ -1,0 +1,18 @@
+---
+// Logo provizoriu, scris cu literele site-ului.
+// Când primim fișierul SVG al logo-ului, îl punem în public/logo.svg și înlocuim conținutul de aici cu <img>.
+interface Props { size?: 'small' | 'large' }
+const { size = 'small' } = Astro.props;
+---
+<span class:list={['wordmark', `wordmark--${size}`]}>
+  <span class="wordmark__name">iGlow</span>
+  <span class="wordmark__sub">Studio</span>
+</span>
+<style>
+  .wordmark { display: inline-flex; align-items: baseline; gap: 0.4em; color: inherit; line-height: 1; }
+  .wordmark__name { font-family: var(--font-display); font-size: 1.75rem; letter-spacing: -0.02em; }
+  .wordmark__sub { font-size: 0.9375rem; color: var(--muted); font-weight: 500; }
+  .wordmark--large .wordmark__name { font-size: clamp(5rem, 11.5vw, 13rem); letter-spacing: -0.05em; line-height: 0.8; }
+  .wordmark--large { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .wordmark--large .wordmark__sub { font-size: var(--step-lead); color: inherit; }
+</style>

@@ -1,0 +1,22 @@
+{
+  "name": "iglow-studio",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "11.1.9",
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource-variable/source-serif-4": "^5.2.5",
+    "astro": "7.3.8"
+  }
+}
