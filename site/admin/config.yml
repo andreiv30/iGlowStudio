@@ -87,7 +87,7 @@ collections:
             label: "Video (doar .webm, maximum 20 MB)"
             widget: file
             required: false
-            hint: "Se folosește când „Fundalul de sus” este Video. Videoul rulează fără sunet, în buclă. Un video mai mare de 20 MB sau în alt format nu se încarcă / nu apare pe site."
+            hint: "Important: ca videoul să apară pe site, alege „Video” la „Fundalul de sus”. Videoul rulează fără sunet, în buclă. Un video mai mare de 20 MB sau în alt format nu se încarcă / nu apare pe site."
             pattern: ['^$|\.webm$', 'Videoul trebuie să fie în format .webm']
             media_library:
               config:
