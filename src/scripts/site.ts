@@ -63,6 +63,15 @@ if (heroMedia && !reduce.matches) {
   window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
 }
 
+// ---------- video din hero: oprit pentru „reduce motion” și când nu se vede pe ecran ----------
+const heroVideo = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+if (heroVideo) {
+  if (reduce.matches) { heroVideo.removeAttribute('autoplay'); heroVideo.pause(); }
+  else if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) heroVideo.play().catch(() => {}); else heroVideo.pause(); }).observe(heroVideo);
+  }
+}
+
 // ---------- carusel (servicii): săgețile derulează cu un card ----------
 document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((wrap) => {
   const track = wrap.querySelector<HTMLElement>('[data-track]');

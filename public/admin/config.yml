@@ -76,7 +76,23 @@ collections:
         label: Pagina Acasă
         file: src/data/acasa.json
         fields:
-          - { name: hero_imagine, label: Poza mare de sus, widget: image, required: false }
+          - name: hero_tip
+            label: Fundalul de sus
+            widget: select
+            default: poza
+            options:
+              - { label: Poză, value: poza }
+              - { label: Video, value: video }
+          - name: hero_video
+            label: "Video (doar .webm, maximum 20 MB)"
+            widget: file
+            required: false
+            hint: "Se folosește când „Fundalul de sus” este Video. Videoul rulează fără sunet, în buclă. Un video mai mare de 20 MB sau în alt format nu se încarcă / nu apare pe site."
+            pattern: ['^$|\.webm$', 'Videoul trebuie să fie în format .webm']
+            media_library:
+              config:
+                max_file_size: 20971520
+          - { name: hero_imagine, label: "Poza mare de sus (la video: imaginea afișată până pornește videoul)", widget: image, required: false }
           - { name: hero_imagine_alt, label: Descrierea pozei, widget: string, required: false }
           - { name: hero_eticheta, label: Eticheta de deasupra titlului, widget: string }
           - { name: hero_titlu, label: "Titlu (*cuvânt* = evidențiat)", widget: string }
