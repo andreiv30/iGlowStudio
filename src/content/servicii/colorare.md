@@ -7,6 +7,7 @@ icon: drop
 ordine: 1
 durata: 1 h 30 min – 5 h 30 min
 pret_de_la: 450
+seo_descriere: "Colorare la iGlow Studio Sibiu: vopsit clasic, întreținerea culorii, balayage și Airtouch, cu formulă personalizată și protecție Olaplex."
 imagine: null
 imagine_alt: null
 pasi:

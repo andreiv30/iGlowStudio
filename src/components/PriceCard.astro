@@ -60,5 +60,5 @@ const [intro, ...rest] = curate;
   .price__time + .price__foot { margin-top: 0; }
   .price__value { display: flex; flex-direction: column; font-family: var(--font-display); font-size: 1.6rem; font-weight: 500; line-height: 1.1; font-variant-numeric: tabular-nums; color: var(--caramel); }
   .price__value span { font-family: var(--font-text); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
-  @media (hover: hover) and (pointer: fine) { .price:hover { transform: translateY(-4px); } }
+  @media (any-hover: hover) { .price:hover { transform: translateY(-4px); } }
 </style>

@@ -20,5 +20,5 @@ const { items } = Astro.props;
   .faq__chev { flex: none; display: inline-flex; color: var(--caramel); transition: transform 300ms var(--ease-out); }
   .faq__item[open] .faq__chev { transform: rotate(180deg); }
   .faq__item p { padding: 0 1.75rem 1.5rem; color: var(--muted); max-width: 40rem; }
-  @media (hover: hover) and (pointer: fine) { .faq__item summary:hover { background: var(--surface); } }
+  @media (any-hover: hover) { .faq__item summary:hover { background: var(--surface); } }
 </style>

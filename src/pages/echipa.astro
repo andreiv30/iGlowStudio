@@ -60,7 +60,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
   .person__tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .person__tags a { display: inline-flex; align-items: center; min-height: 34px; padding: 0 0.8rem; border-radius: 999px; background: var(--surface); font-size: 0.8125rem; text-decoration: none; color: var(--taupe); transition: background-color 200ms ease, color 200ms ease; }
   .person__book { margin-top: auto; align-self: flex-start; }
-  @media (hover: hover) and (pointer: fine) {
+  @media (any-hover: hover) {
     .person:hover { transform: translateY(-6px); box-shadow: 0 1px 2px rgb(26 19 13 / 0.04), 0 34px 60px -30px rgb(81 63 51 / 0.55); }
     .person:hover .person__media :global(.photo) { transform: scale(1.04); }
     .person__tags a:hover { background: var(--caramel); color: var(--espresso); }

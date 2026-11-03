@@ -109,7 +109,7 @@ const social = [
   /* hover cu umplere: un cerc auriu crește din centru, iconița devine închisă */
   .footer__social a, .footer__contact .ring { position: relative; isolation: isolate; overflow: hidden; transition: border-color 300ms ease, color 300ms ease; }
   .footer__social a::before, .footer__contact .ring::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--caramel); transform: scale(0); transition: transform 380ms var(--ease-out); }
-  @media (hover: hover) and (pointer: fine) {
+  @media (any-hover: hover) {
     .footer__social a:hover, .footer__contact a:hover .ring { border-color: var(--caramel); color: var(--espresso); }
     .footer__social a:hover::before, .footer__contact a:hover .ring::before { transform: scale(1); }
   }
@@ -129,19 +129,19 @@ const social = [
   .k { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--auriu); }
   .footer__links { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 1.5rem; font-size: 0.9375rem; }
   .footer__cookie { font: inherit; font-size: 0.9375rem; color: var(--nisip); padding: 0.3rem 0; text-align: left; cursor: pointer; transition: color 200ms ease; }
-  @media (hover: hover) and (pointer: fine) { .footer__cookie:hover { color: var(--auriu); } }
+  @media (any-hover: hover) { .footer__cookie:hover { color: var(--auriu); } }
   .footer__links a { display: inline-block; padding-block: 0.3rem; text-decoration: none; color: var(--nisip); transition: color 200ms ease; }
-  @media (hover: hover) and (pointer: fine) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
+  @media (any-hover: hover) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
 
   .footer__ext { display: inline-flex !important; align-items: center; gap: 0.4rem; }
   .footer__legal { display: flex; flex-direction: column; gap: 0.6rem; }
   .footer__firma { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; letter-spacing: 0.12em; }
   .footer__firma a { color: inherit; text-decoration: none; transition: color 200ms ease; }
-  @media (hover: hover) and (pointer: fine) { .footer__firma a:hover { color: var(--auriu); } }
+  @media (any-hover: hover) { .footer__firma a:hover { color: var(--auriu); } }
   .footer__anpc { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.6rem; margin-left: auto; align-self: flex-end; }
   .footer__anpc a { display: block; border-radius: 10px; transition: transform 200ms var(--ease-out), opacity 200ms ease; opacity: 0.92; }
   .footer__anpc img { width: 8.4rem; height: auto; }
-  @media (hover: hover) and (pointer: fine) { .footer__anpc a:hover { opacity: 1; transform: translateY(-2px); } }
+  @media (any-hover: hover) { .footer__anpc a:hover { opacity: 1; transform: translateY(-2px); } }
   .footer__bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem 2rem; flex-wrap: wrap; padding-top: 1.75rem; border-top: 1px solid rgb(251 251 250 / 0.14); font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--nisip); }
 
   @media (max-width: 64rem) { .footer__grid { grid-template-columns: 1fr 1fr; } }

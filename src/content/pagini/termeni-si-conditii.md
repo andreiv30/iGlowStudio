@@ -1,6 +1,6 @@
 ---
 titlu: Termeni și condiții
-descriere: Regulile de folosire a site-ului iGlow Studio și condițiile pentru programări.
+descriere: "Termenii de folosire a site-ului iGlow Studio și condițiile pentru programări, anulări, prețuri și oferte la salonul nostru din Sibiu."
 actualizat: 3 noiembrie 2026
 ---
 

@@ -1,6 +1,6 @@
 ---
 titlu: Politica de confidențialitate
-descriere: Cum colectăm, folosim și protejăm datele tale personale atunci când folosești site-ul iGlow Studio sau faci o programare.
+descriere: "Cum colectăm, folosim și protejăm datele tale personale când folosești site-ul iGlow Studio sau faci o programare și ce drepturi ai."
 actualizat: 3 noiembrie 2026
 ---
 

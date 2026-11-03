@@ -91,7 +91,7 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
   .masonry__item img { width: 100%; height: auto; display: block; transition: transform 700ms var(--ease-out); }
   .masonry__zoom { position: absolute; right: 0.75rem; bottom: 0.75rem; width: 2.5rem; height: 2.5rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgb(255 255 255 / 0.85); color: var(--ink); opacity: 0; transform: translateY(6px); transition: opacity 300ms ease, transform 300ms var(--ease-out); }
   .masonry__open:focus-visible .masonry__zoom { opacity: 1; transform: none; }
-  @media (hover: hover) and (pointer: fine) {
+  @media (any-hover: hover) {
     .masonry__item:hover img { transform: scale(1.03); }
     .masonry__item:hover .masonry__zoom { opacity: 1; transform: none; }
   }
@@ -104,7 +104,7 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
   .lb__img.is-in { opacity: 1; transform: none; }
   .lb__count { position: absolute; left: 50%; bottom: 1.25rem; transform: translateX(-50%); font-size: 0.8125rem; letter-spacing: 0.18em; color: var(--nisip); font-variant-numeric: tabular-nums; }
   .lb__btn { position: absolute; z-index: 1; width: 3rem; height: 3rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.2); color: #fff; transition: background-color 200ms ease, border-color 200ms ease; }
-  @media (hover: hover) and (pointer: fine) { .lb__btn:hover { background: var(--caramel); border-color: var(--caramel); color: var(--espresso); } }
+  @media (any-hover: hover) { .lb__btn:hover { background: var(--caramel); border-color: var(--caramel); color: var(--espresso); } }
   .lb__close { top: 1rem; right: 1rem; }
   .lb__prev { left: 1rem; top: 50%; transform: translateY(-50%); }
   .lb__next { right: 1rem; top: 50%; transform: translateY(-50%); }

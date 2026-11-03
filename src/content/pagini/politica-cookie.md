@@ -1,6 +1,6 @@
 ---
 titlu: Politica cookie
-descriere: Ce cookie-uri folosește site-ul iGlow Studio, pentru ce și cum îți poți schimba oricând alegerea.
+descriere: "Ce cookie-uri folosește site-ul iGlow Studio, în ce scop le folosim și cum îți poți schimba oricând alegerea din setările de cookie."
 actualizat: 3 noiembrie 2026
 ---
 
