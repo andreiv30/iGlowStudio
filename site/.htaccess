@@ -2,6 +2,9 @@
 
 DirectoryIndex index.html index.php
 AddType video/webm .webm
+AddType image/webp .webp
+AddType image/avif .avif
+AddType font/woff2 .woff2
 # diacriticele din fișierele text (llms.txt, robots.txt) se afișează corect
 AddDefaultCharset UTF-8
 AddCharset UTF-8 .txt .xml
@@ -48,7 +51,8 @@ Options -Indexes
     Header set X-Robots-Tag "noindex, nofollow"
   </FilesMatch>
 
-  # Cache lung pentru fișierele care nu se schimbă (CSS și JS cu hash, fonturi), scurt pentru pagini
+  # Cache lung pentru fișierele care nu se schimbă (CSS și JS cu hash, fonturi), scurt pentru pagini.
+  # Excepție: /admin are propriul .htaccess (galerie-widget.js nu are hash în nume, deci nu poate sta un an în cache).
   <FilesMatch "\.(css|js|woff2?)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
