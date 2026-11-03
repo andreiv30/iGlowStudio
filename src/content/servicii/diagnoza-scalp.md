@@ -7,6 +7,7 @@ icon: search
 ordine: 3
 durata: 1 h – 1 h 30 min
 pret_de_la: 255
+seo_descriere: "Diagnoză capilară Koemia și analiza scalpului cu tricocameră la iGlow Studio Sibiu, urmate de tratamente și programe personalizate."
 imagine: null
 imagine_alt: null
 pasi:

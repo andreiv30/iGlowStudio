@@ -113,6 +113,6 @@ const hartaSrc = `https://maps.google.com/maps?q=${encodeURIComponent(setari.har
   .map__addr { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.35; color: var(--ink); }
   .map__note { font-size: 0.75rem; color: var(--muted); max-width: 22rem; }
   .map__link { position: absolute; left: 1rem; bottom: 1rem; z-index: 1; display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--ink); }
-  @media (hover: hover) and (pointer: fine) { .map__link:hover { color: var(--caramel-btn); } }
+  @media (any-hover: hover) { .map__link:hover { color: var(--caramel-btn); } }
   @media (max-width: 56rem) { .story__inner, .visit__grid { grid-template-columns: 1fr; } .map { min-height: 22rem; } }
 </style>

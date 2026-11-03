@@ -131,7 +131,7 @@ p { text-wrap: pretty; }
 .btn--gold { background: var(--auriu); color: var(--espresso); }
 .btn--small { min-height: 2.75rem; padding: 0 1.25rem; font-size: 0.75rem; }
 .btn--block { width: 100%; }
-@media (hover: hover) and (pointer: fine) {
+@media (any-hover: hover) {
   /* hover: fundal puțin mai închis, lumină aurie-maronie sub buton, ridicare ușoară */
   .btn:hover { background: var(--caramel-btn-hover); transform: translateY(-2px); box-shadow: 0 0 0 4px rgb(212 180 138 / 0.22), 0 14px 34px -6px rgb(201 155 88 / 0.85), 0 0 28px 2px rgb(212 170 110 / 0.45); }
   .btn--outline:hover { background: #f6f0e9; border-color: var(--caramel); box-shadow: 0 0 0 4px rgb(212 180 138 / 0.2), 0 14px 32px -8px rgb(201 155 88 / 0.7), 0 0 24px rgb(212 170 110 / 0.35); }
@@ -144,7 +144,7 @@ p { text-wrap: pretty; }
 /* link mic cu săgeată: „DESCOPERĂ →”, „REZERVĂ →” */
 .more { display: inline-flex; align-items: center; gap: 0.5em; min-height: 44px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--taupe); }
 .more svg { transition: transform 200ms var(--ease-out); }
-@media (hover: hover) and (pointer: fine) { .more:hover { color: var(--ink); } .more:hover svg { transform: translateX(4px); } }
+@media (any-hover: hover) { .more:hover { color: var(--ink); } .more:hover svg { transform: translateX(4px); } }
 
 /* ---------- iconițe în cerc (flyer) ---------- */
 .ring { width: 4.5rem; height: 4.5rem; border-radius: 999px; border: 1.5px solid var(--caramel); color: var(--caramel); display: inline-flex; align-items: center; justify-content: center; flex: none; }

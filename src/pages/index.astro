@@ -266,7 +266,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .step__title { font-size: 1.45rem; line-height: 1.2; }
   .step__text { color: var(--muted); font-size: 0.9375rem; }
   .step__text::first-letter { text-transform: uppercase; }
-  @media (hover: hover) and (pointer: fine) {
+  @media (any-hover: hover) {
     .step:hover { transform: translateY(-6px); border-color: rgb(177 139 90 / 0.4); box-shadow: 0 1px 2px rgb(26 19 13 / 0.04), 0 28px 50px -26px rgb(81 63 51 / 0.45); }
     .step:hover::after { transform: scaleX(1); }
     .step:hover .step__icon { background: var(--caramel-btn); color: #fff; }
@@ -279,10 +279,10 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .services__arrows { display: flex; gap: 0.5rem; }
   .arrow { width: 3rem; height: 3rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); display: inline-flex; align-items: center; justify-content: center; transition: background-color 200ms ease, color 200ms ease, opacity 200ms ease; }
   .arrow:disabled { opacity: 0.35; cursor: default; }
-  @media (hover: hover) and (pointer: fine) { .arrow:not(:disabled):hover { background: var(--caramel-btn); color: #fff; } }
+  @media (any-hover: hover) { .arrow:not(:disabled):hover { background: var(--caramel-btn); color: #fff; } }
   .services__track { list-style: none; margin: clamp(2.5rem, 4vw, 3.5rem) -0.75rem 0; padding: 0.75rem 0.75rem 1.75rem; display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3rem) / 3); column-gap: 1.5rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 0.75rem; scrollbar-width: none; }
   .services__track::-webkit-scrollbar { display: none; }
-  @media (hover: hover) and (pointer: fine) { .services__track { cursor: grab; } }
+  @media (any-hover: hover) { .services__track { cursor: grab; } }
   .services__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
   .services__track.is-dragging a { pointer-events: none; }
   .svc { scroll-snap-align: start; overflow: hidden; }
@@ -294,7 +294,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .svc__label::before { content: ''; width: 2rem; height: 2px; background: var(--caramel); }
   .svc__name { font-size: 1.75rem; font-style: italic; }
   .svc__text { color: var(--muted); font-size: 0.9375rem; flex: 1; }
-  @media (hover: hover) and (pointer: fine) { .svc__link:hover :global(.photo) { transform: scale(1.04); } }
+  @media (any-hover: hover) { .svc__link:hover :global(.photo) { transform: scale(1.04); } }
 
   /* ---------- echipa ---------- */
   .team__grid { list-style: none; padding: 0; margin-top: clamp(3rem, 5vw, 4rem); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
@@ -341,7 +341,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .rv__svc { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--taupe); }
   .rv__text { color: var(--ink); font-size: 0.975rem; line-height: 1.7; }
   .rv__link { display: inline-flex; align-items: center; gap: 0.4rem; align-self: flex-start; margin-top: 0.35rem; padding-top: 1rem; border-top: 1px solid var(--line); width: 100%; font-size: 0.8125rem; text-decoration: none; color: var(--taupe); }
-  @media (hover: hover) and (pointer: fine) { .rv__link:hover { color: var(--ink); } }
+  @media (any-hover: hover) { .rv__link:hover { color: var(--ink); } }
 
   .marquee__toggle { position: relative; z-index: 3; display: none; align-items: center; gap: 0.5rem; margin: 1.25rem auto 0; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--taupe); }
   .marquee.is-built .marquee__toggle { display: flex; }

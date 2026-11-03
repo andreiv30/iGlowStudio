@@ -7,6 +7,7 @@ icon: gift
 ordine: 5
 durata: ''
 pret_de_la: 100
+seo_descriere: "Vouchere cadou iGlow Studio Sibiu pentru orice serviciu din salon și Nashi Ritual Box: un cadou elegant pentru aniversări și sărbători."
 imagine: null
 imagine_alt: null
 pasi: []

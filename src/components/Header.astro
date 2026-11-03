@@ -79,7 +79,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
   .header__nav a[aria-current='page'] { color: var(--caramel); }
   :global(html:not(.header-scrolled):not(.menu-open)) .top--overlay .header__nav a[aria-current='page'] { color: var(--auriu); }
   .header__nav a[aria-current='page']::after { transform: scaleX(1); }
-  @media (hover: hover) and (pointer: fine) { .header__nav a:hover::after { transform: scaleX(1); } }
+  @media (any-hover: hover) { .header__nav a:hover::after { transform: scaleX(1); } }
   .header__actions { display: flex; align-items: center; gap: 0.5rem; }
   .header__toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; color: inherit; }
   .header__icon--close { display: none; }
