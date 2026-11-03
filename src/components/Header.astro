@@ -52,10 +52,12 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 <style>
   .top { position: fixed; inset: 0 0 auto 0; z-index: 100; }
   /* anunțul de sus */
-  .bar { height: var(--bar-h); background: var(--caramel); color: var(--espresso); display: flex; align-items: center; justify-content: center; position: relative; padding-inline: 3rem; font-size: 0.8125rem; }
+  /* text alb pe auriu închis: contrast 4,63:1 (WCAG AA) */
+  .bar { height: var(--bar-h); background: var(--caramel-btn); color: #fff; display: flex; align-items: center; justify-content: center; position: relative; padding-inline: 3rem; font-size: 0.8125rem; }
   .bar__text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .bar a { text-underline-offset: 3px; }
-  .bar__close { position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; }
+  .bar a { color: inherit; text-underline-offset: 3px; }
+  @media (any-hover: hover) { .bar a:hover { text-decoration-thickness: 2px; } .bar__close:hover { background: rgb(255 255 255 / 0.14); } }
+  .bar__close { position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; color: inherit; transition: background-color 200ms ease; }
   :global(.bar-closed) .bar { display: none; }
 
   /* header: transparent la început, alb translucid cu blur după scroll (ca pe tasteskill.dev) */
