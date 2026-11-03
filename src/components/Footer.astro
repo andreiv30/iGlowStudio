@@ -14,8 +14,14 @@ const social = [
 ].filter((s) => s.href);
 ---
 <footer class="footer">
-  <span class="footer__circle footer__circle--a" aria-hidden="true"></span>
-  <span class="footer__circle footer__circle--b" aria-hidden="true"></span>
+  <!-- fundal: lumini calde care se mișcă lent, o rețea fină de puncte și granulație discretă -->
+  <div class="footer__bg" aria-hidden="true">
+    <span class="footer__glow footer__glow--a"></span>
+    <span class="footer__glow footer__glow--b"></span>
+    <span class="footer__glow footer__glow--c"></span>
+    <span class="footer__dots"></span>
+    <span class="footer__grain"></span>
+  </div>
   <div class="container footer__inner">
     <div class="footer__grid">
       <div class="footer__brand">
@@ -76,11 +82,23 @@ const social = [
 </footer>
 
 <style>
-  .footer { position: relative; overflow: hidden; background: var(--espresso); color: var(--alb-cald); }
-  /* cercurile mari din fundal, ca pe Caracter, în tonurile paletei */
-  .footer__circle { position: absolute; border-radius: 999px; background: var(--mocha); pointer-events: none; }
-  .footer__circle--a { width: 52rem; height: 52rem; left: -14rem; top: 9rem; }
-  .footer__circle--b { width: 46rem; height: 46rem; right: -10rem; top: -6rem; background: #2e2119; }
+  .footer { position: relative; overflow: hidden; isolation: isolate; color: var(--alb-cald); background: linear-gradient(180deg, #1d150f 0%, var(--espresso) 40%, #120d09 100%); }
+  /* linia aurie de sus, care se stinge spre margini */
+  .footer::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 1px; z-index: 1; background: linear-gradient(90deg, transparent, rgb(212 180 138 / 0.55) 30%, rgb(243 227 200 / 0.8) 50%, rgb(212 180 138 / 0.55) 70%, transparent); }
+  .footer__bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  .footer__glow { position: absolute; border-radius: 999px; filter: blur(60px); }
+  .footer__glow--a { width: 46rem; height: 22rem; left: 50%; top: -12rem; transform: translateX(-50%); background: radial-gradient(closest-side, rgb(212 180 138 / 0.36), transparent); }
+  .footer__glow--b { width: 34rem; height: 34rem; left: -12rem; bottom: -16rem; background: radial-gradient(closest-side, rgb(177 139 90 / 0.42), transparent); }
+  .footer__glow--c { width: 30rem; height: 30rem; right: -10rem; top: 20%; background: radial-gradient(closest-side, rgb(143 111 72 / 0.4), transparent); }
+  .footer__dots { position: absolute; inset: 0; background-image: radial-gradient(rgb(212 180 138 / 0.16) 1px, transparent 1.4px); background-size: 26px 26px; -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000, transparent 75%); mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000, transparent 75%); }
+  .footer__grain { position: absolute; inset: 0; opacity: 0.07; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  @media (prefers-reduced-motion: no-preference) {
+    .footer__glow--a { animation: footer-breathe 12s ease-in-out infinite alternate; }
+    .footer__glow--b { animation: footer-drift 22s ease-in-out infinite alternate; }
+    .footer__glow--c { animation: footer-drift 26s ease-in-out infinite alternate-reverse; }
+  }
+  @keyframes footer-breathe { to { opacity: 0.65; transform: translateX(-50%) scale(1.12); } }
+  @keyframes footer-drift { to { transform: translate3d(6rem, -3rem, 0) scale(1.1); } }
   .footer__inner { position: relative; padding-block: clamp(4rem, 7vw, 6rem) 2rem; display: flex; flex-direction: column; gap: 3.5rem; }
   .footer__grid { display: grid; grid-template-columns: 1.15fr 1.2fr 1fr 0.8fr; gap: 2.5rem; }
   .footer__brand { display: flex; flex-direction: column; gap: 1.5rem; }
