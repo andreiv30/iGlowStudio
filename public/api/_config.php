@@ -1,11 +1,20 @@
 <?php
-// Încarcă datele aplicației OAuth GitHub pentru panoul /admin.
-// Valorile NU stau în repo: vin din fișierul .config.php, scris la deploy de GitHub Actions
-// (din secretele OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, SITE_URL), sau pus manual pe server.
+// Configurația pentru login-ul din /admin. Valorile NU stau în repo:
+// se citesc din fișierul .config.php, creat o singură dată pe server (public_html/api/.config.php).
+//
+// <?php
+// return [
+//   'site_url' => 'https://iglowstudio.ro',
+//   'github_token' => 'github_pat_...',          // token fine-grained, doar pe repo-ul iGlowStudio, Contents: Read and write
+//   'users' => [
+//     'andreea' => '$2y$10$...',                  // hash generat din /api/parola.php
+//     'elena' => '$2y$10$...',
+//   ],
+// ];
 $file = __DIR__ . '/.config.php';
 $cfg = is_file($file) ? require $file : [];
 return [
-    'client_id' => $cfg['client_id'] ?? '',
-    'client_secret' => $cfg['client_secret'] ?? '',
     'site_url' => rtrim($cfg['site_url'] ?? ('https://' . ($_SERVER['HTTP_HOST'] ?? '')), '/'),
+    'github_token' => $cfg['github_token'] ?? '',
+    'users' => is_array($cfg['users'] ?? null) ? $cfg['users'] : [],
 ];
