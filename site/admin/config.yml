@@ -94,14 +94,23 @@ collections:
               - { name: text, label: Text, widget: string }
           - { name: servicii_titlu, label: Servicii – titlu, widget: string }
           - { name: servicii_text, label: Servicii – text, widget: text }
-          - { name: echipa_titlu, label: Echipă – titlu, widget: string }
-          - { name: echipa_text, label: Echipă – text, widget: text }
+          - { name: echipa_titlu, label: "Echipă – titlu (apare pe Acasă și pe pagina Echipă)", widget: string }
+          - { name: echipa_text, label: "Echipă – text (apare pe Acasă și pe pagina Echipă)", widget: text }
           - name: intrebari
             label: Întrebări frecvente
             widget: list
             fields:
               - { name: intrebare, label: Întrebare, widget: string }
               - { name: raspuns, label: Răspuns, widget: text }
+
+      - name: cta
+        label: Card „Pasul următor” (la finalul paginilor)
+        file: src/data/cta.json
+        fields:
+          - { name: eticheta, label: Eticheta mică, widget: string, required: false }
+          - { name: titlu, label: "Titlu (*cuvânt* = evidențiat)", widget: string }
+          - { name: text, label: Text, widget: text, required: false }
+          - { name: buton, label: Text buton (duce la rezervări), widget: string }
 
       - name: despre
         label: Pagina Despre noi
@@ -137,11 +146,9 @@ collections:
         file: src/data/galerie.json
         fields:
           - name: imagini
-            label: Fotografii
-            widget: list
-            fields:
-              - { name: imagine, label: Fotografie, widget: image }
-              - { name: descriere, label: "Descriere (pentru accesibilitate)", widget: string, required: false }
+            label: "Fotografii (selectează mai multe deodată; descrierea e opțională)"
+            widget: galerie
+            required: false
 
       - name: seo
         label: SEO (titluri și descrieri pentru Google)
