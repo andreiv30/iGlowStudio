@@ -4,8 +4,8 @@ interface Props { items: { intrebare: string; raspuns: string }[] }
 const { items } = Astro.props;
 ---
 <div class="faq card" data-reveal>
-  {items.map((q) => (
-    <details class="faq__item">
+  {items.map((q, i) => (
+    <details class="faq__item" open={i === 0}>
       <summary><h3>{q.intrebare}</h3><span class="faq__chev"><Icon name="chevron" /></span></summary>
       <p>{q.raspuns}</p>
     </details>

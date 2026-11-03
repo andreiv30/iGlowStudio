@@ -2,7 +2,7 @@
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import setari from '../data/setari.json';
-import { meniu, legale } from '../lib/nav';
+import { meniu, legale, rezervaHref } from '../lib/nav';
 
 const an = new Date().getFullYear();
 const tel = setari.telefon.replace(/\s/g, '');
@@ -21,9 +21,11 @@ const social = [
       <div class="footer__brand">
         <a class="footer__logo" href="/" aria-label={`${setari.nume}, pagina principală`}><Logo /></a>
         <p>{setari.descriere_scurta}</p>
-        <ul class="footer__social" aria-label="Rețele sociale">
-          {social.map((s) => <li><a href={s.href} aria-label={s.label} rel="noopener" target="_blank"><Icon name={s.icon} size={18} /></a></li>)}
-        </ul>
+        {social.length > 0 && (
+          <ul class="footer__social" aria-label="Rețele sociale">
+            {social.map((s) => <li><a href={s.href} aria-label={s.label} rel="noopener" target="_blank"><Icon name={s.icon} size={18} /></a></li>)}
+          </ul>
+        )}
       </div>
 
       <details class="acc" open data-acc>
@@ -50,10 +52,15 @@ const social = [
         <summary><h2 class="acc__title">Explorează</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
         <ul class="footer__links">
           {meniu.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
-          <li><a href="/rezerva">Rezervă</a></li>
+          <li><a href={rezervaHref} rel="noopener" target="_blank">Rezervă online</a></li>
         </ul>
       </details>
     </div>
+
+    <ul class="footer__anpc" aria-label="Soluționarea litigiilor">
+      <li><a href="https://anpc.ro/ce-este-sal/" rel="noopener" target="_blank"><img src="/anpc/anpc-sal.svg" alt="ANPC – Soluționarea alternativă a litigiilor" width="250" height="62" loading="lazy" decoding="async" /></a></li>
+      <li><a href="https://ec.europa.eu/consumers/odr" rel="noopener" target="_blank"><img src="/anpc/anpc-sol.svg" alt="Soluționarea online a litigiilor" width="250" height="62" loading="lazy" decoding="async" /></a></li>
+    </ul>
 
     <div class="footer__bottom">
       <p>© {an} {setari.nume}. Toate drepturile rezervate.</p>
@@ -94,6 +101,10 @@ const social = [
   .footer__links a { display: inline-block; padding-block: 0.3rem; text-decoration: none; color: var(--nisip); transition: color 200ms ease; }
   @media (hover: hover) and (pointer: fine) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
 
+  .footer__anpc { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: -1.5rem; }
+  .footer__anpc a { display: block; border-radius: 10px; transition: transform 200ms var(--ease-out), opacity 200ms ease; opacity: 0.92; }
+  .footer__anpc img { width: 10.5rem; height: auto; }
+  @media (hover: hover) and (pointer: fine) { .footer__anpc a:hover { opacity: 1; transform: translateY(-2px); } }
   .footer__bottom { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1.75rem; border-top: 1px solid rgb(251 251 250 / 0.14); font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--nisip); }
 
   @media (max-width: 64rem) { .footer__grid { grid-template-columns: 1fr 1fr; } }
@@ -109,5 +120,6 @@ const social = [
     .acc[open] .acc__chev { transform: rotate(180deg); }
     .footer__contact, .footer__links { margin-top: 0.25rem; padding-bottom: 1.5rem; }
     .footer__bottom { flex-direction: column; border-top: 0; padding-top: 0; }
+    .footer__anpc { margin-top: 0; justify-content: center; }
   }
 </style>

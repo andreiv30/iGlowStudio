@@ -84,7 +84,8 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
   :global(.menu-open) .header__icon--close { display: inline-flex; }
 
   /* meniul pe mobil (în afara header-ului: blur-ul ar limita elementele fixe la înălțimea lui) */
-  .mobile { position: fixed; inset: 0; z-index: 99; background: var(--bg); padding-top: calc(var(--header-h) + var(--bar-h) + 1.5rem); padding-bottom: 2rem; overflow-y: auto; }
+  .mobile { position: fixed; inset: 0; z-index: 99; background: rgb(255 255 255 / 0.86); -webkit-backdrop-filter: blur(22px) saturate(1.4); backdrop-filter: blur(22px) saturate(1.4); padding-top: calc(var(--header-h) + var(--bar-h) + 1.5rem); padding-bottom: 2rem; overflow-y: auto; }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .mobile { background: var(--bg); } }
   :global(.bar-closed) .mobile { padding-top: calc(var(--header-h) + 1.5rem); }
   .mobile nav { display: flex; flex-direction: column; gap: 2rem; }
   .mobile__links { display: flex; flex-direction: column; }

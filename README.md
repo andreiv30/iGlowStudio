@@ -82,21 +82,22 @@ Necesită Node 22.12 sau mai nou (doar pentru build; serverul nu are nevoie de N
 
 | Ce | Fișier |
 | --- | --- |
-| Date salon, contact, program, firmă, link rezervare, bara de anunț | `src/data/setari.json` |
+| Date salon, contact, program, hartă, firmă, link rezervare Mero, bara de anunț | `src/data/setari.json` |
 | Textele primei pagini | `src/data/acasa.json` |
 | Pagina Despre noi | `src/data/despre.json` |
-| Recenzii | `src/data/recenzii.json` |
+| Recenzii (preluate de pe Mero) | `src/data/recenzii.json` |
 | Galerie | `src/data/galerie.json` |
-| Servicii (câte o pagină fiecare) | `src/content/servicii/*.md` |
+| Servicii: o pagină pe categorie (Colorare, Tuns, Diagnoză & scalp, Tratamente, Vouchere cadou); serviciile individuale sunt în lista „Prețuri” a categoriei | `src/content/servicii/*.md` |
 | Echipă | `src/content/echipa/*.md` |
 | Oferte | `src/content/oferte/*.md` |
 | Pagini legale | `src/content/pagini/*.md` |
 
 ## De completat înainte de lansare
 
-- textele dintre paranteze drepte `[...]` (oraș, adresă, telefon, date firmă);
-- prețurile și duratele (acum sunt exemple);
+- textele dintre paranteze drepte `[...]` (date firmă, povestea din Despre noi);
+- linkurile de Instagram, Facebook și TikTok (iconițele apar în footer doar după ce sunt completate);
 - logo-ul: `src/components/Logo.astro` este redesenat ca SVG după siglă; se poate înlocui cu fișierul original;
 - fotografiile: locurile lor sunt goale până se încarcă din /admin (poza mare din Acasă, servicii, echipă, galerie);
-- recenziile reale de pe Google (`src/data/recenzii.json`);
-- `link_rezervare` în `src/data/setari.json`.
+- serviciile, prețurile, ofertele și recenziile sunt preluate de pe https://mero.ro/p/iglow-studio; când se schimbă acolo, se actualizează și din /admin.
+
+Toate butoanele „Rezervă” duc la Mero (`link_rezervare`). Nu mai există pagina /rezerva: `.htaccess` o trimite la Mero, iar vechile adrese /servicii/vopsit, /balayage și /coafat la noile categorii.

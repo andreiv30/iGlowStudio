@@ -12,7 +12,6 @@ const nume: Record<Pagina, string> = {
   galerie: 'Galerie',
   echipa: 'Echipa',
   'despre-noi': 'Despre noi',
-  rezerva: 'Rezervă',
   'date-identificare': 'Date identificare societate',
 };
 

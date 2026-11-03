@@ -1,13 +1,152 @@
 {
-  "nota": "[4,9]",
-  "numar": "[NR]",
-  "link_google": "https://www.google.com/maps",
+  "nota": "4,96",
+  "numar": "111",
+  "sursa": "Mero",
+  "link": "https://mero.ro/p/iglow-studio",
   "recenzii": [
-    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Balayage", "text": "[Copiază aici o recenzie reală de pe Google.]" },
-    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Tuns", "text": "[Copiază aici o recenzie reală de pe Google. Recenziile mai lungi se așază frumos în coloane, ca într-un perete de bilețele.]" },
-    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Vopsit", "text": "[Copiază aici o recenzie reală de pe Google.]" },
-    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Tratamente", "text": "[Copiază aici o recenzie reală de pe Google.]" },
-    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Coafat", "text": "[Copiază aici o recenzie reală de pe Google. Poți adăuga oricâte din panoul de administrare.]" },
-    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Balayage", "text": "[Copiază aici o recenzie reală de pe Google.]" }
+    {
+      "nume": "Diana E.",
+      "data": "nov. 2026",
+      "serviciu": "Tratament",
+      "text": "Am fost la un tratament de păr la fete, acestea au avut grijă de părul meu impecabil! Recomand din ❤️"
+    },
+    {
+      "nume": "Alexandra H.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Am avut o experiență minunată! Mi-a plăcut foarte mult atât rezultatul, cât și atmosfera din salon. Personalul este foarte amabil, atent la detalii și profesionist. Cu siguranță voi reveni cu drag și recomand salonul tuturor celor care își doresc servicii de calitate!"
+    },
+    {
+      "nume": "Teodora R.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Fetele sunt minunate, foarte drăguțe și atente la fiecare detaliu, iar rezultatul a fost exact ce mi-am dorit! Recomand cu mare drag🥰🥰"
+    },
+    {
+      "nume": "Loli P.",
+      "data": "oct. 2026",
+      "serviciu": "Balayage",
+      "text": "Fetelor, dacă vă doriți un balayage frumos, vă recomand cu tot dragul acest salon! Am fost aici și sunt extrem de mulțumită de rezultat! Mi-a plăcut mult cum a ieșit culoarea, cât de frumos se îmbină nuanțele și cât de natural arată părul. M-am simțit minunat, am fost întâmpinată cu căldură și am simțit că sunt pe mâini bune. Se vede că se lucrează cu profesionalism, pasiune și multă atenție la detalii! Vă mulțumesc din suflet pentru tot! Cu siguranță voi reveni peste câteva luni pentru reîmprospătare, pentru că un rezultat atât de frumos merită păstrat! Vă recomand cu mare drag!"
+    },
+    {
+      "nume": "Andreea C.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "O echipă profesionistă, atmosferă foarte plăcută, servicii de mare calitate. Recomand cu drag!"
+    },
+    {
+      "nume": "Iulia D.",
+      "data": "oct. 2026",
+      "serviciu": "Tuns",
+      "text": "Super mulțumită de tunsoare!😍 Părul are acum mai mult volum, se așază frumos și are acel efect de lejeritate pe care mi-l doream. Fetele de la iGlow au fost foarte drăguțe și atente la detalii. Recomand cu drag tuturor celor care își doresc o schimbare frumoasă și un look fresh! ❤️"
+    },
+    {
+      "nume": "Alexandra B.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Cu mare drag o recomand pe Andreea si echipa ei.Sunt profesioniste,vesele,prietenoase,dedicate ,un mediu asa fain in care m am simtit in largul meu.Parul arata sanatos,iar daca aveti incredere in sugestiile lor,rezulatul o sa fie WOW!Chiar stiu ce fac!Fetele,va salut,va imbratisez si nu regret o secunda ca am venit la voi!🤗Pe curand!"
+    },
+    {
+      "nume": "Diana P.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Am fost foarte mulțumită de rezultat, cu siguranță am să revin ! ✨"
+    },
+    {
+      "nume": "Anastasia V.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Un salon minunat, cu personal amabil și foarte profesionist! Atmosfera este plăcută, serviciile sunt de calitate, iar rezultatul a fost exact ceea ce mi-am dorit. Sunt foarte mulțumită și recomand cu mare drag! Cu siguranță voi reveni 🫶🏼"
+    },
+    {
+      "nume": "Maria B.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "⭐️⭐️⭐️⭐️⭐️ Recomand cu drag IGlow Concept! Servicii de calitate, profesionalism, atenție la detalii și o atmosferă plăcută și relaxantă. ❤️ Pleci de fiecare dată mulțumită și răsfățată! Recomand cu încredere! ✨"
+    },
+    {
+      "nume": "Maria-Sînziana B.",
+      "data": "oct. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Echipa Andreei are grijă de părul meu de mai bine de 6 ani și o recomand cu drag ! Apreciez ca îmi explică ce trebuie să facem ca părul să rămână sănătos și sunt mereu atente la nevoile clientelor . Ambiant și colectiv plăcut 🫶🏻"
+    },
+    {
+      "nume": "Olga I.",
+      "data": "oct. 2026",
+      "serviciu": "Tuns",
+      "text": "Foarte mulțumită atât de tunsoare, cat și de experiența per total! Multă atenție la detalii, profesionalism și atitudine foarte frumoasă! Recomand cu încredere!"
+    },
+    {
+      "nume": "Alina L.",
+      "data": "sept. 2026",
+      "serviciu": "Colorare",
+      "text": "Am fost foarte mulțumită de experiență! ❤️ Tunsul și nuanțarea au ieșit exact cum mi-am dorit. Personal foarte amabil, atent la detalii și o atmosferă plăcută. Cu siguranță voi reveni cu drag! Recomand cu încredere! ✨"
+    },
+    {
+      "nume": "Laura L.",
+      "data": "sept. 2026",
+      "serviciu": "Balayage",
+      "text": "Am mers pentru balayage și tuns. A ieșit exact cum mi-am dorit. Sunteți o echipă extraordinară. Felicitări! ♥️"
+    },
+    {
+      "nume": "Andra T.",
+      "data": "aug. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Recomand cu drag! Fetele sunt profesioniste, super dragute și atmosfera din salon e foarte relaxantă!"
+    },
+    {
+      "nume": "Iris A.",
+      "data": "aug. 2026",
+      "serviciu": "Balayage",
+      "text": "Cel mai frumos balayage pe care l-am făcut până acum! ❤️ Echipa este minunată, iar atmosfera din salon este super primitoare. Fetele sunt foarte atente la cerințele tale, au răbdare să înțeleagă exact ce îți dorești și îți oferă sfaturi pe parcurs. Rezultatul a fost pur și simplu wow! Recomand cu mare drag! ✨"
+    },
+    {
+      "nume": "Denisa Maria C.",
+      "data": "iul. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Totul la superlativ. Atât serviciile cât și atmosfera din salon. Le ador pe feteleee de la Iglow 💝💝💝 mulțumesc mult. 💝💝💝"
+    },
+    {
+      "nume": "Diana P.",
+      "data": "iul. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Am avut o experiență minunată, de la primire până la plecare. Părul arată foarte bine, fetele sunt foarte amabile. Mulțumesc pentru experiență!"
+    },
+    {
+      "nume": "Andra I.",
+      "data": "iul. 2026",
+      "serviciu": "Colorare",
+      "text": "Am avut o experiență foarte frumoasă și cu siguranță voi reveni! A fost prima dată când m-am vopsit aici, iar rezultatul a fost exact așa cum mi-am dorit. Andreea a înțeles perfect ce îmi doream și a făcut o treabă minunată. Pe lângă profesionalism, m-a impresionat atmosfera din salon. Toate fetele au fost extrem de drăguțe, atente și primitoare, ceea ce m-a făcut să mă simt foarte confortabil pe tot parcursul vizitei. Recomand cu mare drag acest salon tuturor celor care își doresc atât un rezultat frumos, cât și o experiență plăcută!"
+    },
+    {
+      "nume": "Denisa A.",
+      "data": "iul. 2026",
+      "serviciu": "Colorare",
+      "text": "Am fost tunsa si vopsita de Andreea, dar si de toata echipa ei ulterior si totul a decurs mai bine decat ma asteptam, parul arata extrem de bine si sanatos, culoarea este superba, vibe-ul in salon e unul foarte fain si sunt extrem de multumita de serviciile si recomandarile lor."
+    },
+    {
+      "nume": "Izabela R.",
+      "data": "iul. 2026",
+      "serviciu": "Colorare",
+      "text": "O experiență care merită transformată în fidelitate de la fiecare client. După ce le calci pragul fetelor, nu o sa mai vrei să mergi in altă parte. O culoare perfectă, un tratament de păr care și după 10 spălări se simte, produse de calitate, consultanță la fiecare pas din proces - așa aș descrie experiența mea în cadrul salonului."
+    },
+    {
+      "nume": "Iulia U.",
+      "data": "iul. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "Profesionalism, atenție la detalii și o atmosferă foarte plăcută. Recomand cu drag! ❤️"
+    },
+    {
+      "nume": "Elena H.",
+      "data": "iul. 2026",
+      "serviciu": "Experiență în salon",
+      "text": "A fost o experiență foarte frumoasă, mereu merg cu drag și de fiecare dată sunt primită cu căldură de către fete. Pe lângă faptul ca plec foarte încântată de la salon mi se recomandă produse de calitate în funcție de nevoile mele."
+    },
+    {
+      "nume": "Lungu R.",
+      "data": "iul. 2026",
+      "serviciu": "Tuns",
+      "text": "Am fost tunsă de Andreea și sunt foarte mulțumită, fetele sunt foarte drăguțe. Mulțumesc!"
+    }
   ]
 }

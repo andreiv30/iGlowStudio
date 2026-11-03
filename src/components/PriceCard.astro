@@ -1,15 +1,39 @@
 ---
-// Cardul unui serviciu din lista de prețuri (ca pe pagina de servicii Caracter).
+// Cardul unui serviciu din lista de prețuri. Descrierea vine din /admin: primul paragraf se vede mereu,
+// restul (beneficii, ce include, recomandări) se deschide din „Detalii”. Rândurile cu „- ” devin listă.
 import Icon from './Icon.astro';
 import { rezervaHref, rezervaExtern } from '../lib/nav';
 interface Props { nume: string; descriere?: string | null; durata?: string | null; pret: string; i?: number }
 const { nume, descriere, durata, pret, i = 0 } = Astro.props;
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 const [label, value] = /^de la\s+/i.test(pret) ? ['De la', pret.replace(/^de la\s+/i, '')] : ['Preț', pret];
+
+type Bloc = { tip: 'p'; text: string } | { tip: 'ul'; items: string[] };
+const blocuri: Bloc[] = [];
+for (const rand of (descriere ?? '').split('\n').map((r) => r.trim())) {
+  if (!rand) { blocuri.push({ tip: 'p', text: '' }); continue; }
+  if (/^[-•]\s+/.test(rand)) {
+    const ultim = blocuri[blocuri.length - 1];
+    const item = rand.replace(/^[-•]\s+/, '');
+    if (ultim?.tip === 'ul') ultim.items.push(item); else blocuri.push({ tip: 'ul', items: [item] });
+  } else blocuri.push({ tip: 'p', text: rand });
+}
+const curate = blocuri.filter((b) => b.tip === 'ul' || b.text);
+const [intro, ...rest] = curate;
 ---
 <article class="price card" data-reveal style={`--i: ${i}`}>
   <h3 class="price__name">{nume}</h3>
-  {descriere && <p class="price__desc">{descriere}</p>}
+  {intro && intro.tip === 'p' && <p class="price__desc">{intro.text}</p>}
+  {rest.length > 0 && (
+    <details class="price__more">
+      <summary>Detalii <Icon name="chevron" size={16} /></summary>
+      <div class="price__body">
+        {rest.map((b) => b.tip === 'ul'
+          ? <ul>{b.items.map((t) => <li>{t}</li>)}</ul>
+          : <p class:list={[/:$/.test(b.text) && 'price__sub']}>{b.text}</p>)}
+      </div>
+    </details>
+  )}
   {durata && <p class="price__time"><Icon name="clock" size={16} />{durata}</p>}
   <div class="price__foot">
     <p class="price__value"><span>{label}</span>{value}</p>
@@ -20,8 +44,18 @@ const [label, value] = /^de la\s+/i.test(pret) ? ['De la', pret.replace(/^de la\
   .price { padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; transition: transform 300ms var(--ease-out), box-shadow 300ms ease; }
   .price__name { font-size: 1.5rem; font-style: italic; line-height: 1.2; }
   .price__desc { color: var(--muted); font-size: 0.9375rem; }
-  .price__time { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.875rem; }
+  .price__more summary { list-style: none; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; cursor: pointer; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); }
+  .price__more summary::-webkit-details-marker { display: none; }
+  .price__more summary :global(svg) { transition: transform 300ms var(--ease-out); }
+  .price__more[open] summary :global(svg) { transform: rotate(180deg); }
+  .price__body { display: flex; flex-direction: column; gap: 0.6rem; padding-bottom: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+  .price__body ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+  .price__body li { position: relative; padding-left: 1.1rem; }
+  .price__body li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 0.4rem; height: 0.4rem; border-radius: 999px; background: var(--caramel); }
+  .price__sub { color: var(--ink); font-weight: 600; font-size: 0.8125rem; margin-top: 0.35rem; }
+  .price__time { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.875rem; margin-top: auto; }
   .price__foot { margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--line); display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+  .price__time + .price__foot { margin-top: 0; }
   .price__value { display: flex; flex-direction: column; font-family: var(--font-display); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .price__value span { font-family: var(--font-text); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
   @media (hover: hover) and (pointer: fine) { .price:hover { transform: translateY(-4px); } }

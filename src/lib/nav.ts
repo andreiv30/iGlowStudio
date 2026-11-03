@@ -1,8 +1,8 @@
 import setari from '../data/setari.json';
 
-// Butoanele „Rezervă” duc direct la platforma de programări când linkul e completat în /admin.
-export const rezervaHref = setari.link_rezervare?.trim() || '/rezerva';
-export const rezervaExtern = Boolean(setari.link_rezervare?.trim());
+// Toate butoanele „Rezervă” duc la programările online (Mero); linkul se schimbă din /admin → Setări.
+export const rezervaHref = setari.link_rezervare?.trim() || 'https://mero.ro/p/iglow-studio';
+export const rezervaExtern = true;
 
 export const meniu = [
   { href: '/', label: 'Acasă' },

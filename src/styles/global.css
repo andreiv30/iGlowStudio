@@ -16,6 +16,8 @@
   --piatra: #605750;
   --greige: #9b8f80;
   --caramel: #b18b5a;
+  --caramel-btn: #8f6f48;    /* butoane: text alb pe auriu închis, contrast 4,63:1 (WCAG AA) */
+  --caramel-btn-hover: #7a5c38;
   --auriu: #d4b48a;
   --alb: #ffffff;
   --alb-cald: #fbfbfa;
@@ -66,6 +68,18 @@ a { color: inherit; }
 .container { width: 100%; max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
 .section { padding-block: var(--section); }
 .section--surface { background: var(--surface); }
+/* fundalurile albe: o lumină caldă, discretă, în colțuri (alternează sus-stânga / jos-dreapta) */
+.glow, .section:not(.section--surface):not(.section--dark) {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 42% 55% at 0% 0%, rgb(212 180 138 / 0.16), transparent 72%),
+    radial-gradient(ellipse 38% 50% at 100% 100%, rgb(177 139 90 / 0.12), transparent 72%);
+}
+.section:not(.section--surface):not(.section--dark):nth-of-type(even) {
+  background-image:
+    radial-gradient(ellipse 42% 55% at 100% 0%, rgb(212 180 138 / 0.16), transparent 72%),
+    radial-gradient(ellipse 38% 50% at 0% 100%, rgb(177 139 90 / 0.12), transparent 72%);
+}
 .section--dark { background: var(--espresso); color: var(--alb-cald); }
 
 /* ---------- tipografie ---------- */
@@ -95,7 +109,7 @@ p { text-wrap: pretty; }
   display: inline-flex; align-items: center; justify-content: center; gap: 0.75em;
   min-height: 3.25rem; padding: 0 1.9rem;
   border-radius: var(--radius-sm); border: 1px solid transparent;
-  background: var(--caramel); color: var(--espresso);
+  background: var(--caramel-btn); color: #fff;
   font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; white-space: nowrap;
   transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 140ms var(--ease-out), box-shadow 200ms ease;
 }
@@ -107,7 +121,7 @@ p { text-wrap: pretty; }
 .btn--small { min-height: 2.75rem; padding: 0 1.25rem; font-size: 0.75rem; }
 .btn--block { width: 100%; }
 @media (hover: hover) and (pointer: fine) {
-  .btn:hover { background: var(--auriu); }
+  .btn:hover { background: var(--caramel-btn-hover); }
   .btn--outline:hover { background: var(--alb); border-color: var(--caramel); }
   .btn--dark:hover { background: var(--cacao); }
   .btn--light:hover { background: rgb(251 251 250 / 0.12); border-color: var(--alb-cald); }

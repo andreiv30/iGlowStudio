@@ -7,6 +7,7 @@ import despre from '../data/despre.json';
 import setari from '../data/setari.json';
 import { accent, rezervaHref, rezervaExtern } from '../lib/nav';
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
+const hartaSrc = `https://maps.google.com/maps?q=${encodeURIComponent(setari.harta_embed || `${setari.adresa}, ${setari.oras}`)}&z=17&hl=ro&output=embed`;
 ---
 <Base {...seoPagina('despre-noi')} image={despre.poveste_imagine || undefined}>
   <!-- citatul fondatoarei, centrat -->
@@ -52,16 +53,39 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
               <div><dt>Telefon</dt><dd><a href={`tel:${setari.telefon.replace(/\s/g, '')}`}>{setari.telefon}</a></dd></div>
               <div><dt>Program</dt><dd><ul class="hours">{setari.program.map((p) => <li><span>{p.zile}</span><span>{p.ore}</span></li>)}</ul></dd></div>
             </dl>
-            <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă acum</a>
+            <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă online</a>
           </div>
-          <a class="map" href={setari.link_harta} rel="noopener" target="_blank" data-reveal style="--i: 1">
-            <span class="map__inner"><Icon name="pin" size={30} /><span>Deschide în Google Maps</span><Icon name="arrow-up-right" size={16} /></span>
-          </a>
+          <div class="map" data-reveal style="--i: 1" data-map>
+            <!-- harta Google se încarcă după acordul pentru cookie-uri de preferințe sau la apăsarea butonului -->
+            <iframe class="map__frame" title={`Harta: ${setari.nume}, ${setari.adresa}, ${setari.oras}`} data-consent="preferinte" data-consent-src={hartaSrc} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            <div class="map__cover">
+              <span class="ring"><Icon name="pin" size={26} /></span>
+              <p class="map__addr">{setari.adresa}<br />{setari.oras}</p>
+              <button type="button" class="btn btn--outline btn--small" data-map-load>Afișează harta</button>
+              <p class="map__note">Harta este furnizată de Google și poate folosi cookie-uri.</p>
+            </div>
+            <a class="map__link" href={setari.link_harta} rel="noopener" target="_blank">Deschide în Google Maps <Icon name="arrow-up-right" size={14} /></a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </Base>
+
+<script>
+  // harta: se încarcă la apăsarea butonului sau singură, dacă vizitatorul a acceptat cookie-urile de preferințe
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((map) => {
+    const frame = map.querySelector<HTMLIFrameElement>('iframe');
+    if (!frame) return;
+    const show = () => { if (frame.getAttribute('src')) map.classList.add('is-loaded'); };
+    frame.addEventListener('load', show);
+    map.querySelector('[data-map-load]')?.addEventListener('click', () => {
+      if (!frame.getAttribute('src')) frame.src = frame.dataset.consentSrc || '';
+      map.classList.add('is-loaded');
+    });
+    show();
+  });
+</script>
 
 <style>
   .quote { max-width: 18ch; }
@@ -81,8 +105,14 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
   .place__info a { color: var(--taupe); }
   .hours { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
   .hours li { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; }
-  .map { display: flex; align-items: center; justify-content: center; min-height: 22rem; border-radius: var(--radius); background: #ede6df; text-decoration: none; color: var(--taupe); transition: background-color 200ms ease; }
-  .map__inner { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
-  @media (hover: hover) and (pointer: fine) { .map:hover { background: #e4dbd1; } }
-  @media (max-width: 56rem) { .story__inner, .visit__grid { grid-template-columns: 1fr; } .map { min-height: 12rem; } }
+  .map { position: relative; min-height: 26rem; border-radius: var(--radius); overflow: hidden; background: #ede6df; }
+  .map__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 500ms ease; }
+  .map.is-loaded .map__frame { opacity: 1; }
+  .map__cover { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem 1.5rem 4.5rem; text-align: center; color: var(--taupe); background: radial-gradient(60% 60% at 50% 40%, rgb(255 255 255 / 0.55), transparent), #ede6df; transition: opacity 400ms ease, visibility 400ms; }
+  .map.is-loaded .map__cover { opacity: 0; visibility: hidden; }
+  .map__addr { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.35; color: var(--ink); }
+  .map__note { font-size: 0.75rem; color: var(--muted); max-width: 22rem; }
+  .map__link { position: absolute; left: 1rem; bottom: 1rem; z-index: 1; display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--ink); }
+  @media (hover: hover) and (pointer: fine) { .map__link:hover { color: var(--caramel-btn); } }
+  @media (max-width: 56rem) { .story__inner, .visit__grid { grid-template-columns: 1fr; } .map { min-height: 22rem; } }
 </style>
