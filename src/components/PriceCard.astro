@@ -6,7 +6,9 @@ import { rezervaHref, rezervaExtern } from '../lib/nav';
 interface Props { nume: string; descriere?: string | null; durata?: string | null; pret: string; i?: number }
 const { nume, descriere, durata, pret, i = 0 } = Astro.props;
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
-const [label, value] = /^de la\s+/i.test(pret) ? ['De la', pret.replace(/^de la\s+/i, '')] : ['Preț', pret];
+// toate prețurile apar ca „De la …”; la un interval („700 – 1.000 lei”) se afișează capătul de jos
+const label = 'De la';
+const value = pret.replace(/^de la\s+/i, '').replace(/^([\d.,]+)\s*[–-]\s*[\d.,]+/, '$1');
 
 type Bloc = { tip: 'p'; text: string } | { tip: 'ul'; items: string[] };
 const blocuri: Bloc[] = [];
