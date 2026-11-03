@@ -35,7 +35,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
     <div class="hero__content container">
       <p class="hero__label" data-load>{acasa.hero_eticheta}</p>
       <h1 id="hero-title" class="hero__title" data-load style="--i: 1" set:html={accent(acasa.hero_titlu)} />
-      <a class="btn" href={rezervaHref} {...ext} data-load style="--i: 2">{acasa.hero_buton}</a>
+      <a class="btn" href={rezervaHref} {...ext} data-load style="--i: 2">{acasa.hero_buton} <Icon name="external" size={16} /></a>
     </div>
   </section>
 
@@ -103,7 +103,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
             <a class="svc__link" href={`/servicii/${s.id}`}>
               <Photo src={s.data.imagine} alt={altImg(s.data.titlu, s.data.imagine_alt)} ratio="4 / 3" rounded={false} />
               <div class="svc__body">
-                <p class="svc__label">{s.data.eticheta}<span>de la {s.data.pret_de_la} lei</span></p>
+                <p class="svc__label">{s.data.eticheta}</p>
                 <h3 class="svc__name">{s.data.titlu}</h3>
                 <p class="svc__text">{s.data.rezumat}</p>
                 <span class="more">Descoperă <Icon name="arrow" size={14} /></span>
@@ -130,7 +130,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
             <div class="member__body">
               <h3 class="member__name">{m.data.nume}</h3>
               <p class="member__role">{m.data.rol}</p>
-              <a class="more member__book" href={rezervaHref} {...ext}>Rezervă la {m.data.nume.split(' ')[0]} <Icon name="arrow" size={14} /></a>
+              <a class="more member__book" href={rezervaHref} {...ext}>Rezervă la {m.data.nume.split(' ')[0]} <Icon name="external" size={14} /></a>
             </div>
           </li>
         ))}
@@ -268,9 +268,8 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .svc__link :global(img) { -webkit-user-drag: none; user-select: none; }
   .svc__link :global(.photo) { transition: transform 600ms var(--ease-out); }
   .svc__body { padding: 1.5rem 1.75rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
-  .svc__label { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
-  .svc__label::before { content: ''; flex-basis: 100%; width: 2rem; max-width: 2rem; height: 2px; background: var(--caramel); }
-  .svc__label span { letter-spacing: 0.12em; color: var(--muted); font-weight: 500; }
+  .svc__label { display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
+  .svc__label::before { content: ''; width: 2rem; height: 2px; background: var(--caramel); }
   .svc__name { font-size: 1.75rem; font-style: italic; }
   .svc__text { color: var(--muted); font-size: 0.9375rem; flex: 1; }
   @media (hover: hover) and (pointer: fine) { .svc__link:hover :global(.photo) { transform: scale(1.04); } }

@@ -57,7 +57,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
           <div><dt><Icon name="calendar" size={16} />Preț</dt><dd>de la {s.data.pret_de_la} lei</dd></div>
         </dl>
         <div class="svc-head__actions" data-load style="--i: 4">
-          <a class="btn" href={rezervaHref} {...ext}>Programează-te <Icon name="arrow" size={16} /></a>
+          <a class="btn" href={rezervaHref} {...ext}>Programează-te <Icon name="external" size={16} /></a>
           <a class="btn btn--outline" href="#preturi">Vezi prețurile</a>
         </div>
       </div>
@@ -100,7 +100,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
 
   <!-- prețuri -->
   {s.data.preturi.length > 0 && (
-    <section class="prices section section--surface" id="preturi" aria-labelledby="prices-title">
+    <section class="prices section section--glow" id="preturi" aria-labelledby="prices-title">
       <div class="container">
         <div class="head head--center">
           <p class="eyebrow eyebrow--center" data-reveal>Prețuri</p>

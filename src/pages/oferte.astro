@@ -14,6 +14,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 <Base {...seoPagina('oferte')}>
   <PageHead eticheta="Oferte" titlu="Oferte speciale *pentru tine*" text="Pachete și promoții limitate. Actualizăm periodic această pagină, așa că rezervă din timp: locurile depind de disponibilitatea echipei." />
 
+  <div class="offers-wrap section--glow">
   <section class="offers container" aria-label="Oferte active">
     {oferte.length === 0 ? (
       <p class="lead empty">Momentan nu avem oferte active.{setari.instagram ? <> Urmărește-ne pe <a href={setari.instagram} rel="noopener" target="_blank">Instagram</a> ca să le afli primele.</> : ' Revino curând sau programează-te online.'}</p>
@@ -31,7 +32,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
               <p class="offer__text">{o.data.detaliu}</p>
               <div class="offer__foot">
                 <p class="offer__price"><span>Preț ofertă</span>{o.data.pret} {o.data.pret_vechi && <s>{o.data.pret_vechi}</s>}</p>
-                <a class="btn btn--small" href={rezervaHref} {...ext}>Rezervă <Icon name="arrow" size={14} /></a>
+                <a class="btn btn--small" href={rezervaHref} {...ext}>Rezervă <Icon name="external" size={14} /></a>
               </div>
             </div>
           </article>
@@ -40,12 +41,14 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
     )}
     <p class="offers__note" data-reveal><Icon name="gift" size={22} /> Ofertele nu se cumulează cu alte reduceri, cu excepția cazului în care este menționat explicit. Detalii în <a href="/termeni-si-conditii">Termeni și condiții</a>.</p>
   </section>
+  </div>
 
   <CtaCard />
 </Base>
 
 <style>
-  .offers { padding-top: clamp(3.5rem, 6vw, 5rem); display: flex; flex-direction: column; gap: 2.5rem; }
+  .offers-wrap { padding-block: clamp(3.5rem, 6vw, 5rem); }
+  .offers { display: flex; flex-direction: column; gap: 2.5rem; }
   .offers__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
   .offer { overflow: hidden; display: flex; flex-direction: column; }
   .offer__img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }

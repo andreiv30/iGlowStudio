@@ -12,6 +12,7 @@ const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine 
 <Base {...seoPagina('servicii')}>
   <PageHead eticheta="Servicii" titlu="Alege serviciul la care vrei *să te programezi*" text="Prețurile la serviciile de colorare variază în funcție de lungimea părului, tipul părului și cantitatea de produse necesare. Prețul final îl afli înainte să începem." />
 
+  <div class="cats-wrap section--glow">
   <div class="cats container">
     {servicii.map((s) => (
       <section class="cat" aria-labelledby={`cat-${s.id}`} id={s.id}>
@@ -21,7 +22,7 @@ const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine 
             <h2 id={`cat-${s.id}`} class="cat__title">{s.data.titlu}</h2>
             <p class="muted cat__count">{s.data.preturi.length} {s.data.preturi.length === 1 ? 'serviciu' : 'servicii'}</p>
           </div>
-          <a class="more cat__link" href={`/servicii/${s.id}`}>Despre {s.data.titlu.toLowerCase()} <Icon name="arrow" size={14} /></a>
+          <a class="more cat__link" href={`/servicii/${s.id}`}>Vezi categoria <Icon name="arrow" size={14} /></a>
         </header>
         <div class="cat__grid">
           {s.data.preturi.map((p, i) => (
@@ -31,12 +32,14 @@ const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine 
       </section>
     ))}
   </div>
+  </div>
 
   <CtaCard />
 </Base>
 
 <style>
-  .cats { display: flex; flex-direction: column; gap: clamp(4rem, 7vw, 6rem); padding-top: clamp(3.5rem, 6vw, 5rem); }
+  .cats-wrap { padding-block: clamp(3.5rem, 6vw, 5rem) clamp(4rem, 7vw, 6rem); }
+  .cats { display: flex; flex-direction: column; gap: clamp(4rem, 7vw, 6rem); }
   .cat__head { display: grid; grid-template-columns: auto 1fr auto; gap: 1.25rem; align-items: center; margin-bottom: 2rem; }
   .cat__title { font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem); font-style: italic; line-height: 1.1; }
   .cat__count { font-size: 0.875rem; }

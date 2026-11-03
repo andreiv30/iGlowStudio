@@ -28,7 +28,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
         </ul>
       </nav>
       <div class="header__actions">
-        <a class="btn btn--small header__cta" href={rezervaHref} {...ext}>Rezervă</a>
+        <a class="btn btn--small header__cta" href={rezervaHref} {...ext}>Rezervă <Icon name="external" size={14} /></a>
         <button class="header__toggle" type="button" aria-expanded="false" aria-controls="meniu-mobil" data-menu-toggle>
           <span class="sr-only" data-menu-label>Deschide meniul</span>
           <span class="header__icon header__icon--open"><Icon name="menu" size={26} /></span>
@@ -45,7 +45,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
         <li style={`--i: ${i}`}><a href={m.href} aria-current={isActive(m.href) ? 'page' : undefined}>{m.label}</a></li>
       ))}
     </ul>
-    <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă o programare</a>
+    <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă o programare <Icon name="external" size={16} /></a>
   </nav>
 </div>
 

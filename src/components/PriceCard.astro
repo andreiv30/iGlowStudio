@@ -37,12 +37,12 @@ const [intro, ...rest] = curate;
   {durata && <p class="price__time"><Icon name="clock" size={16} />{durata}</p>}
   <div class="price__foot">
     <p class="price__value"><span>{label}</span>{value}</p>
-    <a class="more" href={rezervaHref} {...ext}>Rezervă <Icon name="arrow" size={14} /></a>
+    <a class="more" href={rezervaHref} {...ext}>Rezervă <Icon name="external" size={14} /></a>
   </div>
 </article>
 <style>
   .price { padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; transition: transform 300ms var(--ease-out), box-shadow 300ms ease; }
-  .price__name { font-size: 1.5rem; font-style: italic; line-height: 1.2; }
+  .price__name { font-size: 1.5rem; font-weight: 500; line-height: 1.25; color: var(--caramel); }
   .price__desc { color: var(--muted); font-size: 0.9375rem; }
   .price__more summary { list-style: none; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; cursor: pointer; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); }
   .price__more summary::-webkit-details-marker { display: none; }
@@ -56,7 +56,7 @@ const [intro, ...rest] = curate;
   .price__time { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.875rem; margin-top: auto; }
   .price__foot { margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--line); display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
   .price__time + .price__foot { margin-top: 0; }
-  .price__value { display: flex; flex-direction: column; font-family: var(--font-display); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .price__value { display: flex; flex-direction: column; font-family: var(--font-display); font-size: 1.6rem; font-weight: 500; line-height: 1.1; font-variant-numeric: tabular-nums; color: var(--caramel); }
   .price__value span { font-family: var(--font-text); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
   @media (hover: hover) and (pointer: fine) { .price:hover { transform: translateY(-4px); } }
 </style>
