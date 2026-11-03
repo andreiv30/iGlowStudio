@@ -64,7 +64,12 @@ const social = [
 
     <div class="footer__bottom">
       <p>© {an} {setari.nume}. Toate drepturile rezervate.</p>
-      <p>{setari.oras}, România</p>
+      <p class="footer__firma">
+        <span>{setari.firma.denumire}</span>
+        <span>CUI {setari.firma.cui}</span>
+        <span>{setari.firma.reg_com}</span>
+        <a href={setari.link_harta} rel="noopener" target="_blank">{setari.firma.sediu}</a>
+      </p>
     </div>
   </div>
 </footer>
@@ -101,6 +106,9 @@ const social = [
   .footer__links a { display: inline-block; padding-block: 0.3rem; text-decoration: none; color: var(--nisip); transition: color 200ms ease; }
   @media (hover: hover) and (pointer: fine) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
 
+  .footer__firma { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; justify-content: flex-end; letter-spacing: 0.12em; }
+  .footer__firma a { color: inherit; text-decoration: none; transition: color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) { .footer__firma a:hover { color: var(--auriu); } }
   .footer__anpc { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: -1.5rem; }
   .footer__anpc a { display: block; border-radius: 10px; transition: transform 200ms var(--ease-out), opacity 200ms ease; opacity: 0.92; }
   .footer__anpc img { width: 10.5rem; height: auto; }
@@ -121,5 +129,6 @@ const social = [
     .footer__contact, .footer__links { margin-top: 0.25rem; padding-bottom: 1.5rem; }
     .footer__bottom { flex-direction: column; border-top: 0; padding-top: 0; }
     .footer__anpc { margin-top: 0; justify-content: center; }
+    .footer__firma { justify-content: flex-start; flex-direction: column; }
   }
 </style>
