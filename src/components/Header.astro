@@ -88,7 +88,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
   :global(.bar-closed) .mobile { padding-top: calc(var(--header-h) + 1.5rem); }
   .mobile nav { display: flex; flex-direction: column; gap: 2rem; }
   .mobile__links { display: flex; flex-direction: column; }
-  .mobile__links a { display: block; padding-block: 0.6rem; font-family: var(--font-display); font-size: 2rem; line-height: 1.2; text-decoration: none; }
+  .mobile__links a { display: block; text-align: center; padding-block: 0.6rem; font-family: var(--font-display); font-size: 2rem; line-height: 1.2; text-decoration: none; }
   .mobile__links a[aria-current='page'] { color: var(--caramel); font-style: italic; }
   @media (prefers-reduced-motion: no-preference) {
     .mobile:not([hidden]) .mobile__links li { animation: menu-in 600ms var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }

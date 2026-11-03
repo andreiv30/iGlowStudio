@@ -4,11 +4,29 @@ import acasa from '../data/acasa.json';
 
 type Pagina = keyof typeof seo.pagini;
 
-// Titlul și descrierea unei pagini, editabile din /admin → Setări și pagini → SEO.
+// Numele paginilor; titlul din Google se formează automat: „Nume pagină - iGlow Studio”.
+const nume: Record<Pagina, string> = {
+  acasa: 'Salon de înfrumusețare',
+  servicii: 'Servicii și prețuri',
+  oferte: 'Oferte',
+  galerie: 'Galerie',
+  echipa: 'Echipa',
+  'despre-noi': 'Despre noi',
+  rezerva: 'Rezervă',
+  'date-identificare': 'Date identificare societate',
+};
+
+// Titlul și descrierea unei pagini. Din /admin → SEO se poate scrie un titlu complet care îl înlocuiește pe cel automat.
 export function seoPagina(cheie: Pagina) {
   const p = seo.pagini[cheie];
-  return { title: p.titlu, description: p.descriere };
+  return { title: nume[cheie], seoTitle: p.titlu?.trim() || undefined, description: p.descriere };
 }
+
+// Titlul complet: titlul SEO scris în admin, altfel „Nume pagină - iGlow Studio”.
+export const titluComplet = (pagina: string, seoTitle?: string | null) => seoTitle?.trim() || `${pagina} - ${setari.nume}`;
+
+// Textul alternativ al pozelor: cel scris în admin, altfel unul automat legat de salon.
+export const altImg = (context: string, dat?: string | null) => dat?.trim() || `${context} - salon de înfrumusețare ${setari.nume}`;
 
 // Imaginea pentru distribuiri (Facebook, WhatsApp): cea setată în SEO, altfel poza din hero.
 export const imagineImplicita = seo.imagine_implicita || acasa.hero_imagine || '';

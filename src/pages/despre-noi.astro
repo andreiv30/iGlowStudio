@@ -1,5 +1,5 @@
 ---
-import { seoPagina } from '../lib/seo';
+import { seoPagina, altImg } from '../lib/seo';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
@@ -31,7 +31,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
           <a class="btn" href="/servicii">Vezi servicii</a>
         </div>
       </div>
-      <div data-reveal style="--i: 1"><Photo src={despre.poveste_imagine} alt="Salonul iGlow Studio" ratio="4 / 5" /></div>
+      <div data-reveal style="--i: 1"><Photo src={despre.poveste_imagine} alt={altImg('Interiorul salonului')} ratio="4 / 5" /></div>
     </div>
   </section>
 

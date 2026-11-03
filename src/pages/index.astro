@@ -1,5 +1,5 @@
 ---
-import { seoPagina, schemaFaq } from '../lib/seo';
+import { seoPagina, schemaFaq, altImg } from '../lib/seo';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
@@ -22,7 +22,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
     <div class="hero__media" data-parallax>
       <div class="hero__zoom">
         {acasa.hero_imagine ? (
-          <img src={acasa.hero_imagine} alt={acasa.hero_imagine_alt || ''} fetchpriority="high" />
+          <img src={acasa.hero_imagine} alt={altImg('Coafură și culoare', acasa.hero_imagine_alt)} fetchpriority="high" />
         ) : (
           <div class="hero__empty" aria-hidden="true"></div>
         )}
@@ -84,7 +84,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
         {servicii.map((s, i) => (
           <li class="svc card" data-reveal style={`--i: ${i}`}>
             <a class="svc__link" href={`/servicii/${s.id}`}>
-              <Photo src={s.data.imagine} alt={s.data.imagine_alt} ratio="4 / 3" rounded={false} />
+              <Photo src={s.data.imagine} alt={altImg(s.data.titlu, s.data.imagine_alt)} ratio="4 / 3" rounded={false} />
               <div class="svc__body">
                 <p class="svc__label">{s.data.eticheta}</p>
                 <h3 class="svc__name">{s.data.titlu}</h3>
@@ -109,7 +109,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
       <ul class:list={['team__grid', echipa.length === 1 && 'team__grid--single']}>
         {echipa.map((m, i) => (
           <li class="member card" data-reveal style={`--i: ${i}`}>
-            <Photo src={m.data.foto} alt={`${m.data.nume}, ${m.data.rol}`} ratio="1 / 1" class="member__photo" />
+            <Photo src={m.data.foto} alt={altImg(`${m.data.nume}, ${m.data.rol}`)} ratio="1 / 1" class="member__photo" />
             <div class="member__body">
               <h3 class="member__name">{m.data.nume}</h3>
               <p class="member__role">{m.data.rol}</p>

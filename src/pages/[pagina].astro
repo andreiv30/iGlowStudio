@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 const { p } = Astro.props;
 const { Content } = await render(p);
 ---
-<Base title={p.data.seo_titlu || p.data.titlu} description={p.data.descriere}>
+<Base title={p.data.titlu} seoTitle={p.data.seo_titlu} description={p.data.descriere}>
   <PageHead eticheta="Informații legale" titlu={p.data.titlu} text={`Actualizat la ${p.data.actualizat}`} />
   <article class="container section legal"><div class="prose" data-reveal><Content /></div></article>
 </Base>

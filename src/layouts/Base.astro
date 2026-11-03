@@ -4,11 +4,12 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import setari from '../data/setari.json';
-import { imagineImplicita, schemaSalon } from '../lib/seo';
+import { imagineImplicita, schemaSalon, titluComplet } from '../lib/seo';
 import { coduriPentru } from '../lib/coduri';
 
 interface Props {
-  title: string;
+  title: string;          // numele paginii
+  seoTitle?: string | null; // titlu complet din admin (opțional)
   description?: string;
   image?: string | null;
   noindex?: boolean;
@@ -16,10 +17,10 @@ interface Props {
   schema?: (object | null)[];
   type?: 'website' | 'article';
 }
-const { title, description = setari.descriere_scurta, image, noindex = false, overlay = false, schema = [], type = 'website' } = Astro.props;
+const { title, seoTitle, description = setari.descriere_scurta, image, noindex = false, overlay = false, schema = [], type = 'website' } = Astro.props;
 
 const site = Astro.site!;
-const fullTitle = title.toLowerCase().includes(setari.nume.toLowerCase()) ? title : `${title} | ${setari.nume}`;
+const fullTitle = titluComplet(title, seoTitle);
 const canonical = new URL(Astro.url.pathname, site).toString();
 const img = image || imagineImplicita;
 const ogImage = img ? new URL(img, site).toString() : null;

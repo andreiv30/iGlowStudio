@@ -1,5 +1,5 @@
 ---
-import { seoPagina } from '../lib/seo';
+import { seoPagina, altImg } from '../lib/seo';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
@@ -21,7 +21,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
       <div class="offers__grid">
         {oferte.map((o, i) => (
           <article class="offer card" data-reveal style={`--i: ${i}`}>
-            {o.data.imagine && <img class="offer__img" src={o.data.imagine} alt="" loading="lazy" />}
+            {o.data.imagine && <img class="offer__img" src={o.data.imagine} alt={altImg(`Ofertă ${o.data.titlu}`)} loading="lazy" />}
             <div class="offer__body">
               <p class="offer__meta">
                 {o.data.eticheta && <span class="offer__tag">{o.data.eticheta}</span>}
