@@ -1,0 +1,8 @@
+# Instrucțiuni pentru cPanel → Git Version Control → „Deploy HEAD Commit”.
+# Ramura `deploy` conține site-ul deja construit în folderul site/; aici doar îl copiem în public_html.
+# Fișierele existente pe server care nu sunt în site/ (ex. api/.config.php) rămân neatinse.
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/elena44930/public_html/
+    - /bin/cp -R site/. $DEPLOYPATH

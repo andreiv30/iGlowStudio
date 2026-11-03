@@ -5,23 +5,14 @@ Site de prezentare pentru salonul iGlow Studio (Andreea Pamfiloiu Concept), cons
 ## Cum ajunge site-ul pe server
 
 ```
-modificare în /admin sau în cod  →  commit pe main  →  GitHub Actions: npm run build  →  FTP în public_html
+modificare în /admin sau în cod → commit pe main → GitHub Actions: npm run build → ramura deploy
+→ cPanel: Update from Remote + Deploy HEAD Commit → public_html
 ```
 
-Workflow-ul este în `.github/workflows/deploy.yml`. Adaugă în GitHub → Settings → Secrets and variables → Actions:
-
-| Secret | Exemplu |
-| --- | --- |
-| `FTP_SERVER` | `ftp.iglowstudio.ro` |
-| `FTP_USERNAME` | contul FTP din cPanel |
-| `FTP_PASSWORD` | parola contului FTP |
-| `FTP_SERVER_DIR` | `/public_html/` (sau `./` dacă FTP-ul pornește direct acolo) |
-| `FTP_PROTOCOL` | opțional: `ftp` dacă serverul nu acceptă `ftps` |
-| `SITE_URL` | `https://www.iglowstudio.ro` |
-| `OAUTH_CLIENT_ID` | din GitHub OAuth App |
-| `OAUTH_CLIENT_SECRET` | din GitHub OAuth App |
-
-Fără secretele FTP, fiecare rulare produce o arhivă **site-public_html** (pagina rulării → Artifacts). Conținutul ei se urcă manual în `public_html` din File Manager.
+- Workflow-ul (`.github/workflows/deploy.yml`) construiește site-ul și îl pune pe ramura `deploy`, în folderul `site/`, împreună cu `.cpanel.yml`.
+- În cPanel → Git Version Control, repo-ul `/home/elena44930/repositories/iGlowStudio` urmărește ramura **`deploy`**.
+- După fiecare modificare: **Manage → Pull or Deploy → Update from Remote**, apoi **Deploy HEAD Commit**. `.cpanel.yml` copiază `site/` în `/home/elena44930/public_html/`.
+- Modelul pentru `.cpanel.yml` este în `cpanel/.cpanel.yml`.
 
 ## Panoul de administrare (`/admin`)
 
@@ -30,15 +21,14 @@ Autentificarea GitHub trece prin `public/api/auth.php` și `public/api/callback.
 1. Creează un GitHub OAuth App (GitHub → Settings → Developer settings → OAuth Apps):
    - Homepage URL: `https://www.iglowstudio.ro`
    - Authorization callback URL: `https://www.iglowstudio.ro/api/callback.php`
-2. Pune Client ID și Client Secret în secretele `OAUTH_CLIENT_ID` și `OAUTH_CLIENT_SECRET`. La deploy, workflow-ul scrie `api/.config.php` pe server; fișierul nu este în repo și `.htaccess` îl blochează.
-3. Dacă domeniul diferă, schimbă `base_url`, `site_url` și `display_url` în `public/admin/config.yml`.
-
-Pentru urcare manuală, creează pe server `public_html/api/.config.php`:
+2. Creează o singură dată pe server, din File Manager, fișierul `public_html/api/.config.php` (nu este în repo, iar `.htaccess` îl blochează; deploy-ul nu îl șterge):
 
 ```php
 <?php
 return ['client_id' => '...', 'client_secret' => '...', 'site_url' => 'https://www.iglowstudio.ro'];
 ```
+
+3. Dacă domeniul diferă, schimbă `base_url`, `site_url` și `display_url` în `public/admin/config.yml`.
 
 ## Dezvoltare locală
 
