@@ -36,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Sesiunea a expirat. Încearcă din nou.';
     } elseif (isset($cfg['users'][$user]) && password_verify($pass, $cfg['users'][$user])) {
         @unlink($lockFile);
+        // Verificăm tokenul la GitHub înainte să-l dăm panoului, ca problemele să fie explicate clar.
+        $problem = iglow_check_token($cfg['github_token'], $cfg['repo']);
+        if ($problem !== '') {
+            iglow_page('Problemă cu tokenul', '<h1>Parola e corectă, dar <em>tokenul</em> nu merge</h1><p>' . $problem . '</p><p>Corectează tokenul în <strong>public_html/api/.config.php</strong> și încearcă din nou.</p>');
+        }
         session_regenerate_id(true);
         $u = htmlspecialchars($user, ENT_QUOTES, 'UTF-8');
         unset($_SESSION['csrf']);
@@ -65,6 +70,29 @@ HTML);
         usleep(400000);
         $error = $attempts['count'] >= 5 ? 'Prea multe încercări greșite. Încearcă din nou peste 15 minute.' : 'Utilizator sau parolă greșită.';
     }
+}
+
+function iglow_check_token(string $token, string $repo): string {
+    if (!function_exists('curl_init')) return '';
+    $ch = curl_init('https://api.github.com/repos/' . $repo);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token, 'Accept: application/vnd.github+json', 'User-Agent: iglow-admin'],
+    ]);
+    $body = curl_exec($ch);
+    $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($body === false || $code === 0) return ''; // serverul nu poate verifica; lăsăm panoul să încerce
+    $data = json_decode((string) $body, true) ?: [];
+    $msg = htmlspecialchars((string) ($data['message'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $r = htmlspecialchars($repo, ENT_QUOTES, 'UTF-8');
+    if ($code === 401) return "GitHub nu recunoaște tokenul (401 – {$msg}). Verifică să fie copiat complet, între ghilimele simple, fără spații, și să nu fi expirat.";
+    if ($code === 403) return "GitHub refuză tokenul (403 – {$msg}).";
+    if ($code === 404) return "Tokenul nu vede repo-ul <strong>{$r}</strong> (404). La tokenul fine-grained alege <em>Only select repositories → iGlowStudio</em>.";
+    if ($code !== 200) return "GitHub a răspuns cu eroarea {$code} – {$msg}.";
+    if (empty($data['permissions']['push'])) return "Tokenul vede repo-ul, dar nu are drept de scriere. La tokenul fine-grained, la <em>Repository permissions → Contents</em>, alege <strong>Read and write</strong>, apoi salvează.";
+    return '';
 }
 
 $_SESSION['csrf'] = bin2hex(random_bytes(16));
