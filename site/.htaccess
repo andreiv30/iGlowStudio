@@ -4,10 +4,12 @@ DirectoryIndex index.html index.php
 ErrorDocument 404 /404.html
 Options -Indexes
 
-# HTTPS (decomentează după ce certificatul SSL e activ)
+# Adresa principală: https://iglowstudio.ro (fără www).
+# Decomentează după ce certificatul SSL e activ pe domeniu.
 # RewriteEngine On
-# RewriteCond %{HTTPS} !=on
-# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# RewriteCond %{HTTPS} !=on [OR]
+# RewriteCond %{HTTP_HOST} ^www\. [NC]
+# RewriteRule ^ https://iglowstudio.ro%{REQUEST_URI} [L,R=301]
 
 # Fișierul cu secretele OAuth nu se servește niciodată
 <FilesMatch "^(\.config|_config)\.php$">

@@ -4,7 +4,7 @@ backend:
   name: github
   repo: andreiv30/iGlowStudio
   branch: main
-  base_url: https://www.iglowstudio.ro   # adresa site-ului (unde stă api/auth.php)
+  base_url: https://iglowstudio.ro   # adresa site-ului (unde stă api/auth.php)
   auth_endpoint: api/auth.php
   commit_messages:
     create: 'Adaugă {{collection}} „{{slug}}”'
@@ -14,8 +14,8 @@ backend:
     deleteMedia: 'Șterge „{{path}}”'
 
 locale: ro
-site_url: https://www.iglowstudio.ro
-display_url: https://www.iglowstudio.ro
+site_url: https://iglowstudio.ro
+display_url: https://iglowstudio.ro
 logo_url: /favicon.svg
 media_folder: public/uploads
 public_folder: /uploads
