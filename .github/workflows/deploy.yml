@@ -1,0 +1,53 @@
+# Construiește site-ul la fiecare modificare pe main (inclusiv salvările din /admin)
+# și pune rezultatul pe ramura `deploy`, împreună cu .cpanel.yml.
+# În cPanel → Git Version Control, repo-ul urmărește ramura `deploy`:
+#   Update from Remote  →  Deploy HEAD Commit  →  site-ul ajunge în public_html.
+
+name: Build pentru cPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: build-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Actualizează ramura deploy
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth=1 origin deploy:deploy 2>/dev/null; then
+            git worktree add /tmp/out deploy
+          else
+            git worktree add --orphan -b deploy /tmp/out
+          fi
+          find /tmp/out -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a dist /tmp/out/site
+          cp cpanel/.cpanel.yml /tmp/out/.cpanel.yml
+          cd /tmp/out
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nicio schimbare în site."
+            exit 0
+          fi
+          git commit -q -m "Site construit din ${GITHUB_SHA::7}"
+          git push origin deploy
