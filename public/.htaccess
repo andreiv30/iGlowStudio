@@ -12,7 +12,7 @@ Options -Indexes
 # RewriteRule ^ https://iglowstudio.ro%{REQUEST_URI} [L,R=301]
 
 # Fișierul cu secretele OAuth nu se servește niciodată
-<FilesMatch "^(\.config|_config)\.php$">
+<FilesMatch "^(\.config|_config|_page)\.php$">
   Require all denied
 </FilesMatch>
 

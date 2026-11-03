@@ -16,19 +16,30 @@ modificare în /admin sau în cod → commit pe main → GitHub Actions: npm run
 
 ## Panoul de administrare (`/admin`)
 
-Autentificarea GitHub trece prin `public/api/auth.php` și `public/api/callback.php`, care rulează pe PHP-ul găzduirii.
+Login cu **utilizator și parolă** (andreea, elena), verificat de PHP în `public/api/auth.php`. După o parolă corectă, panoul primește un token GitHub păstrat pe server și salvează modificările direct în repo. Formularul blochează o adresă IP pentru 15 minute după 5 parole greșite.
 
-1. Creează un GitHub OAuth App (GitHub → Settings → Developer settings → OAuth Apps):
-   - Homepage URL: `https://iglowstudio.ro`
-   - Authorization callback URL: `https://iglowstudio.ro/api/callback.php`
-2. Creează o singură dată pe server, din File Manager, fișierul `public_html/api/.config.php` (nu este în repo, iar `.htaccess` îl blochează; deploy-ul nu îl șterge):
+Configurare, o singură dată:
+
+1. **Token GitHub:** https://github.com/settings/personal-access-tokens/new → *Fine-grained token*
+   - Repository access: *Only select repositories* → `iGlowStudio`
+   - Permissions → Repository permissions → **Contents: Read and write** (Metadata: Read se adaugă singur)
+   - Expiration: alege o dată (ex. 1 an) și reînnoiește tokenul înainte să expire.
+2. **Parole:** deschide `https://iglowstudio.ro/api/parola.php`, scrie parola și copiază codul generat (pagina nu salvează nimic).
+3. **Fișierul de pe server:** în File Manager (cu *Show Hidden Files* bifat) creează `public_html/api/.config.php`:
 
 ```php
 <?php
-return ['client_id' => '...', 'client_secret' => '...', 'site_url' => 'https://iglowstudio.ro'];
+return [
+  'site_url' => 'https://iglowstudio.ro',
+  'github_token' => 'github_pat_...',
+  'users' => [
+    'andreea' => '$2y$10$...',
+    'elena' => '$2y$10$...',
+  ],
+];
 ```
 
-3. Dacă domeniul diferă, schimbă `base_url`, `site_url` și `display_url` în `public/admin/config.yml`.
+Fișierul nu este în repo, `.htaccess` îl blochează din browser, iar deploy-ul nu îl suprascrie. Pentru un utilizator nou se adaugă un rând în `users`; pentru a scoate pe cineva se șterge rândul.
 
 ## Dezvoltare locală
 
