@@ -132,12 +132,12 @@ p { text-wrap: pretty; }
 .btn--small { min-height: 2.75rem; padding: 0 1.25rem; font-size: 0.75rem; }
 .btn--block { width: 100%; }
 @media (any-hover: hover) {
-  /* hover: fundal puțin mai închis, lumină aurie-maronie sub buton, ridicare ușoară */
-  .btn:hover { background: var(--caramel-btn-hover); transform: translateY(-2px); box-shadow: 0 0 0 4px rgb(212 180 138 / 0.22), 0 14px 34px -6px rgb(201 155 88 / 0.85), 0 0 28px 2px rgb(212 170 110 / 0.45); }
-  .btn--outline:hover { background: #f6f0e9; border-color: var(--caramel); box-shadow: 0 0 0 4px rgb(212 180 138 / 0.2), 0 14px 32px -8px rgb(201 155 88 / 0.7), 0 0 24px rgb(212 170 110 / 0.35); }
+  /* hover: fundal puțin mai închis, o umbră subtilă colorată dedesubt, ridicare ușoară */
+  .btn:hover { background: var(--caramel-btn-hover); transform: translateY(-2px); box-shadow: 0 10px 18px -10px rgb(143 111 72 / 0.75); }
+  .btn--outline:hover { background: #f6f0e9; border-color: var(--caramel); box-shadow: 0 10px 18px -10px rgb(177 139 90 / 0.6); }
   .btn--dark:hover { background: var(--cacao); }
   .btn--light:hover { background: rgb(251 251 250 / 0.12); border-color: var(--alb-cald); }
-  .btn--gold:hover { background: #c4a072; box-shadow: 0 0 0 4px rgb(212 180 138 / 0.22), 0 14px 36px -6px rgb(212 180 138 / 0.8), 0 0 32px 4px rgb(212 180 138 / 0.4); }
+  .btn--gold:hover { background: #c4a072; box-shadow: 0 10px 20px -10px rgb(212 180 138 / 0.7); }
   .btn:active { transform: translateY(0) scale(0.97); }
   .btn:hover svg { transform: translateX(3px); }
 }
