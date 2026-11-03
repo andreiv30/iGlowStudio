@@ -42,6 +42,7 @@ const social = [
           {legale.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
           <li><a href="https://anpc.ro/" rel="noopener" target="_blank">ANPC</a></li>
           <li><a href="https://anpc.ro/ce-este-sal/" rel="noopener" target="_blank">ANPC – SAL</a></li>
+          <li><button type="button" class="footer__cookie" data-consent-open>Setări cookie</button></li>
         </ul>
       </details>
 
@@ -88,6 +89,8 @@ const social = [
   .footer__contact span:last-child { display: flex; flex-direction: column; line-height: 1.45; }
   .k { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--auriu); }
   .footer__links { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 1.5rem; font-size: 0.9375rem; }
+  .footer__cookie { font: inherit; font-size: 0.9375rem; color: var(--nisip); padding: 0.3rem 0; text-align: left; cursor: pointer; transition: color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) { .footer__cookie:hover { color: var(--auriu); } }
   .footer__links a { display: inline-block; padding-block: 0.3rem; text-decoration: none; color: var(--nisip); transition: color 200ms ease; }
   @media (hover: hover) and (pointer: fine) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
 

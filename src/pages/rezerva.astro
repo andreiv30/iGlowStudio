@@ -1,4 +1,5 @@
 ---
+import { seoPagina } from '../lib/seo';
 // „Rezervă” duce la platforma de programări. Când linkul e completat în /admin,
 // butoanele din site merg direct acolo, iar pagina aceasta redirecționează automat.
 import Base from '../layouts/Base.astro';
@@ -8,7 +9,7 @@ import setari from '../data/setari.json';
 const online = setari.link_rezervare?.trim();
 const tel = setari.telefon.replace(/\s/g, '');
 ---
-<Base title="Rezervă" description="Programează-te la iGlow Studio: online, telefonic sau pe WhatsApp.">
+<Base {...seoPagina('rezerva')}>
   {online && <meta http-equiv="refresh" content={`0;url=${online}`} slot="head" />}
   <PageHead eticheta="Rezervă" titlu="Programează-te *online*" text="Alege serviciul, specialistul, ziua și ora. Îți confirmăm programarea cât mai repede.">
     <div class="book__actions" data-load style="--i: 3">

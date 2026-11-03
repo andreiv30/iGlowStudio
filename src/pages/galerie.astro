@@ -1,4 +1,5 @@
 ---
+import { seoPagina } from '../lib/seo';
 // Galeria: doar fotografii, așezate în coloane (masonry), ca pe Caracter.
 // Pozele se adaugă din /admin → Galerie. Până atunci rămân cadre goale.
 import Base from '../layouts/Base.astro';
@@ -11,7 +12,7 @@ const imagini = galerie.imagini as Img[];
 // cadre goale cu proporții diferite, ca să se vadă așezarea până vin pozele
 const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '4 / 5', '3 / 4', '4 / 5', '9 / 16', '3 / 4'];
 ---
-<Base title="Galerie" description="Lucrări realizate la iGlow Studio: tunsori, culoare, balayage și atmosfera din salon.">
+<Base {...seoPagina('galerie')} image={imagini[0]?.imagine}>
   <PageHead eticheta="Galerie" titlu="Lucrări & *atmosferă*" text="Câteva momente din salon: coafuri, culori și spațiul în care ne place să creăm. Derulează pentru a descoperi galeria." />
 
   <section class="masonry container" aria-label="Fotografii">

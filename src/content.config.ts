@@ -16,6 +16,8 @@ const servicii = defineCollection({
     imagine: z.string().optional().nullable(),
     imagine_alt: z.string().optional().nullable(),
     imagine_detaliu: z.string().optional().nullable(),
+    seo_titlu: z.string().optional().nullable(),
+    seo_descriere: z.string().optional().nullable(),
     pasi: z
       .array(z.object({ titlu: z.string(), text: z.string() }))
       .default([]),
@@ -61,6 +63,7 @@ const pagini = defineCollection({
     titlu: z.string(),
     descriere: z.string(),
     actualizat: z.string(),
+    seo_titlu: z.string().optional().nullable(),
   }),
 });
 

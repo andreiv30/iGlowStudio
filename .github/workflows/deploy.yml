@@ -32,6 +32,8 @@ jobs:
       CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -39,12 +41,27 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - name: Optimizează pozele încărcate (WebP)
+        run: node scripts/optimize-images.mjs
+
+      - name: Salvează pozele optimizate pe main
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain -- public/uploads src)" ]; then
+            git add -A -- public/uploads src
+            git commit -q -m "Optimizează imaginile încărcate (WebP)"
+            git pull -q --rebase origin main
+            git push -q origin HEAD:main
+          else
+            echo "Nicio imagine nouă."
+          fi
+
       - run: npm run build
 
       - name: Actualizează ramura deploy
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git fetch --depth=1 origin deploy:deploy 2>/dev/null; then
             git worktree add /tmp/out deploy
           else

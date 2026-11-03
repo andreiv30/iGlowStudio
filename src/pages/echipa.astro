@@ -1,4 +1,5 @@
 ---
+import { seoPagina } from '../lib/seo';
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
@@ -13,7 +14,7 @@ const titlu = (slug: string) => servicii.find((s) => s.id === slug)?.data.titlu;
 const membri = await Promise.all(echipa.map(async (m) => ({ m, Content: (await render(m)).Content })));
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
-<Base title="Echipa" description="Oamenii din spatele iGlow Studio.">
+<Base {...seoPagina('echipa')}>
   <PageHead eticheta="Echipă" titlu="Cunoaște *echipa*" text="Oamenii din spatele fiecărui look: experiență, atenție la detalii și grijă pentru fiecare clientă. Alege specialistul potrivit și programează-te." />
 
   <section class="team container" aria-label="Membrii echipei">

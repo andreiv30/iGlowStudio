@@ -2,12 +2,32 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import setari from '../data/setari.json';
+import { imagineImplicita, schemaSalon } from '../lib/seo';
+import { coduriPentru } from '../lib/coduri';
 
-interface Props { title: string; description?: string; noindex?: boolean; overlay?: boolean }
-const { title, description = setari.descriere_scurta, noindex = false, overlay = false } = Astro.props;
-const fullTitle = title === setari.nume ? `${setari.nume} · ${setari.semnatura}` : `${title} · ${setari.nume}`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+interface Props {
+  title: string;
+  description?: string;
+  image?: string | null;
+  noindex?: boolean;
+  overlay?: boolean;
+  schema?: (object | null)[];
+  type?: 'website' | 'article';
+}
+const { title, description = setari.descriere_scurta, image, noindex = false, overlay = false, schema = [], type = 'website' } = Astro.props;
+
+const site = Astro.site!;
+const fullTitle = title.toLowerCase().includes(setari.nume.toLowerCase()) ? title : `${title} | ${setari.nume}`;
+const canonical = new URL(Astro.url.pathname, site).toString();
+const img = image || imagineImplicita;
+const ogImage = img ? new URL(img, site).toString() : null;
+const ldBlocks = [schemaSalon(site), ...schema].filter(Boolean);
+
+const codHead = coduriPentru('head');
+const codBodyStart = coduriPentru('body_inceput');
+const codBodyEnd = coduriPentru('body_final');
 ---
 <!doctype html>
 <html lang="ro">
@@ -17,29 +37,68 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={setari.nume} />
+    <meta property="og:locale" content="ro_RO" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ro_RO" />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
     <meta name="theme-color" content="#1a130d" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <slot name="head" />
+
+    {ldBlocks.map((b) => <script type="application/ld+json" set:html={JSON.stringify(b)} />)}
+
+    <!-- Google Consent Mode v2: totul refuzat până la alegerea vizitatorului (rulează înaintea oricărui cod de tracking) -->
     <script is:inline>
       document.documentElement.classList.add('js');
       try { if (sessionStorage.getItem('bar-closed') === '1') document.documentElement.classList.add('bar-closed'); } catch (e) {}
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('consent', 'default', {
+        ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+        analytics_storage: 'denied', functionality_storage: 'denied', personalization_storage: 'denied',
+        security_storage: 'granted', wait_for_update: 500
+      });
+      gtag('set', 'ads_data_redaction', true);
+      gtag('set', 'url_passthrough', false);
+      try {
+        var a = JSON.parse(localStorage.getItem('iglow_consent') || 'null');
+        if (a && a.v === 1 && Date.now() - a.t < 31536000000) {
+          var g = function (ok) { return ok ? 'granted' : 'denied'; };
+          gtag('consent', 'update', {
+            analytics_storage: g(a.analiza), ad_storage: g(a.marketing), ad_user_data: g(a.marketing),
+            ad_personalization: g(a.marketing), functionality_storage: g(a.preferinte), personalization_storage: g(a.preferinte)
+          });
+        }
+      } catch (e) {}
     </script>
+
+    <Fragment set:html={codHead} />
   </head>
   <body>
+    <Fragment set:html={codBodyStart} />
     <a class="skip" href="#continut">Sari la conținut</a>
     <Header overlay={overlay} />
     <main id="continut">
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
     <script>
       import '../scripts/site';
     </script>
+    <Fragment set:html={codBodyEnd} />
     <style>
       .skip { position: absolute; left: 1rem; top: -4rem; z-index: 200; background: var(--ink); color: var(--alb-cald); padding: 0.75rem 1rem; text-decoration: none; }
       .skip:focus { top: 1rem; }
