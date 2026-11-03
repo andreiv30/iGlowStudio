@@ -54,7 +54,7 @@ Din /admin → Pagina Acasă → „Fundalul de sus” alegi Poză sau Video. Vi
 
 - Titlul și descrierea fiecărei pagini: /admin → Setări și pagini → **SEO** (`src/data/seo.json`). Serviciile au câmpuri SEO proprii; paginile legale folosesc descrierea lor.
 - Imaginea pentru distribuiri (Facebook, WhatsApp): același ecran, „Imagine pentru distribuiri” (ideal 1200×630). Fără ea se folosește poza din hero.
-- Generate automat: `robots.txt`, `sitemap.xml`, link canonic, Open Graph și Twitter Card, date structurate schema.org (HairSalon cu program și adresă, Service, BreadcrumbList, FAQPage).
+- Generate automat: `robots.txt`, `sitemap.xml`, `llms.txt` (rezumat pentru asistenții AI: contact, program, servicii cu prețuri, oferte, întrebări frecvente), link canonic, Open Graph și Twitter Card, date structurate schema.org (HairSalon cu program și adresă, Service, BreadcrumbList, FAQPage).
 - După lansare: adaugă site-ul în Google Search Console și trimite `https://iglowstudio.ro/sitemap.xml`; completează profilul Google Business cu aceeași adresă și același telefon ca pe site.
 
 ## Poze

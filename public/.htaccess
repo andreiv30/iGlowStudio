@@ -2,6 +2,8 @@
 
 DirectoryIndex index.html index.php
 AddType video/webm .webm
+# diacriticele din fișierele text (llms.txt, robots.txt) se afișează corect
+AddCharset UTF-8 .txt .xml
 ErrorDocument 404 /404.html
 Options -Indexes
 
