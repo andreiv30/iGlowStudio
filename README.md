@@ -46,6 +46,10 @@ return [
 
 Fișierul nu este în repo, `.htaccess` îl blochează din browser, iar deploy-ul nu îl suprascrie. Pentru un utilizator nou se adaugă un rând în `users`; pentru a scoate pe cineva se șterge rândul.
 
+## Video în hero
+
+Din /admin → Pagina Acasă → „Fundalul de sus” alegi Poză sau Video. Videoul trebuie să fie **.webm** și de cel mult **20 MB**: panoul refuză fișierele mai mari, iar la salvare cere format .webm. La build, un video care nu respectă regulile (sau lipsește) este ignorat și se afișează poza. Videoul rulează fără sunet, în buclă; poza mare se vede până pornește și pe browserele care nu redau WebM. Pentru „reduce motion” și când hero-ul nu e pe ecran, videoul stă pe pauză.
+
 ## SEO
 
 - Titlul și descrierea fiecărei pagini: /admin → Setări și pagini → **SEO** (`src/data/seo.json`). Serviciile au câmpuri SEO proprii; paginile legale folosesc descrierea lor.

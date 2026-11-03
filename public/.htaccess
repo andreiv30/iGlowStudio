@@ -1,6 +1,7 @@
 # iGlow Studio — setări Apache/LiteSpeed pentru găzduirea statică din public_html
 
 DirectoryIndex index.html index.php
+AddType video/webm .webm
 ErrorDocument 404 /404.html
 Options -Indexes
 
@@ -48,7 +49,7 @@ Options -Indexes
   <FilesMatch "\.(css|js|woff2?)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-  <FilesMatch "\.(webp|avif|jpe?g|png|svg|ico)$">
+  <FilesMatch "\.(webp|avif|jpe?g|png|svg|ico|webm)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
   <FilesMatch "\.(html|xml|txt)$">
