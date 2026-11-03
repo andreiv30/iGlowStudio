@@ -1,0 +1,234 @@
+# Panoul de administrare iGlow Studio (Decap CMS)
+# Fiecare salvare face un commit pe main; GitHub Actions reconstruiește site-ul și îl urcă prin FTP.
+backend:
+  name: github
+  repo: andreiv30/iGlowStudio
+  branch: main
+  base_url: https://www.iglowstudio.ro   # adresa site-ului (unde stă api/auth.php)
+  auth_endpoint: api/auth.php
+  commit_messages:
+    create: 'Adaugă {{collection}} „{{slug}}”'
+    update: 'Actualizează {{collection}} „{{slug}}”'
+    delete: 'Șterge {{collection}} „{{slug}}”'
+    uploadMedia: 'Încarcă „{{path}}”'
+    deleteMedia: 'Șterge „{{path}}”'
+
+locale: ro
+site_url: https://www.iglowstudio.ro
+display_url: https://www.iglowstudio.ro
+logo_url: /favicon.svg
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  # ---------------- Setări și pagini fixe ----------------
+  - name: setari
+    label: Setări și pagini
+    editor: { preview: false }
+    files:
+      - name: general
+        label: Date salon și contact
+        file: src/data/setari.json
+        fields:
+          - { name: nume, label: Numele salonului, widget: string }
+          - { name: semnatura, label: Semnătură, widget: string }
+          - { name: descriere_scurta, label: Text scurt (footer, Google), widget: text }
+          - { name: oras, label: Oraș, widget: string }
+          - { name: adresa, label: Adresă, widget: string }
+          - { name: adresa_detalii, label: Detalii adresă (etaj, parcare), widget: string, required: false }
+          - { name: link_harta, label: Link Google Maps, widget: string }
+          - { name: telefon, label: Telefon, widget: string }
+          - { name: whatsapp, label: "WhatsApp (doar cifre, cu 40 în față)", widget: string }
+          - { name: email, label: Email, widget: string }
+          - name: program
+            label: Program
+            widget: list
+            fields:
+              - { name: zile, label: Zile, widget: string }
+              - { name: ore, label: Ore, widget: string }
+          - { name: link_rezervare, label: "Link platformă de rezervări (gol = pagina Rezervă)", widget: string, required: false }
+          - { name: instagram, label: Instagram, widget: string, required: false }
+          - { name: facebook, label: Facebook, widget: string, required: false }
+          - { name: tiktok, label: TikTok, widget: string, required: false }
+          - name: anunt
+            label: Bara de anunț de sus
+            widget: object
+            fields:
+              - { name: activ, label: Afișează, widget: boolean }
+              - { name: text, label: Text, widget: string }
+              - { name: link_text, label: Text link, widget: string }
+              - { name: link, label: Link, widget: string }
+          - name: firma
+            label: Date identificare societate
+            widget: object
+            fields:
+              - { name: denumire, label: Denumire, widget: string }
+              - { name: cui, label: CUI, widget: string }
+              - { name: reg_com, label: Nr. Registrul Comerțului, widget: string }
+              - { name: sediu, label: Sediu social, widget: string }
+              - { name: capital, label: Capital social, widget: string }
+              - { name: banca, label: Bancă și IBAN, widget: string }
+
+      - name: acasa
+        label: Pagina Acasă
+        file: src/data/acasa.json
+        fields:
+          - { name: hero_imagine, label: Poza mare de sus, widget: image, required: false }
+          - { name: hero_imagine_alt, label: Descrierea pozei, widget: string, required: false }
+          - { name: hero_eticheta, label: Eticheta de deasupra titlului, widget: string }
+          - { name: hero_titlu, label: "Titlu (*cuvânt* = evidențiat)", widget: string }
+          - { name: hero_buton, label: Text buton, widget: string }
+          - { name: cuvinte, label: Cuvintele din banda care se mișcă, widget: list }
+          - { name: de_ce_eticheta, label: "„De ce noi” – etichetă", widget: string }
+          - { name: de_ce_titlu, label: "„De ce noi” – titlu", widget: string }
+          - { name: de_ce_text, label: "„De ce noi” – text", widget: text }
+          - name: de_ce
+            label: "„De ce noi” – puncte"
+            widget: list
+            fields:
+              - { name: icon, label: Iconiță, widget: select, options: [search, doc, star, diamond, scissors, drop, sparkle, layers, wave, gift, calendar, clock] }
+              - { name: titlu, label: Titlu, widget: string }
+              - { name: text, label: Text, widget: string }
+          - { name: servicii_titlu, label: Servicii – titlu, widget: string }
+          - { name: servicii_text, label: Servicii – text, widget: text }
+          - { name: echipa_titlu, label: Echipă – titlu, widget: string }
+          - { name: echipa_text, label: Echipă – text, widget: text }
+          - name: intrebari
+            label: Întrebări frecvente
+            widget: list
+            fields:
+              - { name: intrebare, label: Întrebare, widget: string }
+              - { name: raspuns, label: Răspuns, widget: text }
+
+      - name: despre
+        label: Pagina Despre noi
+        file: src/data/despre.json
+        fields:
+          - { name: citat, label: "Citat (*cuvânt* = evidențiat)", widget: string }
+          - { name: citat_autor, label: Autorul citatului, widget: string }
+          - { name: poveste_titlu, label: Titlul poveștii, widget: string }
+          - { name: poveste, label: Paragrafele poveștii, widget: list, field: { name: paragraf, label: Paragraf, widget: text } }
+          - { name: poveste_imagine, label: Poza salonului, widget: image, required: false }
+          - { name: contact_titlu, label: Contact – titlu, widget: string }
+          - { name: contact_text, label: Contact – text, widget: text }
+
+      - name: recenzii
+        label: Recenzii
+        file: src/data/recenzii.json
+        fields:
+          - { name: nota, label: Nota pe Google, widget: string }
+          - { name: numar, label: Număr de recenzii, widget: string }
+          - { name: link_google, label: Link profil Google, widget: string }
+          - name: recenzii
+            label: Recenzii (copiate de pe Google)
+            widget: list
+            fields:
+              - { name: nume, label: Nume, widget: string }
+              - { name: data, label: Data, widget: string }
+              - { name: serviciu, label: Serviciu, widget: string }
+              - { name: text, label: Text, widget: text }
+
+      - name: galerie
+        label: Galerie
+        file: src/data/galerie.json
+        fields:
+          - name: imagini
+            label: Fotografii
+            widget: list
+            fields:
+              - { name: imagine, label: Fotografie, widget: image }
+              - { name: descriere, label: "Descriere (pentru accesibilitate)", widget: string, required: false }
+
+  # ---------------- Servicii (câte o pagină fiecare) ----------------
+  - name: servicii
+    label: Servicii
+    label_singular: Serviciu
+    folder: src/content/servicii
+    create: true
+    slug: '{{fields.slug}}'
+    identifier_field: titlu
+    summary: '{{titlu}} · de la {{pret_de_la}} lei'
+    fields:
+      - { name: slug, label: "Adresa paginii (ex. tuns)", widget: string, hint: "Litere mici, fără diacritice și fără spații" }
+      - { name: titlu, label: Titlu, widget: string }
+      - { name: eticheta, label: Eticheta mică (ex. PRECIZIE), widget: string, required: false }
+      - { name: icon, label: Iconiță, widget: select, options: [scissors, drop, sparkle, layers, wave, star, diamond, search, doc, gift] }
+      - { name: rezumat, label: Rezumat, widget: text }
+      - { name: ordine, label: Ordine, widget: number, value_type: int }
+      - { name: durata, label: Durată (ex. 45–60 min), widget: string }
+      - { name: pret_de_la, label: Preț de la (lei), widget: number, value_type: int }
+      - { name: imagine, label: Poza principală, widget: image, required: false }
+      - { name: imagine_detaliu, label: A doua poză, widget: image, required: false }
+      - { name: imagine_alt, label: Descrierea pozei, widget: string, required: false }
+      - name: pasi
+        label: Cum lucrăm (pași)
+        widget: list
+        fields:
+          - { name: titlu, label: Titlu, widget: string }
+          - { name: text, label: Text, widget: text }
+      - name: preturi
+        label: Prețuri
+        widget: list
+        fields:
+          - { name: nume, label: Nume, widget: string }
+          - { name: descriere, label: Descriere, widget: string, required: false }
+          - { name: durata, label: Durată, widget: string, required: false }
+          - { name: pret, label: "Preț (ex. 120 lei)", widget: string }
+      - name: intrebari
+        label: Întrebări frecvente
+        widget: list
+        required: false
+        fields:
+          - { name: intrebare, label: Întrebare, widget: string }
+          - { name: raspuns, label: Răspuns, widget: text }
+      - { name: body, label: Despre serviciu, widget: markdown }
+
+  # ---------------- Echipă ----------------
+  - name: echipa
+    label: Echipă
+    label_singular: Membru
+    folder: src/content/echipa
+    create: true
+    slug: '{{nume}}'
+    identifier_field: nume
+    fields:
+      - { name: nume, label: Nume, widget: string }
+      - { name: rol, label: Rol, widget: string }
+      - { name: ordine, label: Ordine, widget: number, value_type: int }
+      - { name: foto, label: Fotografie, widget: image, required: false }
+      - { name: servicii, label: "Servicii (adresele paginilor: tuns, vopsit...)", widget: list, required: false }
+      - { name: body, label: Despre, widget: markdown }
+
+  # ---------------- Oferte ----------------
+  - name: oferte
+    label: Oferte
+    label_singular: Ofertă
+    folder: src/content/oferte
+    create: true
+    slug: '{{titlu}}'
+    identifier_field: titlu
+    fields:
+      - { name: titlu, label: Titlu, widget: string }
+      - { name: eticheta, label: Etichetă (ex. Oferta lunii), widget: string, required: false }
+      - { name: detaliu, label: Ce include, widget: text }
+      - { name: pret, label: "Preț (ex. 490 lei)", widget: string }
+      - { name: pret_vechi, label: Preț vechi, widget: string, required: false }
+      - { name: valabil_pana, label: "Valabilă până la (ex. 30 noiembrie 2026)", widget: string, required: false }
+      - { name: activ, label: Activă, widget: boolean, default: true }
+      - { name: ordine, label: Ordine, widget: number, value_type: int }
+      - { name: imagine, label: Poză, widget: image, required: false }
+      - { name: body, label: Note, widget: markdown, required: false }
+
+  # ---------------- Pagini legale ----------------
+  - name: pagini
+    label: Pagini legale
+    label_singular: Pagină
+    folder: src/content/pagini
+    create: false
+    delete: false
+    identifier_field: titlu
+    fields:
+      - { name: titlu, label: Titlu, widget: string }
+      - { name: descriere, label: Descriere, widget: string }
+      - { name: actualizat, label: Actualizat la, widget: string }
+      - { name: body, label: Text, widget: markdown }
