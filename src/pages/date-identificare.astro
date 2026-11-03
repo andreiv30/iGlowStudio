@@ -6,9 +6,10 @@ import setari from '../data/setari.json';
 const f = setari.firma;
 const rows = [
   ['Denumire', f.denumire], ['Cod unic de înregistrare (CUI)', f.cui], ['Nr. Registrul Comerțului', f.reg_com],
+  ['EUID', f.euid], ['Data înființării', f.data_infiintare],
   ['Sediu social', f.sediu], ['Capital social', f.capital], ['Cont bancar', f.banca],
   ['Punct de lucru', `${setari.adresa}, ${setari.oras}`], ['Telefon', setari.telefon], ['Email', setari.email],
-];
+].filter(([, v]) => v && !/^\[.*\]$/.test(String(v).trim()));
 ---
 <Base {...seoPagina('date-identificare')}>
   <PageHead eticheta="Informații legale" titlu="Date identificare *societate*" />

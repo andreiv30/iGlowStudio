@@ -33,4 +33,4 @@ Pe pagina Despre noi, harta Google Maps se încarcă doar după ce accepți cook
 
 ## Contact
 
-Pentru întrebări despre datele tale, scrie-ne la adresa din pagina [Politica de confidențialitate](/politica-de-confidentialitate/).
+Site-ul este administrat de **IGLOW CONCEPT SRL**, CUI 40143832, Nr. Reg. Com. J2018001610328, EUID ROONRC.J2018001610328, cu sediul social în Str. Ion Agârbiceanu nr. 11-13, spațiul comercial 12C, Sibiu. Pentru întrebări despre cookie-uri sau despre datele tale, scrie-ne la office@iglowstudio.ro. Detalii în [Politica de confidențialitate](/politica-de-confidentialitate/).

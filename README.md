@@ -94,8 +94,7 @@ Necesită Node 22.12 sau mai nou (doar pentru build; serverul nu are nevoie de N
 
 ## De completat înainte de lansare
 
-- textele dintre paranteze drepte `[...]` (date firmă, povestea din Despre noi);
-- linkurile de Instagram, Facebook și TikTok (iconițele apar în footer doar după ce sunt completate);
+- textele dintre paranteze drepte `[...]` (povestea din Despre noi, termenele din politici);
 - logo-ul: `src/components/Logo.astro` este redesenat ca SVG după siglă; se poate înlocui cu fișierul original;
 - fotografiile: locurile lor sunt goale până se încarcă din /admin (poza mare din Acasă, servicii, echipă, galerie);
 - serviciile, prețurile, ofertele și recenziile sunt preluate de pe https://mero.ro/p/iglow-studio; când se schimbă acolo, se actualizează și din /admin.

@@ -49,7 +49,7 @@ const hartaSrc = `https://maps.google.com/maps?q=${encodeURIComponent(setari.har
           <div class="place" data-reveal>
             <div class="place__name"><span class="ring ring--small"><Icon name="pin" size={18} /></span><div><h3>{setari.nume}</h3><p>{setari.oras}</p></div></div>
             <dl class="place__info">
-              <div><dt>Adresă</dt><dd>{setari.adresa}<br />{setari.oras}<br /><span class="muted">{setari.adresa_detalii}</span></dd></div>
+              <div><dt>Adresă</dt><dd><a href={setari.link_harta} rel="noopener" target="_blank">{setari.adresa}<br />{setari.oras}</a><br /><span class="muted">{setari.adresa_detalii}</span></dd></div>
               <div><dt>Telefon</dt><dd><a href={`tel:${setari.telefon.replace(/\s/g, '')}`}>{setari.telefon}</a></dd></div>
               <div><dt>Program</dt><dd><ul class="hours">{setari.program.map((p) => <li><span>{p.zile}</span><span>{p.ore}</span></li>)}</ul></dd></div>
             </dl>

@@ -111,7 +111,7 @@ p { text-wrap: pretty; }
   border-radius: var(--radius-sm); border: 1px solid transparent;
   background: var(--caramel-btn); color: #fff;
   font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; white-space: nowrap;
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 140ms var(--ease-out), box-shadow 200ms ease;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms var(--ease-out), box-shadow 250ms ease;
 }
 .btn:active { transform: scale(0.97); }
 .btn svg { transition: transform 200ms var(--ease-out); }
@@ -121,10 +121,12 @@ p { text-wrap: pretty; }
 .btn--small { min-height: 2.75rem; padding: 0 1.25rem; font-size: 0.75rem; }
 .btn--block { width: 100%; }
 @media (hover: hover) and (pointer: fine) {
-  .btn:hover { background: var(--caramel-btn-hover); }
-  .btn--outline:hover { background: var(--alb); border-color: var(--caramel); }
+  /* hover: fundal puțin mai închis, lumină aurie-maronie sub buton, ridicare ușoară */
+  .btn:hover { background: var(--caramel-btn-hover); transform: translateY(-2px); box-shadow: 0 16px 36px -10px rgb(201 155 88 / 0.9), 0 4px 14px -4px rgb(122 92 56 / 0.5); }
+  .btn--outline:hover { background: #f6f0e9; border-color: var(--caramel); box-shadow: 0 16px 34px -12px rgb(201 155 88 / 0.7), 0 4px 12px -6px rgb(122 92 56 / 0.3); }
   .btn--dark:hover { background: var(--cacao); }
   .btn--light:hover { background: rgb(251 251 250 / 0.12); border-color: var(--alb-cald); }
+  .btn:active { transform: translateY(0) scale(0.97); }
   .btn:hover svg { transform: translateX(3px); }
 }
 /* link mic cu săgeată: „DESCOPERĂ →”, „REZERVĂ →” */

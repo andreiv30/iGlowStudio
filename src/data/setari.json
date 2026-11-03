@@ -5,7 +5,7 @@
   "oras": "Sibiu",
   "adresa": "Str. Ion Agârbiceanu nr. 11-13, spațiul comercial 12C",
   "adresa_detalii": "În spatele blocului, cu locuri de parcare la SP COM 12",
-  "link_harta": "https://share.google/HE3qTqdbUl4ilIIbT",
+  "link_harta": "https://maps.app.goo.gl/SxV3h6acstiZSBR78",
   "telefon": "0741 981 174",
   "whatsapp": "40741981174",
   "email": "office@iglowstudio.ro",
@@ -24,16 +24,18 @@
     }
   ],
   "link_rezervare": "https://mero.ro/p/iglow-studio",
-  "instagram": "",
-  "facebook": "",
+  "instagram": "https://www.instagram.com/iglowhair.sibiu/",
+  "facebook": "https://www.facebook.com/iGlowbeautyconceptsibiu",
   "tiktok": "",
   "firma": {
-    "denumire": "[Denumire SRL]",
-    "cui": "[CUI]",
-    "reg_com": "[J00/0000/2026]",
-    "sediu": "[Adresa sediului social]",
-    "capital": "[Capital social]",
-    "banca": "[Banca, IBAN]"
+    "denumire": "IGLOW CONCEPT SRL",
+    "cui": "40143832",
+    "reg_com": "J2018001610328",
+    "euid": "ROONRC.J2018001610328",
+    "data_infiintare": "12 noiembrie 2018",
+    "sediu": "Str. Ion Agârbiceanu nr. 11-13, spațiul comercial 12C, Sibiu",
+    "capital": "",
+    "banca": ""
   },
   "anunt": {
     "activ": true,

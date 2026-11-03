@@ -16,7 +16,7 @@ const echipa = (await getCollection('echipa')).sort((a, b) => a.data.ordine - b.
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 // banda cu cuvinte: destule cuvinte cât să acopere orice ecran, ca bucla să nu lase gol
 const cuvinteBanda = Array.from({ length: Math.max(1, Math.ceil(16 / Math.max(1, acasa.cuvinte.length))) }, () => acasa.cuvinte).flat();
-const durataBanda = `${Math.round(cuvinteBanda.length * 2.8)}s`;
+const durataBanda = `${Math.round(cuvinteBanda.length * 2.4)}s`;
 const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p[0] ?? '').join('').slice(0, 2).toUpperCase() || 'IG';
 ---
 <Base {...seoPagina('acasa')} image={acasa.hero_imagine || undefined} schema={[schemaFaq(acasa.intrebari)]} overlay>
@@ -48,7 +48,7 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
       <div class="ribbon__track" style={`--dur: ${durataBanda}`}>
         {[0, 1].map(() => (
           <div class="ribbon__group">
-            {cuvinteBanda.map((c) => <><span class="ribbon__word">{c}</span><span class="ribbon__dot"><Icon name="spark" size={14} /></span></>)}
+            {cuvinteBanda.map((c) => <><span class="ribbon__word">{c}</span><span class="ribbon__dot"><Icon name="spark" size={11} /></span></>)}
           </div>
         ))}
       </div>
@@ -212,15 +212,15 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .hero__title { font-size: clamp(2.6rem, 1.2rem + 5vw, 5.25rem); line-height: 1.05; max-width: 15ch; }
 
   /* ---------- banda cu cuvinte: buclă continuă pe fundal închis, cu lumini calde ---------- */
-  .ribbon { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(1.6rem, 3vw, 2.4rem); background: radial-gradient(70% 160% at 50% 130%, rgb(177 139 90 / 0.22), transparent 60%), linear-gradient(180deg, #1f1710, var(--espresso)); color: var(--auriu); border-block: 1px solid rgb(212 180 138 / 0.16); }
+  .ribbon { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(0.85rem, 1.4vw, 1.15rem); background: radial-gradient(70% 160% at 50% 130%, rgb(177 139 90 / 0.22), transparent 60%), linear-gradient(180deg, #1f1710, var(--espresso)); color: var(--auriu); border-block: 1px solid rgb(212 180 138 / 0.16); }
   .ribbon__glow { position: absolute; z-index: -1; border-radius: 999px; filter: blur(30px); pointer-events: none; }
-  .ribbon__glow--a { width: 30rem; height: 9rem; left: -6rem; top: -3rem; background: radial-gradient(closest-side, rgb(212 180 138 / 0.42), transparent); }
-  .ribbon__glow--b { width: 26rem; height: 8rem; right: 8%; bottom: -3.5rem; background: radial-gradient(closest-side, rgb(177 139 90 / 0.5), transparent); }
-  .ribbon__glow--c { width: 18rem; height: 6rem; left: 42%; top: -2.5rem; background: radial-gradient(closest-side, rgb(243 227 200 / 0.22), transparent); }
+  .ribbon__glow--a { width: 26rem; height: 6rem; left: -6rem; top: -2.5rem; background: radial-gradient(closest-side, rgb(212 180 138 / 0.42), transparent); }
+  .ribbon__glow--b { width: 22rem; height: 5.5rem; right: 8%; bottom: -2.75rem; background: radial-gradient(closest-side, rgb(177 139 90 / 0.5), transparent); }
+  .ribbon__glow--c { width: 16rem; height: 4.5rem; left: 42%; top: -2rem; background: radial-gradient(closest-side, rgb(243 227 200 / 0.22), transparent); }
   .ribbon__mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
   .ribbon__track { display: flex; width: max-content; }
-  .ribbon__group { display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem); padding-right: clamp(1.5rem, 3vw, 2.5rem); flex: none; white-space: nowrap; }
-  .ribbon__word { font-family: var(--font-display); font-style: italic; font-size: clamp(1.5rem, 1.15rem + 1.1vw, 2.25rem); line-height: 1.2; background: linear-gradient(100deg, #c9a574 0%, #f3e3c8 45%, #c9a574 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .ribbon__group { display: flex; align-items: center; gap: clamp(1.1rem, 2vw, 1.75rem); padding-right: clamp(1.1rem, 2vw, 1.75rem); flex: none; white-space: nowrap; }
+  .ribbon__word { font-family: var(--font-display); font-style: italic; font-size: clamp(1.1rem, 0.98rem + 0.45vw, 1.4rem); line-height: 1.25; background: linear-gradient(100deg, #c9a574 0%, #f3e3c8 45%, #c9a574 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .ribbon__dot { display: inline-flex; color: var(--caramel); opacity: 0.85; }
   @media (prefers-reduced-motion: no-preference) {
     .ribbon__track { animation: ribbon var(--dur, 40s) linear infinite; }

@@ -6,7 +6,7 @@ actualizat: 3 noiembrie 2026
 
 ## Despre site
 
-Site-ul este administrat de **[Denumire SRL]**, CUI [CUI], [Adresa sediului social]. Folosind site-ul, ești de acord cu acești termeni.
+Site-ul este administrat de **IGLOW CONCEPT SRL**, CUI 40143832, Nr. Reg. Com. J2018001610328, EUID ROONRC.J2018001610328, cu sediul social în Str. Ion Agârbiceanu nr. 11-13, spațiul comercial 12C, Sibiu, înființată la 12 noiembrie 2018. Folosind site-ul, ești de acord cu acești termeni.
 
 ## Servicii și prețuri
 
@@ -28,4 +28,4 @@ Textele, fotografiile și elementele grafice de pe site aparțin iGlow Studio sa
 
 ## Reclamații
 
-Ne poți scrie la [contact@iglowstudio.ro]. Ca și consumator, te poți adresa și Autorității Naționale pentru Protecția Consumatorilor (anpc.ro), inclusiv prin procedura de soluționare alternativă a litigiilor (SAL).
+Ne poți scrie la office@iglowstudio.ro sau ne poți suna la 0741 981 174. Ca și consumator, te poți adresa și Autorității Naționale pentru Protecția Consumatorilor (anpc.ro), inclusiv prin procedura de soluționare alternativă a litigiilor (SAL).
