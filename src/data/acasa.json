@@ -1,24 +1,4 @@
 {
-  "hero_tip": "poza",
-  "hero_video": "",
-  "hero_imagine": "",
-  "hero_imagine_alt": "",
-  "hero_eticheta": "Salon de înfrumusețare",
-  "hero_titlu": "Unde părul tău își găsește *strălucirea*.",
-  "hero_buton": "Programează-te",
-  "cuvinte": [
-    "Formă",
-    "Culoare",
-    "Strălucire",
-    "Grijă",
-    "Eleganță",
-    "Lumină",
-    "Rafinament",
-    "Încredere"
-  ],
-  "de_ce_eticheta": "De ce noi",
-  "de_ce_titlu": "Fiecare detaliu, gândit *pentru tine*",
-  "de_ce_text": "La iGlow, fiecare programare începe cu o discuție și se termină cu un păr pe care îl porți ușor acasă. Lucrăm fără grabă, cu produse profesionale și cu atenție la ce își dorește fiecare clientă.",
   "de_ce": [
     {
       "icon": "search",
@@ -41,10 +21,13 @@
       "text": "ca rezultatul să țină"
     }
   ],
-  "servicii_titlu": "Gama de *servicii*",
-  "servicii_text": "Fiecare tratament este gândit să îți pună în valoare stilul, de la primul contact până la rezultat.",
-  "echipa_titlu": "Cunoaște *echipa*",
-  "echipa_text": "Oamenii din spatele fiecărui look: experiență, atenție la detalii și grijă pentru fiecare clientă. Alege specialistul potrivit și programează-te.",
+  "hero_titlu": "Unde părul tău își găsește *strălucirea*.",
+  "de_ce_titlu": "Fiecare detaliu, gândit *pentru tine*",
+  "de_ce_text": "La iGlow, fiecare programare începe cu o discuție și se termină cu un păr pe care îl porți ușor acasă. Lucrăm fără grabă, cu produse profesionale și cu atenție la ce își dorește fiecare clientă.",
+  "hero_imagine": "",
+  "de_ce_eticheta": "De ce noi",
+  "hero_tip": "poza",
+  "hero_video": "/uploads/hero-video.webm",
   "intrebari": [
     {
       "intrebare": "Cum mă pot programa?",
@@ -66,5 +49,22 @@
       "intrebare": "Unde vă găsesc?",
       "raspuns": "Pe Str. Ion Agârbiceanu nr. 11-13, spațiul comercial 12C, în Sibiu, în spatele blocului. Ai locuri de parcare la SP COM 12."
     }
-  ]
+  ],
+  "hero_eticheta": "Salon de înfrumusețare",
+  "echipa_titlu": "Cunoaște *echipa*",
+  "servicii_titlu": "Gama de *servicii*",
+  "cuvinte": [
+    "Formă",
+    "Culoare",
+    "Strălucire",
+    "Grijă",
+    "Eleganță",
+    "Lumină",
+    "Rafinament",
+    "Încredere"
+  ],
+  "hero_imagine_alt": "",
+  "hero_buton": "Programează-te",
+  "servicii_text": "Fiecare tratament este gândit să îți pună în valoare stilul, de la primul contact până la rezultat.",
+  "echipa_text": "Oamenii din spatele fiecărui look: experiență, atenție la detalii și grijă pentru fiecare clientă. Alege specialistul potrivit și programează-te."
 }
