@@ -1,31 +1,31 @@
 {
   "nume": "iGlow Studio",
   "semnatura": "Andreea Pamfiloiu Concept",
-  "descriere_scurta": "Salon de coafură și colorare creat de Andreea Pamfiloiu. Tuns, vopsit, balayage și tratamente, cu programare.",
-  "oras": "[Oraș]",
-  "adresa": "[Strada, număr]",
-  "adresa_detalii": "[Reper: etaj, interfon, parcare]",
-  "link_harta": "https://maps.google.com/?q=iGlow+Studio",
-  "telefon": "+40 7XX XXX XXX",
-  "whatsapp": "407XXXXXXXX",
-  "email": "contact@iglowstudio.ro",
+  "descriere_scurta": "Salon de coafură și colorare din Sibiu, creat de Andreea Pamfiloiu. Colorare, balayage, tuns, diagnoză capilară și tratamente, cu programare online.",
+  "oras": "Sibiu",
+  "adresa": "Str. Ion Agârbiceanu nr. 11-13, spațiul comercial 12C",
+  "adresa_detalii": "În spatele blocului, cu locuri de parcare la SP COM 12",
+  "link_harta": "https://share.google/HE3qTqdbUl4ilIIbT",
+  "telefon": "0741 981 174",
+  "whatsapp": "40741981174",
+  "email": "office@iglowstudio.ro",
   "program": [
     {
       "zile": "Luni – Vineri",
-      "ore": "10:00 – 20:00"
+      "ore": "09:30 – 18:00"
     },
     {
       "zile": "Sâmbătă",
-      "ore": "10:00 – 16:00"
+      "ore": "09:30 – 17:00"
     },
     {
       "zile": "Duminică",
       "ore": "Închis"
     }
   ],
-  "link_rezervare": "",
-  "instagram": "https://www.instagram.com/",
-  "facebook": "https://www.facebook.com/",
+  "link_rezervare": "https://mero.ro/p/iglow-studio",
+  "instagram": "",
+  "facebook": "",
   "tiktok": "",
   "firma": {
     "denumire": "[Denumire SRL]",
@@ -40,5 +40,6 @@
     "text": "Oferta lunii",
     "link_text": "vezi ofertele și programează-te",
     "link": "/oferte"
-  }
+  },
+  "harta_embed": "45.801311,24.129419"
 }

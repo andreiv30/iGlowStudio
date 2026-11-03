@@ -14,6 +14,9 @@ import { accent, rezervaHref, rezervaExtern } from '../lib/nav';
 const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
 const echipa = (await getCollection('echipa')).sort((a, b) => a.data.ordine - b.data.ordine);
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
+// banda cu cuvinte: destule cuvinte cât să acopere orice ecran, ca bucla să nu lase gol
+const cuvinteBanda = Array.from({ length: Math.max(1, Math.ceil(16 / Math.max(1, acasa.cuvinte.length))) }, () => acasa.cuvinte).flat();
+const durataBanda = `${Math.round(cuvinteBanda.length * 2.8)}s`;
 const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p[0] ?? '').join('').slice(0, 2).toUpperCase() || 'IG';
 ---
 <Base {...seoPagina('acasa')} image={acasa.hero_imagine || undefined} schema={[schemaFaq(acasa.intrebari)]} overlay>
@@ -36,57 +39,71 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
     </div>
   </section>
 
-  <!-- Banda cu cuvinte care se mișcă -->
+  <!-- Banda cu cuvinte care se mișcă, în buclă continuă, pe fundal închis cu lumini calde -->
   <div class="ribbon" aria-hidden="true">
-    <div class="ribbon__track">
-      {[0, 1].map(() => (
-        <div class="ribbon__group">{acasa.cuvinte.map((c) => <span>{c}</span>)}</div>
-      ))}
+    <span class="ribbon__glow ribbon__glow--a"></span>
+    <span class="ribbon__glow ribbon__glow--b"></span>
+    <span class="ribbon__glow ribbon__glow--c"></span>
+    <div class="ribbon__mask">
+      <div class="ribbon__track" style={`--dur: ${durataBanda}`}>
+        {[0, 1].map(() => (
+          <div class="ribbon__group">
+            {cuvinteBanda.map((c) => <><span class="ribbon__word">{c}</span><span class="ribbon__dot"><Icon name="spark" size={14} /></span></>)}
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 
   <!-- De ce noi -->
   <section class="why section" aria-labelledby="why-title">
     <div class="container">
-      <div class="head head--center">
-        <p class="eyebrow eyebrow--center" data-reveal>{acasa.de_ce_eticheta}</p>
-        <h2 id="why-title" class="h2" data-reveal style="--i: 1" set:html={accent(acasa.de_ce_titlu)} />
-        <p class="lead" data-reveal style="--i: 2">{acasa.de_ce_text}</p>
+      <div class="why__head">
+        <div class="head">
+          <p class="eyebrow" data-reveal>{acasa.de_ce_eticheta}</p>
+          <h2 id="why-title" class="h2" data-reveal style="--i: 1" set:html={accent(acasa.de_ce_titlu)} />
+        </div>
+        <p class="lead why__lead" data-reveal style="--i: 2">{acasa.de_ce_text}</p>
       </div>
-      <ul class="why__list">
+      <ol class="why__steps">
         {acasa.de_ce.map((d, i) => (
-          <li class="why__item" data-reveal style={`--i: ${i}`}>
-            <span class="ring"><Icon name={d.icon} size={26} /></span>
-            <h3 class="why__title">{d.titlu}</h3>
-            <p class="why__text">{d.text}</p>
+          <li class="step" data-reveal style={`--i: ${i}`}>
+            <span class="step__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="step__icon"><Icon name={d.icon} size={24} /></span>
+            <h3 class="step__title">{d.titlu}</h3>
+            <p class="step__text">{d.text}</p>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   </section>
 
-  <!-- Servicii: textul în stânga, cardurile într-un carusel în dreapta -->
+  <!-- Servicii: titlul și săgețile sus, dedesubt caruselul pe toată lățimea (3 carduri, cu drag pe desktop) -->
   <section class="services section section--surface" aria-labelledby="services-title" data-carousel>
-    <div class="container services__inner">
-      <div class="services__intro head">
-        <p class="eyebrow" data-reveal>Servicii</p>
-        <h2 id="services-title" class="h2" data-reveal style="--i: 1" set:html={accent(acasa.servicii_titlu)} />
-        <p class="lead" data-reveal style="--i: 2">{acasa.servicii_text}</p>
-        <div class="services__actions" data-reveal style="--i: 3">
-          <a class="btn btn--outline" href="/servicii">Vezi toate serviciile <Icon name="arrow" size={16} /></a>
-          <div class="services__arrows">
-            <button type="button" class="arrow" data-prev aria-label="Serviciul anterior"><Icon name="arrow-left" size={18} /></button>
-            <button type="button" class="arrow" data-next aria-label="Serviciul următor"><Icon name="arrow" size={18} /></button>
+    <div class="container">
+      <div class="services__head">
+        <div class="head">
+          <p class="eyebrow" data-reveal>Servicii</p>
+          <h2 id="services-title" class="h2" data-reveal style="--i: 1" set:html={accent(acasa.servicii_titlu)} />
+        </div>
+        <div class="services__side" data-reveal style="--i: 2">
+          <p class="lead">{acasa.servicii_text}</p>
+          <div class="services__actions">
+            <a class="btn btn--outline" href="/servicii">Vezi toate serviciile <Icon name="arrow" size={16} /></a>
+            <div class="services__arrows">
+              <button type="button" class="arrow" data-prev aria-label="Serviciul anterior"><Icon name="arrow-left" size={18} /></button>
+              <button type="button" class="arrow" data-next aria-label="Serviciul următor"><Icon name="arrow" size={18} /></button>
+            </div>
           </div>
         </div>
       </div>
-      <ul class="services__track" data-track>
+      <ul class="services__track" data-track data-drag>
         {servicii.map((s, i) => (
           <li class="svc card" data-reveal style={`--i: ${i}`}>
             <a class="svc__link" href={`/servicii/${s.id}`}>
               <Photo src={s.data.imagine} alt={altImg(s.data.titlu, s.data.imagine_alt)} ratio="4 / 3" rounded={false} />
               <div class="svc__body">
-                <p class="svc__label">{s.data.eticheta}</p>
+                <p class="svc__label">{s.data.eticheta}<span>de la {s.data.pret_de_la} lei</span></p>
                 <h3 class="svc__name">{s.data.titlu}</h3>
                 <p class="svc__text">{s.data.rezumat}</p>
                 <span class="more">Descoperă <Icon name="arrow" size={14} /></span>
@@ -122,29 +139,45 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
     </div>
   </section>
 
-  <!-- Recenzii -->
+  <!-- Recenzii: coloane care urcă încet, cu blur sus și jos (scriptul construiește coloanele) -->
   <section class="reviews section section--surface" aria-labelledby="reviews-title">
     <div class="container">
-      <div class="reviews__score" data-reveal>
-        <span class="reviews__g"><Icon name="google" size={30} /></span>
-        <h2 id="reviews-title" class="sr-only">Recenzii</h2>
-        <p class="reviews__nota">{recenzii.nota} <span class="reviews__star"><Icon name="star-fill" size={30} /></span></p>
-        <p class="muted">{recenzii.numar} recenzii</p>
-        <a class="more" href={recenzii.link_google} rel="noopener" target="_blank">Vezi profilul pe Google <Icon name="arrow-up-right" size={14} /></a>
+      <div class="reviews__head head head--center">
+        <p class="eyebrow eyebrow--center" data-reveal>Recenzii</p>
+        <h2 id="reviews-title" class="h2" data-reveal style="--i: 1">Ce spun <em>clientele noastre</em></h2>
+        <div class="reviews__score" data-reveal style="--i: 2">
+          <p class="reviews__nota">{recenzii.nota}</p>
+          <div>
+            <span class="reviews__stars" aria-label="5 din 5 stele">{[1, 2, 3, 4, 5].map(() => <Icon name="star-fill" size={16} />)}</span>
+            <p class="reviews__count">{recenzii.numar} recenzii verificate pe {recenzii.sursa}</p>
+          </div>
+          <a class="more" href={recenzii.link} rel="noopener" target="_blank">Vezi toate <Icon name="arrow-up-right" size={14} /></a>
+        </div>
       </div>
-      <ul class="reviews__wall">
-        {recenzii.recenzii.map((r, i) => (
-          <li class="review card" data-reveal style={`--i: ${i % 3}`}>
-            <div class="review__who">
-              <span class="review__avatar">{initiale(r.nume)}</span>
-              <span><strong>{r.nume}</strong><span class="review__stars" aria-label="5 stele">{[1, 2, 3, 4, 5].map(() => <Icon name="star-fill" size={13} />)}</span></span>
-              <span class="review__date">{r.data}</span>
-            </div>
-            <p class="review__svc">{r.serviciu}</p>
-            <blockquote>„{r.text}”</blockquote>
-          </li>
-        ))}
-      </ul>
+      <div class="marquee" data-marquee>
+        <div class="marquee__viewport">
+          <ul class="marquee__list" data-marquee-list>
+            {recenzii.recenzii.map((r, i) => (
+              <li class:list={["rv", `rv--t${i % 3}`]}>
+                <div class="rv__who">
+                  <span class="rv__avatar" aria-hidden="true">{initiale(r.nume)}</span>
+                  <div>
+                    <p class="rv__name">{r.nume} <span class="rv__badge">Verificat</span></p>
+                    <p class="rv__meta"><span class="rv__stars" aria-label="5 stele">{[1, 2, 3, 4, 5].map(() => <Icon name="star-fill" size={13} />)}</span>{r.data}</p>
+                  </div>
+                </div>
+                <p class="rv__svc">{r.serviciu}</p>
+                <blockquote class="rv__text">„{r.text}”</blockquote>
+                <a class="rv__link" href={recenzii.link} rel="noopener" target="_blank">Vezi pe {recenzii.sursa} <Icon name="arrow-up-right" size={13} /></a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <button type="button" class="marquee__toggle" data-marquee-toggle aria-pressed="false">
+          <span class="marquee__pause"><Icon name="pause" size={16} /></span><span class="marquee__play"><Icon name="play" size={16} /></span>
+          <span data-marquee-label>Oprește derularea</span>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -178,36 +211,66 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .hero__label { font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.36em; text-transform: uppercase; }
   .hero__title { font-size: clamp(2.6rem, 1.2rem + 5vw, 5.25rem); line-height: 1.05; max-width: 15ch; }
 
-  /* ---------- banda cu cuvinte ---------- */
-  .ribbon { background: var(--espresso); color: var(--auriu); overflow: hidden; padding-block: 1.1rem; border-top: 1px solid rgb(212 180 138 / 0.18); }
+  /* ---------- banda cu cuvinte: buclă continuă pe fundal închis, cu lumini calde ---------- */
+  .ribbon { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(1.6rem, 3vw, 2.4rem); background: radial-gradient(70% 160% at 50% 130%, rgb(177 139 90 / 0.22), transparent 60%), linear-gradient(180deg, #1f1710, var(--espresso)); color: var(--auriu); border-block: 1px solid rgb(212 180 138 / 0.16); }
+  .ribbon__glow { position: absolute; z-index: -1; border-radius: 999px; filter: blur(30px); pointer-events: none; }
+  .ribbon__glow--a { width: 30rem; height: 9rem; left: -6rem; top: -3rem; background: radial-gradient(closest-side, rgb(212 180 138 / 0.42), transparent); }
+  .ribbon__glow--b { width: 26rem; height: 8rem; right: 8%; bottom: -3.5rem; background: radial-gradient(closest-side, rgb(177 139 90 / 0.5), transparent); }
+  .ribbon__glow--c { width: 18rem; height: 6rem; left: 42%; top: -2.5rem; background: radial-gradient(closest-side, rgb(243 227 200 / 0.22), transparent); }
+  .ribbon__mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
   .ribbon__track { display: flex; width: max-content; }
-  .ribbon__group { display: flex; gap: 3.5rem; padding-right: 3.5rem; font-family: var(--font-display); font-style: italic; font-size: 1.375rem; white-space: nowrap; }
-  @media (prefers-reduced-motion: no-preference) { .ribbon__track { animation: ribbon 38s linear infinite; } }
-  @keyframes ribbon { to { transform: translateX(-50%); } }
+  .ribbon__group { display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem); padding-right: clamp(1.5rem, 3vw, 2.5rem); flex: none; white-space: nowrap; }
+  .ribbon__word { font-family: var(--font-display); font-style: italic; font-size: clamp(1.5rem, 1.15rem + 1.1vw, 2.25rem); line-height: 1.2; background: linear-gradient(100deg, #c9a574 0%, #f3e3c8 45%, #c9a574 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .ribbon__dot { display: inline-flex; color: var(--caramel); opacity: 0.85; }
+  @media (prefers-reduced-motion: no-preference) {
+    .ribbon__track { animation: ribbon var(--dur, 40s) linear infinite; }
+    .ribbon__glow--a { animation: drift 16s ease-in-out infinite alternate; }
+    .ribbon__glow--b { animation: drift 19s ease-in-out infinite alternate-reverse; }
+    .ribbon__glow--c { animation: drift 13s ease-in-out infinite alternate; }
+  }
+  @keyframes ribbon { to { transform: translate3d(-50%, 0, 0); } }
+  @keyframes drift { to { transform: translate3d(18vw, 1.5rem, 0) scale(1.15); } }
 
-  /* ---------- de ce noi (iconițe în cerc, ca pe flyer) ---------- */
-  .why__list { list-style: none; padding: 0; margin-top: clamp(3rem, 5vw, 4.5rem); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .why__item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; padding: 0.5rem 1.5rem; }
-  .why__item + .why__item { border-left: 1px solid rgb(177 139 90 / 0.4); }
-  .why__item .ring { margin-bottom: 0.9rem; }
-  .why__title { font-family: var(--font-text); font-size: 0.875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
-  .why__text { color: var(--muted); font-size: 0.9375rem; }
+  /* ---------- de ce noi: patru pași, ca un traseu ---------- */
+  .why__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: end; }
+  .why__lead { padding-bottom: 0.35rem; }
+  .why__steps { list-style: none; padding: 2.75rem 0 0; margin: clamp(2.5rem, 5vw, 4rem) 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; position: relative; }
+  .why__steps::before { content: ''; position: absolute; left: 0; right: 0; top: 0.6rem; height: 1px; background: linear-gradient(90deg, transparent, rgb(177 139 90 / 0.55) 12%, rgb(177 139 90 / 0.55) 88%, transparent); }
+  .step { position: relative; display: flex; flex-direction: column; gap: 0.7rem; padding: 2rem 1.75rem 2.25rem; border-radius: 20px; background: linear-gradient(180deg, rgb(255 255 255 / 0.95), rgb(251 247 243 / 0.95)); border: 1px solid rgb(177 139 90 / 0.18); box-shadow: 0 1px 2px rgb(26 19 13 / 0.03), 0 18px 40px -28px rgb(81 63 51 / 0.35); transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out), border-color 300ms ease; }
+  .step::before { content: ''; position: absolute; top: -2.55rem; left: 1.9rem; width: 0.75rem; height: 0.75rem; border-radius: 999px; background: var(--bg); border: 2px solid var(--caramel); box-shadow: 0 0 0 5px rgb(177 139 90 / 0.12); }
+  .step::after { content: ''; position: absolute; left: 1.75rem; right: 1.75rem; bottom: 0; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--caramel), var(--auriu)); transform: scaleX(0); transform-origin: left; transition: transform 500ms var(--ease-out); }
+  .step__num { position: absolute; top: 1.1rem; right: 1.4rem; font-family: var(--font-display); font-style: italic; font-size: 3.25rem; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgb(177 139 90 / 0.45); pointer-events: none; }
+  .step__icon { width: 3.25rem; height: 3.25rem; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.85rem; color: var(--taupe); background: linear-gradient(135deg, rgb(212 180 138 / 0.32), rgb(177 139 90 / 0.1)); border: 1px solid rgb(177 139 90 / 0.25); transition: background-color 300ms ease, color 300ms ease; }
+  .step__title { font-size: 1.45rem; line-height: 1.2; }
+  .step__text { color: var(--muted); font-size: 0.9375rem; }
+  .step__text::first-letter { text-transform: uppercase; }
+  @media (hover: hover) and (pointer: fine) {
+    .step:hover { transform: translateY(-6px); border-color: rgb(177 139 90 / 0.4); box-shadow: 0 1px 2px rgb(26 19 13 / 0.04), 0 28px 50px -26px rgb(81 63 51 / 0.45); }
+    .step:hover::after { transform: scaleX(1); }
+    .step:hover .step__icon { background: var(--caramel-btn); color: #fff; }
+  }
 
-  /* ---------- servicii ---------- */
-  .services__inner { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; }
-  .services__actions { display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem; margin-top: 0.75rem; }
+  /* ---------- servicii: antet sus, carusel cu 3 carduri dedesubt ---------- */
+  .services__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: end; }
+  .services__side { display: flex; flex-direction: column; gap: 1.5rem; }
+  .services__actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
   .services__arrows { display: flex; gap: 0.5rem; }
-  .arrow { width: 3rem; height: 3rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); display: inline-flex; align-items: center; justify-content: center; transition: background-color 200ms ease, opacity 200ms ease; }
+  .arrow { width: 3rem; height: 3rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); display: inline-flex; align-items: center; justify-content: center; transition: background-color 200ms ease, color 200ms ease, opacity 200ms ease; }
   .arrow:disabled { opacity: 0.35; cursor: default; }
-  @media (hover: hover) and (pointer: fine) { .arrow:not(:disabled):hover { background: var(--caramel); } }
-  .services__track { list-style: none; padding: 0.75rem 0.25rem 1.5rem; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 1.5rem) / 2); column-gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  @media (hover: hover) and (pointer: fine) { .arrow:not(:disabled):hover { background: var(--caramel-btn); color: #fff; } }
+  .services__track { list-style: none; margin: clamp(2.5rem, 4vw, 3.5rem) -0.75rem 0; padding: 0.75rem 0.75rem 1.75rem; display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3rem) / 3); column-gap: 1.5rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 0.75rem; scrollbar-width: none; }
   .services__track::-webkit-scrollbar { display: none; }
+  @media (hover: hover) and (pointer: fine) { .services__track { cursor: grab; } }
+  .services__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+  .services__track.is-dragging a { pointer-events: none; }
   .svc { scroll-snap-align: start; overflow: hidden; }
-  .svc__link { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
+  .svc__link { display: flex; flex-direction: column; height: 100%; text-decoration: none; -webkit-user-drag: none; }
+  .svc__link :global(img) { -webkit-user-drag: none; user-select: none; }
   .svc__link :global(.photo) { transition: transform 600ms var(--ease-out); }
   .svc__body { padding: 1.5rem 1.75rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
-  .svc__label { display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
-  .svc__label::before { content: ''; width: 2rem; height: 2px; background: var(--caramel); }
+  .svc__label { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
+  .svc__label::before { content: ''; flex-basis: 100%; width: 2rem; max-width: 2rem; height: 2px; background: var(--caramel); }
+  .svc__label span { letter-spacing: 0.12em; color: var(--muted); font-weight: 500; }
   .svc__name { font-size: 1.75rem; font-style: italic; }
   .svc__text { color: var(--muted); font-size: 0.9375rem; flex: 1; }
   @media (hover: hover) and (pointer: fine) { .svc__link:hover :global(.photo) { transform: scale(1.04); } }
@@ -222,36 +285,74 @@ const initiale = (n: string) => n.replace(/[\[\]]/g, '').split(' ').map((p) => p
   .member__book { margin-top: 0.5rem; }
   .team__more { display: flex; justify-content: center; margin-top: 2.5rem; }
 
-  /* ---------- recenzii ---------- */
-  .reviews__score { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.35rem; margin-bottom: 3rem; }
-  .reviews__g { color: var(--taupe); margin-bottom: 0.5rem; }
-  .reviews__nota { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-size: 3rem; line-height: 1; }
-  .reviews__star { color: var(--caramel); display: inline-flex; }
-  .reviews__wall { list-style: none; padding: 0; margin: 0; columns: 3 18rem; column-gap: 1.5rem; }
-  .review { break-inside: avoid; margin-bottom: 1.5rem; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
-  .review__who { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75rem; align-items: center; font-size: 0.875rem; }
-  .review__who > span:nth-child(2) { display: flex; flex-direction: column; }
-  .review__avatar { width: 2.5rem; height: 2.5rem; border-radius: 999px; background: var(--taupe); color: var(--alb-cald); display: inline-flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 600; }
-  .review__stars { display: flex; gap: 2px; color: var(--caramel); margin-top: 0.2rem; }
-  .review__date { color: var(--muted); font-size: 0.75rem; }
-  .review__svc { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--taupe); }
-  .review blockquote { color: var(--ink); font-size: 0.9375rem; }
+  /* ---------- recenzii: coloane care urcă, cu blur și estompare sus și jos ---------- */
+  .reviews__head { margin-bottom: clamp(2.5rem, 4vw, 3.5rem); }
+  .reviews__score { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem 1.25rem; margin-top: 0.5rem; padding: 0.75rem 0.75rem 0.75rem 1.5rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); }
+  .reviews__nota { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; }
+  .reviews__stars { display: flex; gap: 2px; color: var(--caramel); }
+  .reviews__count { font-size: 0.8125rem; color: var(--muted); text-align: left; }
+  .reviews__score .more { padding-inline: 0.75rem; }
+
+  .marquee { position: relative; }
+  .marquee__viewport { position: relative; height: clamp(34rem, 70vh, 46rem); overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%); }
+  .marquee::before, .marquee::after { content: ''; position: absolute; left: 0; right: 0; z-index: 2; height: 24%; pointer-events: none; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+  .marquee::before { top: 0; -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent); mask-image: linear-gradient(180deg, #000 20%, transparent); }
+  .marquee::after { bottom: 0; -webkit-mask-image: linear-gradient(0deg, #000 20%, transparent); mask-image: linear-gradient(0deg, #000 20%, transparent); }
+  .marquee__list { list-style: none; padding: 0; margin: 0; columns: 3 18rem; column-gap: 1.5rem; }
+  .marquee__list .rv { break-inside: avoid; margin-bottom: 1.5rem; }
+  .marquee.is-built .marquee__list { display: none; }
+  .marquee :global(.marquee__cols) { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 1.5rem; height: 100%; }
+  .marquee :global(.marquee__col) { overflow: hidden; }
+  .marquee :global(.marquee__inner) { display: flex; flex-direction: column; will-change: transform; animation: marquee-up var(--dur, 60s) linear infinite; animation-delay: var(--delay, 0s); }
+  .marquee :global(.marquee__group) { display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: 1.5rem; }
+  .marquee__viewport:hover :global(.marquee__inner), .marquee__viewport:focus-within :global(.marquee__inner), .marquee.is-paused :global(.marquee__inner) { animation-play-state: paused; }
+  @keyframes marquee-up { to { transform: translate3d(0, -50%, 0); } }
+
+  .rv { display: flex; flex-direction: column; gap: 0.9rem; padding: 1.75rem 1.75rem 1.4rem; border-radius: 18px; background: rgb(255 255 255 / 0.92); border: 1px solid rgb(177 139 90 / 0.12); box-shadow: 0 1px 2px rgb(26 19 13 / 0.03), 0 16px 36px -24px rgb(81 63 51 / 0.32); }
+  .rv__who { display: flex; align-items: center; gap: 0.9rem; }
+  .rv__avatar { flex: none; width: 3.1rem; height: 3.1rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.04em; background: linear-gradient(140deg, #9c7a52, #5e4636); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25); }
+  .rv--t1 .rv__avatar { background: linear-gradient(140deg, #a9876a, #6b4e3f); }
+  .rv--t2 .rv__avatar { background: linear-gradient(140deg, #8f6f48, #3c2d23); }
+  .rv__name { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 1.0625rem; line-height: 1.25; }
+  .rv__badge { padding: 0.15rem 0.5rem; border-radius: 6px; background: var(--surface); font-size: 0.625rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .rv__meta { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.3rem; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .rv__stars { display: flex; gap: 2px; color: var(--caramel); }
+  .rv__svc { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--taupe); }
+  .rv__text { color: var(--ink); font-size: 0.975rem; line-height: 1.7; }
+  .rv__link { display: inline-flex; align-items: center; gap: 0.4rem; align-self: flex-start; margin-top: 0.35rem; padding-top: 1rem; border-top: 1px solid var(--line); width: 100%; font-size: 0.8125rem; text-decoration: none; color: var(--taupe); }
+  @media (hover: hover) and (pointer: fine) { .rv__link:hover { color: var(--ink); } }
+
+  .marquee__toggle { position: relative; z-index: 3; display: none; align-items: center; gap: 0.5rem; margin: 1.25rem auto 0; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; background: var(--alb); box-shadow: var(--shadow); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--taupe); }
+  .marquee.is-built .marquee__toggle { display: flex; }
+  .marquee__play { display: none; }
+  .marquee.is-paused .marquee__play { display: inline-flex; }
+  .marquee.is-paused .marquee__pause { display: none; }
+  .marquee__pause { display: inline-flex; }
+
+  /* fără animație: o singură „fereastră” statică, fără blur peste conținut */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__viewport { height: auto; -webkit-mask-image: none; mask-image: none; }
+    .marquee::before, .marquee::after { display: none; }
+    .marquee__list .rv:nth-child(n + 7) { display: none; }
+  }
 
   /* ---------- întrebări ---------- */
   .faq-sec__head { margin-bottom: 2.5rem; }
 
   /* ---------- tabletă și telefon ---------- */
   @media (max-width: 64rem) {
-    .services__inner { grid-template-columns: 1fr; }
-    .services__actions { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; width: 100%; }
-    .why__list { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
-    .why__item + .why__item:nth-child(3) { border-left: 0; }
+    .why__head, .services__head { grid-template-columns: 1fr; align-items: start; }
+    .why__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 0; }
+    .why__steps::before, .step::before { display: none; }
+    .services__track { grid-auto-columns: calc((100% - 1.5rem) / 2); }
     .team__grid { grid-template-columns: 1fr; }
     .team__grid--single { grid-template-columns: minmax(0, 36rem); }
   }
   @media (max-width: 40rem) {
+    .why__steps { grid-template-columns: 1fr; gap: 1rem; }
     .services__track { grid-auto-columns: 85%; }
     .member { grid-template-columns: 1fr; text-align: center; }
-    .why__item { padding-inline: 0.75rem; }
+    .reviews__score { border-radius: var(--radius); }
+    .marquee__viewport { height: 34rem; }
   }
 </style>

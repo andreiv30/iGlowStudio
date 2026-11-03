@@ -53,7 +53,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
         <h1 class="h1" data-load style="--i: 1"><em>{s.data.titlu}</em></h1>
         <p class="lead" data-load style="--i: 2">{s.data.rezumat}</p>
         <dl class="facts" data-load style="--i: 3">
-          <div><dt><Icon name="clock" size={16} />Durată</dt><dd>{s.data.durata}</dd></div>
+          {s.data.durata && <div><dt><Icon name="clock" size={16} />Durată</dt><dd>{s.data.durata}</dd></div>}
           <div><dt><Icon name="calendar" size={16} />Preț</dt><dd>de la {s.data.pret_de_la} lei</dd></div>
         </dl>
         <div class="svc-head__actions" data-load style="--i: 4">
@@ -92,7 +92,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
       <div data-reveal><Photo src={s.data.imagine_detaliu} alt={altImg(`${s.data.titlu}, detaliu`, s.data.imagine_alt)} ratio="1 / 1" /></div>
       <div class="head">
         <p class="eyebrow" data-reveal>Despre serviciu</p>
-        <h2 id="about-title" class="h2" data-reveal style="--i: 1">Ce înseamnă <em>{s.data.titlu.toLowerCase()}</em> la iGlow</h2>
+        <h2 id="about-title" class="h2" data-reveal style="--i: 1"><em>{s.data.titlu}</em> la iGlow</h2>
         <div class="prose" data-reveal style="--i: 2"><Content /></div>
       </div>
     </div>
@@ -104,7 +104,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
       <div class="container">
         <div class="head head--center">
           <p class="eyebrow eyebrow--center" data-reveal>Prețuri</p>
-          <h2 id="prices-title" class="h2" data-reveal style="--i: 1">Prețuri pentru <em>{s.data.titlu.toLowerCase()}</em></h2>
+          <h2 id="prices-title" class="h2" data-reveal style="--i: 1">Servicii și <em>prețuri</em></h2>
         </div>
         <div class="prices__grid">
           {s.data.preturi.map((p, i) => <PriceCard nume={p.nume} descriere={p.descriere} durata={p.durata} pret={p.pret} i={i % 3} />)}
@@ -149,7 +149,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
     </div>
   </section>
 
-  <CtaCard titlu={`Rezervă *${s.data.titlu.toLowerCase()}*`} />
+  <CtaCard />
 </Base>
 
 <style>
@@ -175,7 +175,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
   .prices__grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
   .q-head { margin-bottom: 2.5rem; }
 
-  .others__grid { list-style: none; padding: 0; margin-top: 3rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+  .others__grid { list-style: none; padding: 0; margin-top: 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.5rem; }
   .others__card { overflow: hidden; }
   .others__card a { display: flex; flex-direction: column; text-decoration: none; height: 100%; }
   .others__body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.25rem 1.5rem 1rem; }

@@ -27,7 +27,9 @@ Pentru serviciile Google folosim **Google Consent Mode**: fără acordul tău, G
 
 ## Linkuri externe
 
-Butoanele către platforma de rezervări, Instagram, Facebook, WhatsApp sau Google Maps te duc pe site-urile acestora, care au propriile politici de cookie.
+Butoanele către platforma de rezervări (Mero), Instagram, Facebook, WhatsApp sau Google Maps te duc pe site-urile acestora, care au propriile politici de cookie.
+
+Pe pagina Despre noi, harta Google Maps se încarcă doar după ce accepți cookie-urile de preferințe sau după ce apeși „Afișează harta”. Din acel moment, Google poate plasa propriile cookie-uri.
 
 ## Contact
 

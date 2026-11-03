@@ -14,7 +14,6 @@ export const GET: APIRoute = async ({ site }) => {
     { path: '/galerie/', priority: '0.6', changefreq: 'weekly' },
     { path: '/echipa/', priority: '0.6', changefreq: 'monthly' },
     { path: '/despre-noi/', priority: '0.6', changefreq: 'monthly' },
-    { path: '/rezerva/', priority: '0.7', changefreq: 'monthly' },
     { path: '/date-identificare/', priority: '0.2', changefreq: 'yearly' },
     ...pagini.map((p) => ({ path: `/${p.id}/`, priority: '0.2', changefreq: 'yearly' })),
   ];

@@ -16,7 +16,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 
   <section class="offers container" aria-label="Oferte active">
     {oferte.length === 0 ? (
-      <p class="lead empty">Momentan nu avem oferte active. Urmărește-ne pe <a href={setari.instagram} rel="noopener" target="_blank">Instagram</a> ca să le afli primele.</p>
+      <p class="lead empty">Momentan nu avem oferte active.{setari.instagram ? <> Urmărește-ne pe <a href={setari.instagram} rel="noopener" target="_blank">Instagram</a> ca să le afli primele.</> : ' Revino curând sau programează-te online.'}</p>
     ) : (
       <div class="offers__grid">
         {oferte.map((o, i) => (

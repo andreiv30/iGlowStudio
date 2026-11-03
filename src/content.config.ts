@@ -11,7 +11,7 @@ const servicii = defineCollection({
     eticheta: z.string().default(''),
     icon: z.string().default('scissors'),
     ordine: z.number().default(10),
-    durata: z.string(),
+    durata: z.string().optional().nullable(),
     pret_de_la: z.number(),
     imagine: z.string().optional().nullable(),
     imagine_alt: z.string().optional().nullable(),
