@@ -53,7 +53,7 @@ const hartaSrc = `https://maps.google.com/maps?q=${encodeURIComponent(setari.har
               <div><dt>Telefon</dt><dd><a href={`tel:${setari.telefon.replace(/\s/g, '')}`}>{setari.telefon}</a></dd></div>
               <div><dt>Program</dt><dd><ul class="hours">{setari.program.map((p) => <li><span>{p.zile}</span><span>{p.ore}</span></li>)}</ul></dd></div>
             </dl>
-            <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă online</a>
+            <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă online <Icon name="external" size={16} /></a>
           </div>
           <div class="map" data-reveal style="--i: 1" data-map>
             <!-- harta Google se încarcă după acordul pentru cookie-uri de preferințe sau la apăsarea butonului -->

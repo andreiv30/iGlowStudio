@@ -5,6 +5,7 @@ import { seoPagina, altImg } from '../lib/seo';
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
 import galerie from '../data/galerie.json';
 
 type Img = { imagine: string; descriere?: string };
@@ -19,19 +20,94 @@ const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '
     {imagini.length > 0
       ? imagini.map((img, i) => (
           <figure class="masonry__item" data-reveal style={`--i: ${i % 4}`}>
-            <img src={img.imagine} alt={altImg(`Lucrare de coafură și culoare ${i + 1}`, img.descriere)} loading={i < 8 ? 'eager' : 'lazy'} />
+            <button type="button" class="masonry__open" data-lb-open={i} aria-label={`Deschide fotografia ${i + 1} din ${imagini.length}`}>
+              <img src={img.imagine} alt={altImg(`Lucrare de coafură și culoare ${i + 1}`, img.descriere)} loading={i < 8 ? 'eager' : 'lazy'} decoding="async" />
+              <span class="masonry__zoom" aria-hidden="true"><Icon name="expand" size={18} /></span>
+            </button>
           </figure>
         ))
       : goale.map((r, i) => (
           <div class="masonry__item" data-reveal style={`--i: ${i % 4}`}><Photo ratio={r} /></div>
         ))}
   </section>
+
+  {imagini.length > 0 && (
+    <dialog class="lb" data-lb aria-label="Galerie foto">
+      <figure class="lb__stage">
+        <img class="lb__img" data-lb-img alt="" />
+        <figcaption class="lb__count" data-lb-count aria-live="polite"></figcaption>
+      </figure>
+      <button type="button" class="lb__btn lb__close" data-lb-close aria-label="Închide galeria"><Icon name="close" size={22} /></button>
+      <button type="button" class="lb__btn lb__prev" data-lb-prev aria-label="Fotografia anterioară"><Icon name="arrow-left" size={22} /></button>
+      <button type="button" class="lb__btn lb__next" data-lb-next aria-label="Fotografia următoare"><Icon name="arrow" size={22} /></button>
+    </dialog>
+  )}
 </Base>
+
+<script>
+  // lightbox: click pe o poză → se deschide mare; săgeți, tastatură (← → Esc) și swipe pe telefon
+  const dlg = document.querySelector<HTMLDialogElement>('[data-lb]');
+  const thumbs = [...document.querySelectorAll<HTMLButtonElement>('[data-lb-open]')];
+  if (dlg && thumbs.length) {
+    const img = dlg.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const count = dlg.querySelector<HTMLElement>('[data-lb-count]')!;
+    const srcs = thumbs.map((b) => { const i = b.querySelector('img')!; return { src: i.currentSrc || i.src, alt: i.alt }; });
+    let cur = 0;
+    const show = (i: number) => {
+      cur = (i + srcs.length) % srcs.length;
+      img.classList.remove('is-in');
+      img.src = srcs[cur].src; img.alt = srcs[cur].alt;
+      count.textContent = `${cur + 1} / ${srcs.length}`;
+      requestAnimationFrame(() => img.classList.add('is-in'));
+      [cur + 1, cur - 1].forEach((j) => { const p = new Image(); p.src = srcs[(j + srcs.length) % srcs.length].src; });
+    };
+    let opener: HTMLElement | null = null;
+    thumbs.forEach((b, i) => b.addEventListener('click', () => {
+      opener = b; show(i); dlg.showModal(); document.documentElement.classList.add('lb-open');
+    }));
+    dlg.addEventListener('close', () => { document.documentElement.classList.remove('lb-open'); opener?.focus(); });
+    dlg.querySelector('[data-lb-close]')!.addEventListener('click', () => dlg.close());
+    dlg.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(cur - 1));
+    dlg.querySelector('[data-lb-next]')!.addEventListener('click', () => show(cur + 1));
+    dlg.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1); }
+    });
+    // click pe fundal (în afara pozei și a butoanelor) închide
+    dlg.addEventListener('click', (e) => { if (e.target === dlg || (e.target as HTMLElement).classList.contains('lb__stage')) dlg.close(); });
+    let x0 = 0, y0 = 0;
+    dlg.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    dlg.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>
 
 <style>
   .masonry { columns: 4 14rem; column-gap: 1.25rem; padding-block: clamp(3rem, 5vw, 4.5rem) var(--section); }
   .masonry__item { break-inside: avoid; margin: 0 0 1.25rem; border-radius: var(--radius); overflow: hidden; }
+  .masonry__open { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
   .masonry__item img { width: 100%; height: auto; display: block; transition: transform 700ms var(--ease-out); }
-  @media (hover: hover) and (pointer: fine) { .masonry__item:hover img { transform: scale(1.03); } }
+  .masonry__zoom { position: absolute; right: 0.75rem; bottom: 0.75rem; width: 2.5rem; height: 2.5rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgb(255 255 255 / 0.85); color: var(--ink); opacity: 0; transform: translateY(6px); transition: opacity 300ms ease, transform 300ms var(--ease-out); }
+  .masonry__open:focus-visible .masonry__zoom { opacity: 1; transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .masonry__item:hover img { transform: scale(1.03); }
+    .masonry__item:hover .masonry__zoom { opacity: 1; transform: none; }
+  }
   @media (max-width: 40rem) { .masonry { columns: 2; column-gap: 0.75rem; } .masonry__item { margin-bottom: 0.75rem; } }
+
+  .lb { width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: rgb(18 13 9 / 0.94); color: var(--alb-cald); }
+  .lb::backdrop { background: rgb(18 13 9 / 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .lb__stage { position: absolute; inset: 0; margin: 0; display: flex; align-items: center; justify-content: center; padding: clamp(3.5rem, 7vw, 5rem) clamp(0.75rem, 7vw, 6rem); }
+  .lb__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.6); opacity: 0; transform: scale(0.98); transition: opacity 300ms ease, transform 400ms var(--ease-out); }
+  .lb__img.is-in { opacity: 1; transform: none; }
+  .lb__count { position: absolute; left: 50%; bottom: 1.25rem; transform: translateX(-50%); font-size: 0.8125rem; letter-spacing: 0.18em; color: var(--nisip); font-variant-numeric: tabular-nums; }
+  .lb__btn { position: absolute; z-index: 1; width: 3rem; height: 3rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.2); color: #fff; transition: background-color 200ms ease, border-color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) { .lb__btn:hover { background: var(--caramel); border-color: var(--caramel); color: var(--espresso); } }
+  .lb__close { top: 1rem; right: 1rem; }
+  .lb__prev { left: 1rem; top: 50%; transform: translateY(-50%); }
+  .lb__next { right: 1rem; top: 50%; transform: translateY(-50%); }
+  @media (max-width: 40rem) { .lb__prev, .lb__next { top: auto; bottom: 0.75rem; transform: none; } .lb__count { bottom: 1.6rem; } }
+  :global(html.lb-open) { overflow: hidden; }
 </style>

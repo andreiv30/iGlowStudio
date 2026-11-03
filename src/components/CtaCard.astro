@@ -1,20 +1,44 @@
 ---
-// „Pasul următor”: cardul de la finalul paginilor, ca pe Caracter.
+// „Pasul următor”: cardul de la finalul paginilor, pe fundal închis cu lumini calde.
+// Textele sunt globale și se editează din /admin → Setări și pagini → Card „Pasul următor”.
 import Icon from './Icon.astro';
+import cta from '../data/cta.json';
 import { accent, rezervaHref, rezervaExtern } from '../lib/nav';
-interface Props { titlu?: string; text?: string }
-const { titlu = 'Pregătită pentru *noul tău look*?', text = 'Alege serviciul și ora care ți se potrivesc. Îți confirmăm programarea cât mai repede.' } = Astro.props;
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
 <section class="cta container" aria-labelledby="cta-title">
-  <div class="cta__card card" data-reveal>
-    <p class="eyebrow eyebrow--center">Pasul următor</p>
-    <h2 id="cta-title" class="h2" set:html={accent(titlu)} />
-    <p class="lead">{text}</p>
-    <a class="btn" href={rezervaHref} {...ext}>Programează-te <Icon name="arrow" size={18} /></a>
+  <div class="cta__card" data-reveal>
+    <span class="cta__glow cta__glow--a" aria-hidden="true"></span>
+    <span class="cta__glow cta__glow--b" aria-hidden="true"></span>
+    <span class="cta__glow cta__glow--c" aria-hidden="true"></span>
+    {cta.eticheta && <p class="eyebrow eyebrow--center cta__eyebrow">{cta.eticheta}</p>}
+    <h2 id="cta-title" class="h2 cta__title" set:html={accent(cta.titlu)} />
+    {cta.text && <p class="lead cta__text">{cta.text}</p>}
+    <a class="btn btn--gold" href={rezervaHref} {...ext}>{cta.buton} <Icon name="external" size={18} /></a>
   </div>
 </section>
 <style>
   .cta { padding-block: calc(var(--section) * 0.4) var(--section); }
-  .cta__card { max-width: 46rem; margin-inline: auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; background: var(--surface); }
+  .cta__card {
+    position: relative; isolation: isolate; overflow: hidden;
+    max-width: 52rem; margin-inline: auto; padding: clamp(2.75rem, 6vw, 4.75rem) clamp(1.5rem, 5vw, 4rem);
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.5rem;
+    border-radius: calc(var(--radius) + 6px); color: var(--alb-cald);
+    background: radial-gradient(80% 120% at 50% 120%, rgb(177 139 90 / 0.28), transparent 60%), linear-gradient(160deg, #2a1f17, var(--espresso) 60%);
+    border: 1px solid rgb(212 180 138 / 0.16);
+    box-shadow: 0 30px 60px -30px rgb(26 19 13 / 0.6);
+  }
+  .cta__glow { position: absolute; z-index: -1; border-radius: 999px; filter: blur(40px); pointer-events: none; }
+  .cta__glow--a { width: 22rem; height: 22rem; left: -8rem; top: -9rem; background: radial-gradient(closest-side, rgb(212 180 138 / 0.45), transparent); }
+  .cta__glow--b { width: 20rem; height: 20rem; right: -7rem; bottom: -10rem; background: radial-gradient(closest-side, rgb(177 139 90 / 0.55), transparent); }
+  .cta__glow--c { width: 14rem; height: 8rem; left: 50%; top: -4rem; transform: translateX(-50%); background: radial-gradient(closest-side, rgb(243 227 200 / 0.18), transparent); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cta__glow--a { animation: cta-drift 14s ease-in-out infinite alternate; }
+    .cta__glow--b { animation: cta-drift 17s ease-in-out infinite alternate-reverse; }
+  }
+  @keyframes cta-drift { to { transform: translate3d(3rem, 2rem, 0) scale(1.12); } }
+  .cta__eyebrow { color: var(--alb-cald); }
+  .cta__title { color: var(--alb-cald); }
+  .cta__title :global(em) { color: var(--auriu); }
+  .cta__text { color: var(--nisip); }
 </style>

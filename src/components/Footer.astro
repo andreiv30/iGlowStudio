@@ -52,7 +52,7 @@ const social = [
         <summary><h2 class="acc__title">Explorează</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
         <ul class="footer__links">
           {meniu.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
-          <li><a href={rezervaHref} rel="noopener" target="_blank">Rezervă online</a></li>
+          <li><a class="footer__ext" href={rezervaHref} rel="noopener" target="_blank">Rezervă online <Icon name="external" size={13} /></a></li>
         </ul>
       </details>
     </div>
@@ -115,6 +115,7 @@ const social = [
   .footer__links a { display: inline-block; padding-block: 0.3rem; text-decoration: none; color: var(--nisip); transition: color 200ms ease; }
   @media (hover: hover) and (pointer: fine) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
 
+  .footer__ext { display: inline-flex !important; align-items: center; gap: 0.4rem; }
   .footer__legal { display: flex; flex-direction: column; gap: 0.6rem; }
   .footer__firma { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; letter-spacing: 0.12em; }
   .footer__firma a { color: inherit; text-decoration: none; transition: color 200ms ease; }

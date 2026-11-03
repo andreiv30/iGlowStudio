@@ -80,6 +80,15 @@ a { color: inherit; }
     radial-gradient(ellipse 42% 55% at 100% 0%, rgb(212 180 138 / 0.16), transparent 72%),
     radial-gradient(ellipse 38% 50% at 0% 100%, rgb(177 139 90 / 0.12), transparent 72%);
 }
+/* fundal crem cu lumini aurii în colțuri: separă cardurile albe de fundal */
+.section--glow {
+  background-color: var(--surface);
+  background-image:
+    radial-gradient(ellipse 48% 38% at 0% 0%, rgb(212 180 138 / 0.42), transparent 70%),
+    radial-gradient(ellipse 40% 32% at 100% 8%, rgb(212 180 138 / 0.22), transparent 70%),
+    radial-gradient(ellipse 48% 38% at 100% 100%, rgb(177 139 90 / 0.32), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 0% 92%, rgb(212 180 138 / 0.2), transparent 70%);
+}
 .section--dark { background: var(--espresso); color: var(--alb-cald); }
 
 /* ---------- tipografie ---------- */
@@ -118,6 +127,8 @@ p { text-wrap: pretty; }
 .btn--outline { background: var(--alb); color: var(--ink); border-color: var(--line); box-shadow: var(--shadow); }
 .btn--dark { background: var(--espresso); color: var(--alb-cald); }
 .btn--light { background: transparent; color: var(--alb-cald); border-color: rgb(251 251 250 / 0.5); }
+/* pe fundal închis: auriu deschis, text închis (contrast 9:1) */
+.btn--gold { background: var(--auriu); color: var(--espresso); }
 .btn--small { min-height: 2.75rem; padding: 0 1.25rem; font-size: 0.75rem; }
 .btn--block { width: 100%; }
 @media (hover: hover) and (pointer: fine) {
@@ -126,6 +137,7 @@ p { text-wrap: pretty; }
   .btn--outline:hover { background: #f6f0e9; border-color: var(--caramel); box-shadow: 0 16px 34px -12px rgb(201 155 88 / 0.7), 0 4px 12px -6px rgb(122 92 56 / 0.3); }
   .btn--dark:hover { background: var(--cacao); }
   .btn--light:hover { background: rgb(251 251 250 / 0.12); border-color: var(--alb-cald); }
+  .btn--gold:hover { background: #c4a072; box-shadow: 0 16px 38px -10px rgb(212 180 138 / 0.65), 0 4px 14px -4px rgb(177 139 90 / 0.5); }
   .btn:active { transform: translateY(0) scale(0.97); }
   .btn:hover svg { transform: translateX(3px); }
 }

@@ -83,10 +83,11 @@ Necesită Node 22.12 sau mai nou (doar pentru build; serverul nu are nevoie de N
 | Ce | Fișier |
 | --- | --- |
 | Date salon, contact, program, hartă, firmă, link rezervare Mero, bara de anunț | `src/data/setari.json` |
-| Textele primei pagini | `src/data/acasa.json` |
+| Textele primei pagini (titlul și textul Echipei apar și pe pagina Echipă) | `src/data/acasa.json` |
 | Pagina Despre noi | `src/data/despre.json` |
 | Recenzii (preluate de pe Mero) | `src/data/recenzii.json` |
-| Galerie | `src/data/galerie.json` |
+| Galerie (în /admin poți selecta mai multe poze deodată; widget în `public/admin/galerie-widget.js`) | `src/data/galerie.json` |
+| Cardul „Pasul următor” de la finalul paginilor | `src/data/cta.json` |
 | Servicii: o pagină pe categorie (Colorare, Tuns, Diagnoză & scalp, Tratamente, Vouchere cadou); serviciile individuale sunt în lista „Prețuri” a categoriei | `src/content/servicii/*.md` |
 | Echipă | `src/content/echipa/*.md` |
 | Oferte | `src/content/oferte/*.md` |

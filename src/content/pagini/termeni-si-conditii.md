@@ -14,8 +14,9 @@ Prețurile afișate sunt orientative, în lei, cu TVA inclus dacă este cazul. P
 
 ## Programări
 
-- Programările se fac online, telefonic sau pe WhatsApp și sunt valabile după confirmarea noastră.
-- Te rugăm să anunți anularea sau reprogramarea cu cel puțin [24] de ore înainte.
+- Programările se fac online, pe platforma Mero, telefonic sau pe WhatsApp și sunt valabile după confirmarea noastră.
+- Dacă nu poți ajunge, te rugăm să anulezi sau să reprogramezi din timp, cel târziu în ziua dinaintea programării.
+- Anularea sau neprezentarea la programare în ziua rezervării implică achitarea integrală a serviciului rezervat.
 - La o întârziere de peste [15] minute, este posibil să scurtăm serviciul sau să îl reprogramăm.
 
 ## Oferte
