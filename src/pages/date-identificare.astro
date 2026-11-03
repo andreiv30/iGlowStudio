@@ -13,7 +13,7 @@ const rows = [
 ---
 <Base {...seoPagina('date-identificare')}>
   <PageHead eticheta="Informații legale" titlu="Date identificare *societate*" />
-  <section class="container section">
+  <section class="container section section--plain">
     <dl class="ids card" data-reveal>{rows.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
   </section>
 </Base>
