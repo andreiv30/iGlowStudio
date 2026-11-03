@@ -1,0 +1,27 @@
+{
+  "hero_imagine": "",
+  "hero_imagine_alt": "",
+  "hero_eticheta": "Salon de înfrumusețare",
+  "hero_titlu": "Unde părul tău își găsește *strălucirea*.",
+  "hero_buton": "Programează-te",
+  "cuvinte": ["Formă", "Culoare", "Strălucire", "Grijă", "Eleganță", "Lumină", "Rafinament", "Încredere"],
+  "de_ce_eticheta": "De ce noi",
+  "de_ce_titlu": "Fiecare detaliu, gândit *pentru tine*",
+  "de_ce_text": "La iGlow, fiecare programare începe cu o discuție și se termină cu un păr pe care îl porți ușor acasă. Lucrăm fără grabă, cu produse profesionale și cu atenție la ce își dorește fiecare clientă.",
+  "de_ce": [
+    { "icon": "search", "titlu": "Consultație", "text": "înainte de fiecare serviciu" },
+    { "icon": "doc", "titlu": "Diagnostic", "text": "al firului și al scalpului" },
+    { "icon": "star", "titlu": "Produse profesionale", "text": "alese pentru părul tău" },
+    { "icon": "diamond", "titlu": "Rutină pentru acasă", "text": "ca rezultatul să țină" }
+  ],
+  "servicii_titlu": "Gama de *servicii*",
+  "servicii_text": "Fiecare tratament este gândit să îți pună în valoare stilul, de la primul contact până la rezultat.",
+  "echipa_titlu": "Cunoaște *echipa*",
+  "echipa_text": "Oamenii din spatele fiecărui look: experiență, atenție la detalii și grijă pentru fiecare clientă. Alege specialistul potrivit și programează-te.",
+  "intrebari": [
+    { "intrebare": "Cum mă pot programa?", "raspuns": "Online, din butonul Rezervă, telefonic sau pe WhatsApp. Alegi serviciul, ziua și ora, iar noi îți confirmăm programarea." },
+    { "intrebare": "Cât durează o programare?", "raspuns": "Un tuns durează aproximativ o oră, un vopsit două–trei ore, iar un balayage trei–patru ore. Durata exactă o găsești la fiecare serviciu." },
+    { "intrebare": "Pot anula sau reprograma?", "raspuns": "Da. Te rugăm să ne anunți cu cel puțin 24 de ore înainte, ca să putem oferi ora altei cliente." },
+    { "intrebare": "Ce servicii oferiți?", "raspuns": "Tuns, coafat, vopsit, balayage și tratamente pentru păr. Lista completă, cu prețuri, este pe pagina Servicii." }
+  ]
+}

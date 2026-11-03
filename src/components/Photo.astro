@@ -1,0 +1,22 @@
+---
+// Locul unei fotografii. Dacă nu există încă imagine, rămâne gol (un cadru discret),
+// gata să primească poza încărcată din /admin.
+import Icon from './Icon.astro';
+interface Props { src?: string | null; alt?: string | null; ratio?: string; eager?: boolean; class?: string; dark?: boolean; rounded?: boolean }
+const { src, alt = '', ratio = '4 / 5', eager = false, class: cls, dark = false, rounded = true } = Astro.props;
+---
+<div class:list={['photo', dark && 'photo--dark', rounded && 'photo--rounded', !src && 'photo--empty', cls]} style={`--ratio: ${ratio}`}>
+  {src ? (
+    <img src={src} alt={alt ?? ''} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  ) : (
+    <span class="photo__hint" aria-hidden="true"><Icon name="image" size={28} /></span>
+  )}
+</div>
+<style>
+  .photo { position: relative; aspect-ratio: var(--ratio); overflow: hidden; background: #ede6df; }
+  .photo--rounded { border-radius: var(--radius); }
+  .photo--dark { background: var(--cacao); }
+  .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .photo__hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgb(26 19 13 / 0.18); }
+  .photo--dark .photo__hint { color: rgb(251 251 250 / 0.2); }
+</style>

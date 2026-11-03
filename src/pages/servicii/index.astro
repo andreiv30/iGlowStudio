@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PriceCard from '../../components/PriceCard.astro';
+import Icon from '../../components/Icon.astro';
+import CtaCard from '../../components/CtaCard.astro';
+
+const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
+---
+<Base title="Servicii și prețuri" description="Tuns, vopsit, balayage, tratamente și coafat la iGlow Studio, cu prețuri și durate.">
+  <PageHead eticheta="Servicii" titlu="Alege serviciul la care vrei *să te programezi*" text="Prețurile la serviciile de colorare variază în funcție de lungimea părului, tipul părului și cantitatea de produse necesare. Prețul final îl afli înainte să începem." />
+
+  <div class="cats container">
+    {servicii.map((s) => (
+      <section class="cat" aria-labelledby={`cat-${s.id}`} id={s.id}>
+        <header class="cat__head" data-reveal>
+          <span class="ring ring--small"><Icon name={s.data.icon} size={18} /></span>
+          <div>
+            <h2 id={`cat-${s.id}`} class="cat__title">{s.data.titlu}</h2>
+            <p class="muted cat__count">{s.data.preturi.length} {s.data.preturi.length === 1 ? 'serviciu' : 'servicii'}</p>
+          </div>
+          <a class="more cat__link" href={`/servicii/${s.id}`}>Despre {s.data.titlu.toLowerCase()} <Icon name="arrow" size={14} /></a>
+        </header>
+        <div class="cat__grid">
+          {s.data.preturi.map((p, i) => (
+            <PriceCard nume={p.nume} descriere={p.descriere} durata={p.durata} pret={p.pret} i={i % 3} />
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <CtaCard />
+</Base>
+
+<style>
+  .cats { display: flex; flex-direction: column; gap: clamp(4rem, 7vw, 6rem); padding-top: clamp(3.5rem, 6vw, 5rem); }
+  .cat__head { display: grid; grid-template-columns: auto 1fr auto; gap: 1.25rem; align-items: center; margin-bottom: 2rem; }
+  .cat__title { font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem); font-style: italic; line-height: 1.1; }
+  .cat__count { font-size: 0.875rem; }
+  .cat__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  @media (max-width: 64rem) { .cat__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 40rem) {
+    .cat__grid { grid-template-columns: 1fr; }
+    .cat__head { grid-template-columns: auto 1fr; }
+    .cat__link { grid-column: 1 / -1; }
+  }
+</style>

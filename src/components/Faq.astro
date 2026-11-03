@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { intrebare: string; raspuns: string }[] }
+const { items } = Astro.props;
+---
+<div class="faq card" data-reveal>
+  {items.map((q) => (
+    <details class="faq__item">
+      <summary><h3>{q.intrebare}</h3><span class="faq__chev"><Icon name="chevron" /></span></summary>
+      <p>{q.raspuns}</p>
+    </details>
+  ))}
+</div>
+<style>
+  .faq { width: 100%; max-width: 46rem; margin-inline: auto; overflow: hidden; }
+  .faq__item + .faq__item { border-top: 1px solid var(--line); }
+  .faq__item summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 4rem; padding: 0.75rem 1.75rem; cursor: pointer; }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item h3 { font-family: var(--font-text); font-size: 1rem; font-weight: 500; letter-spacing: 0; }
+  .faq__chev { flex: none; display: inline-flex; color: var(--caramel); transition: transform 300ms var(--ease-out); }
+  .faq__item[open] .faq__chev { transform: rotate(180deg); }
+  .faq__item p { padding: 0 1.75rem 1.5rem; color: var(--muted); max-width: 40rem; }
+  @media (hover: hover) and (pointer: fine) { .faq__item summary:hover { background: var(--surface); } }
+</style>

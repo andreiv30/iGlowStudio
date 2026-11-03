@@ -1,0 +1,146 @@
+/* iGlow Studio — stiluri globale
+   Structura: după atelier-caracter.ro. Stilul: flyerul iGlow (titluri serif, etichete spațiate,
+   buton auriu rotunjit, iconițe în cerc). Paleta: artefactul „Paletă iGlow Hair”, pe fundal alb. */
+
+@import '@fontsource-variable/source-serif-4/opsz.css';
+@import '@fontsource-variable/source-serif-4/opsz-italic.css';
+@import '@fontsource-variable/inter/opsz.css';
+@import '@fontsource/montserrat/latin-400.css';
+@import '@fontsource/montserrat/latin-ext-400.css';
+
+:root {
+  --espresso: #1a130d;
+  --mocha: #261b15;
+  --cacao: #3c2d23;
+  --taupe: #513f33;
+  --piatra: #605750;
+  --greige: #9b8f80;
+  --caramel: #b18b5a;
+  --auriu: #d4b48a;
+  --alb: #ffffff;
+  --alb-cald: #fbfbfa;
+  --nisip: #d9cfc3;
+
+  --bg: var(--alb);
+  --surface: #f7f3ef;        /* secțiunile alternative */
+  --card: var(--alb);
+  --ink: var(--espresso);
+  --muted: var(--piatra);
+  --accent: var(--caramel);
+  --line: rgb(26 19 13 / 0.1);
+  --shadow: 0 1px 2px rgb(26 19 13 / 0.04), 0 12px 32px -12px rgb(26 19 13 / 0.18);
+
+  --font-display: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --font-text: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-logo: 'Montserrat', 'Inter Variable', system-ui, sans-serif;
+
+  --container: 75rem;
+  --gutter: clamp(1.25rem, 3vw, 2rem);
+  --section: clamp(5rem, 9vw, 8rem);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --header-h: 5rem;
+  --bar-h: 2.5rem;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-text); font-size: 1rem; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl, dd { margin: 0; }
+ul[class], ol[class] { padding: 0; list-style: none; }
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; }
+::selection { background: var(--auriu); color: var(--espresso); }
+:focus-visible { outline: 2px solid var(--caramel); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- containere ---------- */
+.container { width: 100%; max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: var(--section); }
+.section--surface { background: var(--surface); }
+.section--dark { background: var(--espresso); color: var(--alb-cald); }
+
+/* ---------- tipografie ---------- */
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; letter-spacing: -0.01em; }
+h1 em, h2 em, h3 em, .accent em { font-style: italic; color: var(--caramel); }
+.section--dark h2 em, .on-photo em { color: var(--auriu); }
+.h1 { font-size: clamp(2.5rem, 1.2rem + 4.6vw, 4.75rem); line-height: 1.05; }
+.h2 { font-size: clamp(2.1rem, 1.3rem + 2.8vw, 3.5rem); line-height: 1.08; }
+.h3 { font-size: clamp(1.4rem, 1.2rem + 0.6vw, 1.75rem); line-height: 1.2; }
+.lead { font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); color: var(--muted); max-width: 40rem; }
+.section--dark .lead { color: var(--nisip); }
+.muted { color: var(--muted); }
+p { text-wrap: pretty; }
+
+/* eticheta de deasupra titlurilor: linie scurtă aurie + text spațiat (ca pe Caracter și pe flyer) */
+.eyebrow { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.85rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink); }
+.eyebrow::before { content: ''; width: 2.5rem; height: 2px; background: var(--caramel); }
+.eyebrow--center { align-items: center; }
+.section--dark .eyebrow, .on-photo .eyebrow { color: var(--alb-cald); }
+
+.head { display: flex; flex-direction: column; gap: 1.25rem; }
+.head--center { align-items: center; text-align: center; }
+.head--center .lead { margin-inline: auto; }
+
+/* ---------- butoane (după flyer: auriu, colțuri rotunjite, majuscule spațiate) ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.75em;
+  min-height: 3.25rem; padding: 0 1.9rem;
+  border-radius: var(--radius-sm); border: 1px solid transparent;
+  background: var(--caramel); color: var(--espresso);
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; white-space: nowrap;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 140ms var(--ease-out), box-shadow 200ms ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn svg { transition: transform 200ms var(--ease-out); }
+.btn--outline { background: var(--alb); color: var(--ink); border-color: var(--line); box-shadow: var(--shadow); }
+.btn--dark { background: var(--espresso); color: var(--alb-cald); }
+.btn--light { background: transparent; color: var(--alb-cald); border-color: rgb(251 251 250 / 0.5); }
+.btn--small { min-height: 2.75rem; padding: 0 1.25rem; font-size: 0.75rem; }
+.btn--block { width: 100%; }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { background: var(--auriu); }
+  .btn--outline:hover { background: var(--alb); border-color: var(--caramel); }
+  .btn--dark:hover { background: var(--cacao); }
+  .btn--light:hover { background: rgb(251 251 250 / 0.12); border-color: var(--alb-cald); }
+  .btn:hover svg { transform: translateX(3px); }
+}
+/* link mic cu săgeată: „DESCOPERĂ →”, „REZERVĂ →” */
+.more { display: inline-flex; align-items: center; gap: 0.5em; min-height: 44px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--taupe); }
+.more svg { transition: transform 200ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .more:hover { color: var(--ink); } .more:hover svg { transform: translateX(4px); } }
+
+/* ---------- iconițe în cerc (flyer) ---------- */
+.ring { width: 4.5rem; height: 4.5rem; border-radius: 999px; border: 1.5px solid var(--caramel); color: var(--caramel); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.ring--small { width: 2.75rem; height: 2.75rem; border-width: 1px; }
+
+/* ---------- carduri ---------- */
+.card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* ---------- începutul paginilor interioare (centrat, ca pe Caracter) ---------- */
+.page-head { padding-top: calc(var(--header-h) + var(--bar-h) + clamp(3rem, 6vw, 5rem)); padding-bottom: clamp(3rem, 5vw, 4.5rem); background: var(--surface); }
+
+/* ---------- text lung ---------- */
+.prose { max-width: 46rem; color: var(--ink); }
+.prose > * + * { margin-top: 1em; }
+.prose h2 { font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem); line-height: 1.15; margin-top: 2em; }
+.prose h3 { font-size: 1.3rem; margin-top: 1.6em; }
+.prose ul, .prose ol { padding-left: 1.2em; }
+.prose li + li { margin-top: 0.4em; }
+.prose a { text-underline-offset: 0.2em; }
+.prose strong { font-weight: 600; }
+
+/* ---------- mișcare (după tasteskill.dev; conținutul rămâne vizibil fără JavaScript) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-load] { opacity: 0; transform: translateY(14px); filter: blur(6px); animation: load-in 900ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .js [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: calc(var(--i, 0) * 65ms); }
+  .js [data-reveal].is-in { opacity: 1; transform: none; }
+}
+@keyframes load-in { to { opacity: 1; transform: none; filter: blur(0); } }

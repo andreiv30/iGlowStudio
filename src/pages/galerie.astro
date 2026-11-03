@@ -1,0 +1,36 @@
+---
+// Galeria: doar fotografii, așezate în coloane (masonry), ca pe Caracter.
+// Pozele se adaugă din /admin → Galerie. Până atunci rămân cadre goale.
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
+import galerie from '../data/galerie.json';
+
+type Img = { imagine: string; descriere?: string };
+const imagini = galerie.imagini as Img[];
+// cadre goale cu proporții diferite, ca să se vadă așezarea până vin pozele
+const goale = ['3 / 4', '4 / 5', '3 / 4', '9 / 16', '4 / 5', '3 / 4', '1 / 1', '4 / 5', '3 / 4', '4 / 5', '9 / 16', '3 / 4'];
+---
+<Base title="Galerie" description="Lucrări realizate la iGlow Studio: tunsori, culoare, balayage și atmosfera din salon.">
+  <PageHead eticheta="Galerie" titlu="Lucrări & *atmosferă*" text="Câteva momente din salon: coafuri, culori și spațiul în care ne place să creăm. Derulează pentru a descoperi galeria." />
+
+  <section class="masonry container" aria-label="Fotografii">
+    {imagini.length > 0
+      ? imagini.map((img, i) => (
+          <figure class="masonry__item" data-reveal style={`--i: ${i % 4}`}>
+            <img src={img.imagine} alt={img.descriere ?? ''} loading={i < 8 ? 'eager' : 'lazy'} />
+          </figure>
+        ))
+      : goale.map((r, i) => (
+          <div class="masonry__item" data-reveal style={`--i: ${i % 4}`}><Photo ratio={r} /></div>
+        ))}
+  </section>
+</Base>
+
+<style>
+  .masonry { columns: 4 14rem; column-gap: 1.25rem; padding-block: clamp(3rem, 5vw, 4.5rem) var(--section); }
+  .masonry__item { break-inside: avoid; margin: 0 0 1.25rem; border-radius: var(--radius); overflow: hidden; }
+  .masonry__item img { width: 100%; height: auto; display: block; transition: transform 700ms var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) { .masonry__item:hover img { transform: scale(1.03); } }
+  @media (max-width: 40rem) { .masonry { columns: 2; column-gap: 0.75rem; } .masonry__item { margin-bottom: 0.75rem; } }
+</style>

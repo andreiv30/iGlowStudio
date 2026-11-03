@@ -1,0 +1,110 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import setari from '../data/setari.json';
+import { meniu, legale } from '../lib/nav';
+
+const an = new Date().getFullYear();
+const tel = setari.telefon.replace(/\s/g, '');
+const social = [
+  { href: setari.instagram, label: 'Instagram', icon: 'instagram' },
+  { href: setari.facebook, label: 'Facebook', icon: 'facebook' },
+  { href: setari.tiktok, label: 'TikTok', icon: 'tiktok' },
+  { href: `https://wa.me/${setari.whatsapp}`, label: 'WhatsApp', icon: 'whatsapp' },
+].filter((s) => s.href);
+---
+<footer class="footer">
+  <span class="footer__circle footer__circle--a" aria-hidden="true"></span>
+  <span class="footer__circle footer__circle--b" aria-hidden="true"></span>
+  <div class="container footer__inner">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="footer__logo" href="/" aria-label={`${setari.nume}, pagina principală`}><Logo /></a>
+        <p>{setari.descriere_scurta}</p>
+        <ul class="footer__social" aria-label="Rețele sociale">
+          {social.map((s) => <li><a href={s.href} aria-label={s.label} rel="noopener" target="_blank"><Icon name={s.icon} size={18} /></a></li>)}
+        </ul>
+      </div>
+
+      <details class="acc" open data-acc>
+        <summary><h2 class="acc__title">Contact</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
+        <ul class="footer__contact">
+          <li><a href={`tel:${tel}`}><span class="ring ring--small"><Icon name="phone" size={18} /></span><span><span class="k">Telefon</span>{setari.telefon}</span></a></li>
+          <li><a href={`https://wa.me/${setari.whatsapp}`} rel="noopener" target="_blank"><span class="ring ring--small"><Icon name="whatsapp" size={18} /></span><span><span class="k">WhatsApp</span>Scrie-ne un mesaj</span></a></li>
+          <li><a href={`mailto:${setari.email}`}><span class="ring ring--small"><Icon name="mail" size={18} /></span><span><span class="k">Email</span>{setari.email}</span></a></li>
+          <li><a href={setari.link_harta} rel="noopener" target="_blank"><span class="ring ring--small"><Icon name="pin" size={18} /></span><span><span class="k">Adresă</span>{setari.adresa}<br />{setari.oras}</span></a></li>
+        </ul>
+      </details>
+
+      <details class="acc" data-acc>
+        <summary><h2 class="acc__title">Legal</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
+        <ul class="footer__links">
+          {legale.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          <li><a href="https://anpc.ro/" rel="noopener" target="_blank">ANPC</a></li>
+          <li><a href="https://anpc.ro/ce-este-sal/" rel="noopener" target="_blank">ANPC – SAL</a></li>
+        </ul>
+      </details>
+
+      <details class="acc" data-acc>
+        <summary><h2 class="acc__title">Explorează</h2><span class="acc__chev"><Icon name="chevron" /></span></summary>
+        <ul class="footer__links">
+          {meniu.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
+          <li><a href="/rezerva">Rezervă</a></li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© {an} {setari.nume}. Toate drepturile rezervate.</p>
+      <p>{setari.oras}, România</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { position: relative; overflow: hidden; background: var(--espresso); color: var(--alb-cald); }
+  /* cercurile mari din fundal, ca pe Caracter, în tonurile paletei */
+  .footer__circle { position: absolute; border-radius: 999px; background: var(--mocha); pointer-events: none; }
+  .footer__circle--a { width: 52rem; height: 52rem; left: -14rem; top: 9rem; }
+  .footer__circle--b { width: 46rem; height: 46rem; right: -10rem; top: -6rem; background: #2e2119; }
+  .footer__inner { position: relative; padding-block: clamp(4rem, 7vw, 6rem) 2rem; display: flex; flex-direction: column; gap: 3.5rem; }
+  .footer__grid { display: grid; grid-template-columns: 1.15fr 1.2fr 1fr 0.8fr; gap: 2.5rem; }
+  .footer__brand { display: flex; flex-direction: column; gap: 1.5rem; }
+  .footer__logo { display: block; height: 4.5rem; color: var(--alb-cald); align-self: flex-start; }
+  .footer__brand p { color: var(--nisip); font-size: 0.9375rem; max-width: 22rem; }
+  .footer__social { display: flex; gap: 0.6rem; }
+  .footer__social a { width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgb(251 251 250 / 0.35); display: inline-flex; align-items: center; justify-content: center; transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) { .footer__social a:hover { background: var(--caramel); border-color: var(--caramel); color: var(--espresso); } }
+
+  .acc summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .acc summary::-webkit-details-marker { display: none; }
+  .acc__title { display: flex; flex-direction: column; gap: 0.75rem; font-family: var(--font-text); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; }
+  .acc__title::before { content: ''; width: 2rem; height: 2px; background: var(--caramel); }
+  .acc__chev { display: none; color: var(--auriu); transition: transform 300ms var(--ease-out); }
+
+  .footer__contact { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; font-size: 0.9375rem; }
+  .footer__contact a { display: flex; gap: 0.9rem; align-items: center; text-decoration: none; }
+  .footer__contact .ring { border-color: rgb(251 251 250 / 0.35); color: var(--alb-cald); }
+  .footer__contact span:last-child { display: flex; flex-direction: column; line-height: 1.45; }
+  .k { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--auriu); }
+  .footer__links { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 1.5rem; font-size: 0.9375rem; }
+  .footer__links a { display: inline-block; padding-block: 0.3rem; text-decoration: none; color: var(--nisip); transition: color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) { .footer__links a:hover, .footer__contact a:hover { color: var(--auriu); } }
+
+  .footer__bottom { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1.75rem; border-top: 1px solid rgb(251 251 250 / 0.14); font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--nisip); }
+
+  @media (max-width: 64rem) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+  /* pe mobil: Contact, Legal și Explorează devin acordeon, cu o singură secțiune deschisă */
+  @media (max-width: 48rem) {
+    .footer__grid { grid-template-columns: 1fr; gap: 0; }
+    .footer__brand { padding-bottom: 2.5rem; }
+    .acc { border-top: 1px solid rgb(251 251 250 / 0.14); }
+    .acc:last-child { border-bottom: 1px solid rgb(251 251 250 / 0.14); }
+    .acc summary { min-height: 3.75rem; cursor: pointer; }
+    .acc__title::before { display: none; }
+    .acc__chev { display: inline-flex; }
+    .acc[open] .acc__chev { transform: rotate(180deg); }
+    .footer__contact, .footer__links { margin-top: 0.25rem; padding-bottom: 1.5rem; }
+    .footer__bottom { flex-direction: column; border-top: 0; padding-top: 0; }
+  }
+</style>

@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+<Base title="Pagina nu există" noindex>
+  <PageHead eticheta="404" titlu="Pagina *nu există*" text="Poate s-a mutat sau adresa are o greșeală.">
+    <div class="nf" data-load style="--i: 3"><a class="btn" href="/">Pagina principală</a><a class="btn btn--outline" href="/servicii">Servicii</a></div>
+  </PageHead>
+</Base>
+<style>.nf { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }</style>

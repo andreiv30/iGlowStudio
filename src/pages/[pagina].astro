@@ -1,0 +1,21 @@
+---
+// Paginile legale: Politica de confidențialitate, Termeni și condiții, Politica cookie.
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+
+export async function getStaticPaths() {
+  const pagini = await getCollection('pagini');
+  return pagini.map((p) => ({ params: { pagina: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const { Content } = await render(p);
+---
+<Base title={p.data.titlu} description={p.data.descriere}>
+  <PageHead eticheta="Informații legale" titlu={p.data.titlu} text={`Actualizat la ${p.data.actualizat}`} />
+  <article class="container section legal"><div class="prose" data-reveal><Content /></div></article>
+</Base>
+<style>
+  .legal { display: flex; justify-content: center; }
+  .legal :global(.prose h2:first-child) { margin-top: 0; }
+</style>

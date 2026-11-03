@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import CtaCard from '../components/CtaCard.astro';
+import { rezervaHref, rezervaExtern } from '../lib/nav';
+
+const echipa = (await getCollection('echipa')).sort((a, b) => a.data.ordine - b.data.ordine);
+const servicii = await getCollection('servicii');
+const titlu = (slug: string) => servicii.find((s) => s.id === slug)?.data.titlu;
+const membri = await Promise.all(echipa.map(async (m) => ({ m, Content: (await render(m)).Content })));
+const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
+---
+<Base title="Echipa" description="Oamenii din spatele iGlow Studio.">
+  <PageHead eticheta="Echipă" titlu="Cunoaște *echipa*" text="Oamenii din spatele fiecărui look: experiență, atenție la detalii și grijă pentru fiecare clientă. Alege specialistul potrivit și programează-te." />
+
+  <section class="team container" aria-label="Membrii echipei">
+    {membri.map(({ m, Content }, i) => (
+      <article class="person" data-reveal style={`--i: ${i % 4}`}>
+        <Photo src={m.data.foto} alt={`${m.data.nume}, ${m.data.rol}`} ratio="4 / 5" />
+        <div class="person__body">
+          <h2 class="person__name">{m.data.nume}</h2>
+          <p class="person__role">{m.data.rol}</p>
+          <div class="person__bio"><Content /></div>
+          {m.data.servicii.length > 0 && (
+            <ul class="person__tags" aria-label={`Servicii oferite de ${m.data.nume}`}>
+              {m.data.servicii.map((slug) => titlu(slug) && <li><a href={`/servicii/${slug}`}>{titlu(slug)}</a></li>)}
+            </ul>
+          )}
+          <a class="more" href={rezervaHref} {...ext}>Rezervă la {m.data.nume.split(' ')[0]} <Icon name="arrow" size={14} /></a>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <CtaCard />
+</Base>
+
+<style>
+  .team { padding-top: clamp(3.5rem, 6vw, 5rem); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; justify-content: center; }
+  .team:has(> :only-child) { grid-template-columns: minmax(0, 22rem); }
+  .person { display: flex; flex-direction: column; gap: 1.25rem; }
+  .person__body { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.35rem; }
+  .person__name { font-size: 1.6rem; font-style: italic; }
+  .person__role { color: var(--muted); font-size: 0.9375rem; }
+  .person__bio { color: var(--muted); font-size: 0.9375rem; margin-top: 0.5rem; }
+  .person__tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin-top: 0.75rem; }
+  .person__tags a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 0.8rem; border: 1px solid var(--line); border-radius: 999px; font-size: 0.8125rem; text-decoration: none; transition: border-color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) { .person__tags a:hover { border-color: var(--caramel); } }
+  @media (max-width: 64rem) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 40rem) { .team { grid-template-columns: 1fr; } }
+</style>

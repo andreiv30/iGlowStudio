@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import despre from '../data/despre.json';
+import setari from '../data/setari.json';
+import { accent, rezervaHref, rezervaExtern } from '../lib/nav';
+const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
+---
+<Base title="Despre noi" description="iGlow Studio, salonul Andreei Pamfiloiu: povestea noastră și unde ne găsești.">
+  <!-- citatul fondatoarei, centrat -->
+  <header class="page-head">
+    <div class="container head head--center">
+      <p class="eyebrow eyebrow--center" data-load>Despre noi</p>
+      <h1 class="h1 quote" data-load style="--i: 1" set:html={`„${accent(despre.citat)}”`} />
+      <p class="quote__by" data-load style="--i: 2">— {despre.citat_autor}</p>
+    </div>
+  </header>
+
+  <!-- povestea + poza -->
+  <section class="story section" aria-labelledby="story-title">
+    <div class="container story__inner">
+      <div class="head">
+        <p class="eyebrow" data-reveal id="story-title">{despre.poveste_titlu}</p>
+        <div class="story__text" data-reveal style="--i: 1">
+          {despre.poveste.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="story__actions" data-reveal style="--i: 2">
+          <a class="btn btn--outline" href="/echipa">Vezi echipa</a>
+          <a class="btn" href="/servicii">Vezi servicii</a>
+        </div>
+      </div>
+      <div data-reveal style="--i: 1"><Photo src={despre.poveste_imagine} alt="Salonul iGlow Studio" ratio="4 / 5" /></div>
+    </div>
+  </section>
+
+  <!-- contact și locație, ca pe Caracter -->
+  <section class="visit section section--surface" aria-labelledby="visit-title">
+    <div class="container">
+      <div class="visit__card card">
+        <div class="head head--center">
+          <p class="eyebrow eyebrow--center" data-reveal>Contact & locație</p>
+          <h2 id="visit-title" class="h2" data-reveal style="--i: 1" set:html={accent(despre.contact_titlu)} />
+          <p class="lead" data-reveal style="--i: 2">{despre.contact_text}</p>
+        </div>
+        <div class="visit__grid">
+          <div class="place" data-reveal>
+            <div class="place__name"><span class="ring ring--small"><Icon name="pin" size={18} /></span><div><h3>{setari.nume}</h3><p>{setari.oras}</p></div></div>
+            <dl class="place__info">
+              <div><dt>Adresă</dt><dd>{setari.adresa}<br />{setari.oras}<br /><span class="muted">{setari.adresa_detalii}</span></dd></div>
+              <div><dt>Telefon</dt><dd><a href={`tel:${setari.telefon.replace(/\s/g, '')}`}>{setari.telefon}</a></dd></div>
+              <div><dt>Program</dt><dd><ul class="hours">{setari.program.map((p) => <li><span>{p.zile}</span><span>{p.ore}</span></li>)}</ul></dd></div>
+            </dl>
+            <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă acum</a>
+          </div>
+          <a class="map" href={setari.link_harta} rel="noopener" target="_blank" data-reveal style="--i: 1">
+            <span class="map__inner"><Icon name="pin" size={30} /><span>Deschide în Google Maps</span><Icon name="arrow-up-right" size={16} /></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .quote { max-width: 18ch; }
+  .quote__by { font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .story__inner { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .story__text { display: flex; flex-direction: column; gap: 1rem; font-size: 1.0625rem; max-width: 40rem; }
+  .story__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  .visit__card { padding: clamp(2rem, 5vw, 4rem); display: flex; flex-direction: column; gap: 3rem; }
+  .visit__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 1.5rem; }
+  .place { background: var(--surface); border-radius: var(--radius); padding: 1.75rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .place__name { display: flex; gap: 1rem; align-items: center; padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+  .place__name h3 { font-size: 1.4rem; }
+  .place__name p { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .place__info { display: flex; flex-direction: column; gap: 1.25rem; margin: 0; font-size: 0.9375rem; }
+  .place__info dt { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+  .place__info dd { margin: 0; }
+  .place__info a { color: var(--taupe); }
+  .hours { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .hours li { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; }
+  .map { display: flex; align-items: center; justify-content: center; min-height: 22rem; border-radius: var(--radius); background: #ede6df; text-decoration: none; color: var(--taupe); transition: background-color 200ms ease; }
+  .map__inner { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+  @media (hover: hover) and (pointer: fine) { .map:hover { background: #e4dbd1; } }
+  @media (max-width: 56rem) { .story__inner, .visit__grid { grid-template-columns: 1fr; } .map { min-height: 12rem; } }
+</style>
