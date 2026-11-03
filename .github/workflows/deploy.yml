@@ -1,7 +1,13 @@
 # Construiește site-ul la fiecare modificare pe main (inclusiv salvările din /admin)
 # și pune rezultatul pe ramura `deploy`, împreună cu .cpanel.yml.
-# În cPanel → Git Version Control, repo-ul urmărește ramura `deploy`:
-#   Update from Remote  →  Deploy HEAD Commit  →  site-ul ajunge în public_html.
+# Apoi cere cPanel-ului, prin API, „Update from Remote” + „Deploy HEAD Commit”,
+# ca site-ul să ajungă singur în public_html (fără click-uri în cPanel).
+#
+# Secrete necesare (GitHub → Settings → Secrets and variables → Actions):
+#   CPANEL_HOST   adresa cPanel, fără https:// și fără port (ex. server123.romarg.ro)
+#   CPANEL_USER   utilizatorul cPanel (ex. elena44930)
+#   CPANEL_TOKEN  token API din cPanel → Security → Manage API Tokens
+# Fără ele, pasul automat e sărit și deploy-ul se face manual din cPanel.
 
 name: Build pentru cPanel
 
@@ -20,6 +26,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+      CPANEL_USER: ${{ secrets.CPANEL_USER }}
+      CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
@@ -51,3 +61,18 @@ jobs:
           fi
           git commit -q -m "Site construit din ${GITHUB_SHA::7}"
           git push origin deploy
+
+      - name: Publică pe server (cPanel)
+        if: env.CPANEL_TOKEN != ''
+        run: |
+          ROOT="/home/${CPANEL_USER}/repositories/iGlowStudio"
+          api() {
+            curl -fsS --retry 3 --retry-delay 5 -G \
+              -H "Authorization: cpanel ${CPANEL_USER}:${CPANEL_TOKEN}" \
+              "https://${CPANEL_HOST}:2083/execute/$1" "${@:2}"
+          }
+          ok() { python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("errors") or "ok"); sys.exit(0 if d.get("status")==1 else 1)'; }
+          echo "Update from Remote (ramura deploy)…"
+          api VersionControl/update --data-urlencode "repository_root=${ROOT}" --data-urlencode "branch=deploy" | ok
+          echo "Deploy HEAD Commit…"
+          api VersionControlDeployment/create --data-urlencode "repository_root=${ROOT}" | ok

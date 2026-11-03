@@ -17,4 +17,5 @@ return [
     'site_url' => rtrim($cfg['site_url'] ?? ('https://' . ($_SERVER['HTTP_HOST'] ?? '')), '/'),
     'github_token' => $cfg['github_token'] ?? '',
     'users' => is_array($cfg['users'] ?? null) ? $cfg['users'] : [],
+    'repo' => $cfg['repo'] ?? 'andreiv30/iGlowStudio',
 ];

@@ -5,14 +5,19 @@ Site de prezentare pentru salonul iGlow Studio (Andreea Pamfiloiu Concept), cons
 ## Cum ajunge site-ul pe server
 
 ```
-modificare în /admin sau în cod → commit pe main → GitHub Actions: npm run build → ramura deploy
-→ cPanel: Update from Remote + Deploy HEAD Commit → public_html
+modificare în /admin sau în cod → commit pe main → GitHub Actions: build → ramura deploy
+→ cPanel API: Update from Remote + Deploy HEAD Commit → public_html
 ```
 
-- Workflow-ul (`.github/workflows/deploy.yml`) construiește site-ul și îl pune pe ramura `deploy`, în folderul `site/`, împreună cu `.cpanel.yml`.
-- În cPanel → Git Version Control, repo-ul `/home/elena44930/repositories/iGlowStudio` urmărește ramura **`deploy`**.
-- După fiecare modificare: **Manage → Pull or Deploy → Update from Remote**, apoi **Deploy HEAD Commit**. `.cpanel.yml` copiază `site/` în `/home/elena44930/public_html/`.
-- Modelul pentru `.cpanel.yml` este în `cpanel/.cpanel.yml`.
+Totul e automat, în aproximativ 1–2 minute după salvare. Pentru pasul din cPanel, adaugă în GitHub → Settings → Secrets and variables → Actions:
+
+| Secret | Valoare |
+| --- | --- |
+| `CPANEL_HOST` | adresa cPanel, fără `https://` și fără port (din bara browserului când ești în cPanel) |
+| `CPANEL_USER` | `elena44930` |
+| `CPANEL_TOKEN` | token din cPanel → Security → Manage API Tokens → Create |
+
+Fără aceste secrete, deploy-ul se face manual: cPanel → Git Version Control → Manage → Pull or Deploy → **Update from Remote**, apoi **Deploy HEAD Commit** (repo-ul trebuie să fie pe ramura `deploy`). `.cpanel.yml` (model în `cpanel/.cpanel.yml`) copiază `site/` în `/home/elena44930/public_html/`.
 
 ## Panoul de administrare (`/admin`)
 
