@@ -75,6 +75,9 @@ function aplica(a: Alegere, salvata: boolean) {
 }
 
 const banner = document.querySelector<HTMLElement>('[data-cc-banner]');
+const fab = document.querySelector<HTMLElement>('[data-cc-fab]');
+// bulina din colț apare după ce vizitatorul a ales (cât timp bannerul e deschis ar sta peste el)
+const arataBulina = (vizibila: boolean) => { if (fab) fab.hidden = !vizibila; };
 const dialog = document.querySelector<HTMLDialogElement>('[data-cc-dialog]');
 const boxes = () => Array.from(document.querySelectorAll<HTMLInputElement>('[data-cc-cat]'));
 
@@ -83,6 +86,7 @@ function salveaza(valori: Pick<Alegere, Categorie>) {
   scrie(a);
   if (banner) banner.hidden = true;
   if (dialog?.open) dialog.close();
+  arataBulina(true);
   aplica(a, true);
 }
 
@@ -113,6 +117,7 @@ document.addEventListener('click', (e) => {
 const existenta = citeste();
 if (existenta) {
   aplica(existenta, false);
+  arataBulina(true);
 } else if (banner) {
   banner.hidden = false;
 }
