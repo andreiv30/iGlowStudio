@@ -139,6 +139,105 @@ collections:
               - { name: imagine, label: Fotografie, widget: image }
               - { name: descriere, label: "Descriere (pentru accesibilitate)", widget: string, required: false }
 
+      - name: seo
+        label: SEO (titluri și descrieri pentru Google)
+        file: src/data/seo.json
+        fields:
+          - { name: imagine_implicita, label: "Imagine pentru distribuiri (Facebook, WhatsApp) – ideal 1200×630", widget: image, required: false }
+          - name: pagini
+            label: Pagini
+            widget: object
+            fields:
+              - name: acasa
+                label: Acasă
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+              - name: servicii
+                label: Servicii
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+              - name: oferte
+                label: Oferte
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+              - name: galerie
+                label: Galerie
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+              - name: echipa
+                label: Echipă
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+              - name: despre-noi
+                label: Despre noi
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+              - name: rezerva
+                label: Rezervă
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+              - name: date-identificare
+                label: Date identificare societate
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: titlu, label: "Titlu (afișat în Google, ideal sub 60 de caractere)", widget: string }
+                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
+
+      - name: coduri
+        label: Coduri în head și body (Facebook Pixel, Google Tag Manager...)
+        file: src/data/coduri.json
+        fields:
+          - name: coduri
+            label: Coduri
+            label_singular: Cod
+            widget: list
+            summary: '{{fields.nume}} · {{fields.locatie}} · {{fields.categorie}}'
+            hint: "Codurile de analiză și marketing pornesc doar după acordul vizitatorului din bannerul de cookie."
+            fields:
+              - { name: nume, label: Nume (ex. Facebook Pixel), widget: string }
+              - { name: activ, label: Activ, widget: boolean, default: true }
+              - name: locatie
+                label: Unde se pune
+                widget: select
+                default: head
+                options:
+                  - { label: "În <head>", value: head }
+                  - { label: "La începutul <body>", value: body_inceput }
+                  - { label: "La sfârșitul <body>", value: body_final }
+              - name: categorie
+                label: Categorie cookie
+                widget: select
+                default: marketing
+                options:
+                  - { label: "Marketing – pornește după acord (Facebook Pixel, TikTok Pixel, Google Ads)", value: marketing }
+                  - { label: "Analiză – pornește după acord (Hotjar, Clarity, alte statistici)", value: analiza }
+                  - { label: "Preferințe – pornește după acord", value: preferinte }
+                  - { label: "Google Tag Manager / GA4 – pornește mereu, respectă Consent Mode", value: google }
+                  - { label: "Necesar – pornește mereu (fără cookie-uri de urmărire)", value: necesare }
+              - { name: cod, label: Codul, widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
+
   # ---------------- Servicii (câte o pagină fiecare) ----------------
   - name: servicii
     label: Servicii
@@ -160,6 +259,8 @@ collections:
       - { name: imagine, label: Poza principală, widget: image, required: false }
       - { name: imagine_detaliu, label: A doua poză, widget: image, required: false }
       - { name: imagine_alt, label: Descrierea pozei, widget: string, required: false }
+      - { name: seo_titlu, label: "SEO – titlu (gol = „<Titlu> – prețuri și programare”)", widget: string, required: false }
+      - { name: seo_descriere, label: "SEO – descriere (gol = rezumatul)", widget: text, required: false }
       - name: pasi
         label: Cum lucrăm (pași)
         widget: list
@@ -229,6 +330,7 @@ collections:
     identifier_field: titlu
     fields:
       - { name: titlu, label: Titlu, widget: string }
-      - { name: descriere, label: Descriere, widget: string }
+      - { name: seo_titlu, label: SEO – titlu (opțional), widget: string, required: false }
+      - { name: descriere, label: "Descriere (apare și în Google)", widget: string }
       - { name: actualizat, label: Actualizat la, widget: string }
       - { name: body, label: Text, widget: markdown }

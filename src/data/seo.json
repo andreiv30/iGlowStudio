@@ -1,0 +1,13 @@
+{
+  "imagine_implicita": "",
+  "pagini": {
+    "acasa": { "titlu": "iGlow Studio – salon de coafură și colorare, Andreea Pamfiloiu Concept", "descriere": "Salon de coafură și colorare creat de Andreea Pamfiloiu: tuns, vopsit, balayage, tratamente și coafat, cu programare online." },
+    "servicii": { "titlu": "Servicii și prețuri – tuns, vopsit, balayage", "descriere": "Prețuri și durate pentru tuns, coafat, vopsit, balayage și tratamente de păr la iGlow Studio. Programează-te online." },
+    "oferte": { "titlu": "Oferte speciale la salon", "descriere": "Ofertele lunii la iGlow Studio: pachete de tuns, culoare și tratamente pentru păr, cu prețul afișat de la început." },
+    "galerie": { "titlu": "Galerie – lucrări și atmosferă", "descriere": "Tunsori, culori, balayage și atmosfera din salonul iGlow Studio, în fotografii." },
+    "echipa": { "titlu": "Echipa iGlow Studio", "descriere": "Cunoaște stiliștii iGlow Studio și programează-te la specialistul potrivit pentru tine." },
+    "despre-noi": { "titlu": "Despre noi – Andreea Pamfiloiu Concept", "descriere": "Povestea salonului iGlow Studio, cum lucrăm și unde ne găsești. Program, adresă și contact." },
+    "rezerva": { "titlu": "Rezervă o programare", "descriere": "Programează-te la iGlow Studio online, telefonic sau pe WhatsApp." },
+    "date-identificare": { "titlu": "Date identificare societate", "descriere": "Datele de identificare ale societății care administrează salonul iGlow Studio." }
+  }
+}

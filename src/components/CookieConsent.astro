@@ -1,0 +1,85 @@
+---
+// Bannerul de cookie și fereastra de preferințe (Google Consent Mode v2).
+// Logica este în src/scripts/consent.ts; valorile implicite (totul refuzat) se setează în <head>, în Base.astro.
+const categorii = [
+  { id: 'necesare', titlu: 'Strict necesare', text: 'Fac site-ul să funcționeze și îți rețin alegerea despre cookie-uri. Nu pot fi oprite.', blocat: true },
+  { id: 'analiza', titlu: 'Analiză', text: 'Ne arată, anonim, ce pagini sunt vizitate, ca să îmbunătățim site-ul (de ex. Google Analytics).' },
+  { id: 'marketing', titlu: 'Marketing', text: 'Măsoară reclamele și îți arată oferte relevante pe alte site-uri (de ex. Facebook Pixel, Google Ads).' },
+  { id: 'preferinte', titlu: 'Preferințe', text: 'Rețin setări și funcții suplimentare, de exemplu conținut personalizat.' },
+];
+---
+<div class="cc" data-cc-banner hidden>
+  <div class="cc__box" role="region" aria-label="Cookie-uri">
+    <p class="cc__title">Cookie-uri</p>
+    <p class="cc__text">Folosim cookie-uri strict necesare ca site-ul să funcționeze și, doar cu acordul tău, cookie-uri de analiză și marketing. Poți alege oricând din <a href="/politica-cookie">Politica cookie</a>.</p>
+    <div class="cc__actions">
+      <button type="button" class="btn btn--small" data-cc-accept>Acceptă toate</button>
+      <button type="button" class="btn btn--small btn--outline" data-cc-reject>Refuză</button>
+      <button type="button" class="cc__link" data-cc-settings>Setări</button>
+    </div>
+  </div>
+</div>
+
+<dialog class="cc-dialog" data-cc-dialog aria-labelledby="cc-dialog-title">
+  <form method="dialog" class="cc-dialog__form" data-cc-form>
+    <h2 id="cc-dialog-title" class="cc-dialog__title">Setări <em>cookie</em></h2>
+    <p class="cc__text">Alege ce cookie-uri accepți. Schimbările se aplică imediat.</p>
+    <ul class="cc-cats">
+      {categorii.map((c) => (
+        <li class="cc-cat">
+          <label class="cc-switch">
+            <input type="checkbox" name={c.id} checked={c.blocat} disabled={c.blocat} data-cc-cat={c.blocat ? undefined : c.id} />
+            <span class="cc-switch__ui" aria-hidden="true"></span>
+            <span class="cc-cat__body"><span class="cc-cat__title">{c.titlu}</span><span class="cc-cat__text">{c.text}</span></span>
+          </label>
+        </li>
+      ))}
+    </ul>
+    <div class="cc__actions">
+      <button type="button" class="btn btn--small" data-cc-save>Salvează preferințele</button>
+      <button type="button" class="btn btn--small btn--outline" data-cc-accept>Acceptă toate</button>
+      <button type="button" class="btn btn--small btn--outline" data-cc-reject>Refuză toate</button>
+    </div>
+  </form>
+</dialog>
+
+<style>
+  .cc { position: fixed; z-index: 150; left: 1rem; right: 1rem; bottom: 1rem; display: flex; justify-content: center; pointer-events: none; }
+  .cc__box { pointer-events: auto; width: 100%; max-width: 44rem; background: var(--alb); color: var(--ink); border-radius: var(--radius); box-shadow: 0 20px 60px -20px rgb(26 19 13 / 0.45), 0 2px 6px rgb(26 19 13 / 0.08); padding: 1.5rem 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .cc__title { font-family: var(--font-display); font-size: 1.4rem; font-style: italic; }
+  .cc__text { font-size: 0.9375rem; color: var(--muted); }
+  .cc__text a { color: var(--taupe); }
+  .cc__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 0.25rem; }
+  .cc__link { min-height: 44px; padding: 0 0.75rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); text-decoration: underline; text-underline-offset: 4px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .cc:not([hidden]) .cc__box { animation: cc-in 600ms var(--ease-out) both; }
+  }
+  @keyframes cc-in { from { opacity: 0; transform: translateY(16px); } }
+
+  .cc-dialog { width: min(36rem, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); border: 0; border-radius: var(--radius); padding: 0; color: var(--ink); background: var(--alb); box-shadow: 0 30px 80px -20px rgb(26 19 13 / 0.5); }
+  .cc-dialog::backdrop { background: rgb(26 19 13 / 0.55); }
+  .cc-dialog__form { padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem; }
+  .cc-dialog__title { font-size: 1.75rem; }
+  .cc-cats { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+  .cc-cat + .cc-cat { border-top: 1px solid var(--line); }
+  .cc-switch { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; padding: 1rem 0; cursor: pointer; }
+  .cc-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .cc-switch__ui { position: relative; width: 2.75rem; height: 1.6rem; border-radius: 999px; background: #d9d2ca; transition: background-color 200ms ease; margin-top: 0.1rem; }
+  .cc-switch__ui::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.2rem; height: 1.2rem; border-radius: 999px; background: var(--alb); box-shadow: 0 1px 3px rgb(0 0 0 / 0.2); transition: transform 200ms var(--ease-out); }
+  .cc-switch input:checked + .cc-switch__ui { background: var(--caramel); }
+  .cc-switch input:checked + .cc-switch__ui::after { transform: translateX(1.15rem); }
+  .cc-switch input:disabled + .cc-switch__ui { opacity: 0.6; }
+  .cc-switch input:focus-visible + .cc-switch__ui { outline: 2px solid var(--caramel); outline-offset: 3px; }
+  .cc-cat__body { display: flex; flex-direction: column; gap: 0.2rem; }
+  .cc-cat__title { font-weight: 600; font-size: 0.9375rem; }
+  .cc-cat__text { font-size: 0.875rem; color: var(--muted); }
+  @media (max-width: 40rem) {
+    .cc { left: 0.5rem; right: 0.5rem; bottom: 0.5rem; }
+    .cc__box { padding: 1.25rem; }
+    .cc__actions .btn { flex: 1 1 auto; }
+  }
+</style>
+
+<script>
+  import '../scripts/consent';
+</script>

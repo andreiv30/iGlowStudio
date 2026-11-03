@@ -1,4 +1,5 @@
 ---
+import { seoPagina } from '../../lib/seo';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
@@ -8,7 +9,7 @@ import CtaCard from '../../components/CtaCard.astro';
 
 const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
 ---
-<Base title="Servicii și prețuri" description="Tuns, vopsit, balayage, tratamente și coafat la iGlow Studio, cu prețuri și durate.">
+<Base {...seoPagina('servicii')}>
   <PageHead eticheta="Servicii" titlu="Alege serviciul la care vrei *să te programezi*" text="Prețurile la serviciile de colorare variază în funcție de lungimea părului, tipul părului și cantitatea de produse necesare. Prețul final îl afli înainte să începem." />
 
   <div class="cats container">

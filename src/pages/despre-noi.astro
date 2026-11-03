@@ -1,4 +1,5 @@
 ---
+import { seoPagina } from '../lib/seo';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
@@ -7,7 +8,7 @@ import setari from '../data/setari.json';
 import { accent, rezervaHref, rezervaExtern } from '../lib/nav';
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
-<Base title="Despre noi" description="iGlow Studio, salonul Andreei Pamfiloiu: povestea noastră și unde ne găsești.">
+<Base {...seoPagina('despre-noi')} image={despre.poveste_imagine || undefined}>
   <!-- citatul fondatoarei, centrat -->
   <header class="page-head">
     <div class="container head head--center">

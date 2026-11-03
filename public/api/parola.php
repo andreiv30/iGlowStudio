@@ -2,6 +2,14 @@
 // Generator de hash pentru parolele din /admin. Nu salvează nimic:
 // scrie parola, copiază rezultatul în api/.config.php, la utilizatorul tău.
 require __DIR__ . '/_page.php';
+$cfg = require __DIR__ . '/_config.php';
+// După ce utilizatorii sunt configurați, generatorul se oprește. Pentru o parolă nouă,
+// adaugă temporar 'generator_parole' => true în api/.config.php, apoi scoate-l.
+$raw = is_file(__DIR__ . '/.config.php') ? (require __DIR__ . '/.config.php') : [];
+if (count($cfg['users']) > 0 && empty($raw['generator_parole'])) {
+    http_response_code(404);
+    iglow_page('Indisponibil', '<h1>Generator <em>oprit</em></h1><p>Pentru o parolă nouă, adaugă temporar <strong>\'generator_parole\' => true,</strong> în api/.config.php, generează parola, apoi scoate rândul.</p>');
+}
 $out = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $p = (string) ($_POST['p'] ?? '');

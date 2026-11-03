@@ -1,4 +1,5 @@
 ---
+import { seoPagina } from '../lib/seo';
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import setari from '../data/setari.json';
@@ -9,7 +10,7 @@ const rows = [
   ['Punct de lucru', `${setari.adresa}, ${setari.oras}`], ['Telefon', setari.telefon], ['Email', setari.email],
 ];
 ---
-<Base title="Date identificare societate" description="Datele de identificare ale societății care administrează iGlow Studio.">
+<Base {...seoPagina('date-identificare')}>
   <PageHead eticheta="Informații legale" titlu="Date identificare *societate*" />
   <section class="container section">
     <dl class="ids card" data-reveal>{rows.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>

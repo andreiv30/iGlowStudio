@@ -1,4 +1,5 @@
 ---
+import { seoPagina } from '../lib/seo';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
@@ -10,7 +11,7 @@ import { rezervaHref, rezervaExtern } from '../lib/nav';
 const oferte = (await getCollection('oferte')).filter((o) => o.data.activ).sort((a, b) => a.data.ordine - b.data.ordine);
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
-<Base title="Oferte" description="Ofertele lunii la iGlow Studio: pachete de tuns, culoare și tratamente.">
+<Base {...seoPagina('oferte')}>
   <PageHead eticheta="Oferte" titlu="Oferte speciale *pentru tine*" text="Pachete și promoții limitate. Actualizăm periodic această pagină, așa că rezervă din timp: locurile depind de disponibilitatea echipei." />
 
   <section class="offers container" aria-label="Oferte active">

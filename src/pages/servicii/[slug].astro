@@ -9,6 +9,8 @@ import PriceCard from '../../components/PriceCard.astro';
 import Faq from '../../components/Faq.astro';
 import CtaCard from '../../components/CtaCard.astro';
 import { rezervaHref, rezervaExtern } from '../../lib/nav';
+import { schemaBreadcrumb, schemaFaq } from '../../lib/seo';
+import setari from '../../data/setari.json';
 
 export async function getStaticPaths() {
   const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
@@ -19,9 +21,29 @@ const { s, toate } = Astro.props;
 const { Content } = await render(s);
 const altele = toate.filter((x) => x.id !== s.id);
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
+const site = Astro.site!;
+const schema = [
+  schemaBreadcrumb(site, [
+    { name: 'Acasă', path: '/' },
+    { name: 'Servicii', path: '/servicii/' },
+    { name: s.data.titlu, path: `/servicii/${s.id}/` },
+  ]),
+  schemaFaq(s.data.intrebari),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: s.data.titlu,
+    description: s.data.rezumat,
+    serviceType: s.data.titlu,
+    url: new URL(`/servicii/${s.id}/`, site).toString(),
+    provider: { '@id': new URL('/#salon', site).toString() },
+    areaServed: setari.oras && !/^\[/.test(setari.oras) ? setari.oras : undefined,
+    offers: { '@type': 'Offer', price: s.data.pret_de_la, priceCurrency: 'RON', url: new URL(`/servicii/${s.id}/`, site).toString() },
+  },
+];
 const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
 ---
-<Base title={s.data.titlu} description={s.data.rezumat}>
+<Base title={s.data.seo_titlu || `${s.data.titlu} – prețuri și programare`} description={s.data.seo_descriere || s.data.rezumat} image={s.data.imagine} schema={schema}>
   <!-- începutul: text în stânga, poza serviciului în dreapta -->
   <section class="svc-head">
     <div class="container svc-head__inner">

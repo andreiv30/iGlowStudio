@@ -46,6 +46,28 @@ return [
 
 Fișierul nu este în repo, `.htaccess` îl blochează din browser, iar deploy-ul nu îl suprascrie. Pentru un utilizator nou se adaugă un rând în `users`; pentru a scoate pe cineva se șterge rândul.
 
+## SEO
+
+- Titlul și descrierea fiecărei pagini: /admin → Setări și pagini → **SEO** (`src/data/seo.json`). Serviciile au câmpuri SEO proprii; paginile legale folosesc descrierea lor.
+- Imaginea pentru distribuiri (Facebook, WhatsApp): același ecran, „Imagine pentru distribuiri” (ideal 1200×630). Fără ea se folosește poza din hero.
+- Generate automat: `robots.txt`, `sitemap.xml`, link canonic, Open Graph și Twitter Card, date structurate schema.org (HairSalon cu program și adresă, Service, BreadcrumbList, FAQPage).
+- După lansare: adaugă site-ul în Google Search Console și trimite `https://iglowstudio.ro/sitemap.xml`; completează profilul Google Business cu aceeași adresă și același telefon ca pe site.
+
+## Poze
+
+La fiecare commit, GitHub Actions rulează `scripts/optimize-images.mjs`: pozele din `public/uploads` (JPG, PNG, HEIC etc.) devin WebP de cel mult 2400 px, cu nume fără diacritice; originalele se șterg, iar adresele din conținut se actualizează și se salvează înapoi pe `main`.
+
+## Cookie-uri și coduri de tracking
+
+- Banner de consimțământ cu Google Consent Mode v2: totul refuzat implicit; vizitatorul alege Acceptă toate / Refuză / Setări pe categorii (analiză, marketing, preferințe). Alegerea se ține 12 luni; „Setări cookie” din footer o redeschide.
+- Codurile (Facebook Pixel, GTM, TikTok etc.) se adaugă din /admin → Setări și pagini → **Coduri** (`src/data/coduri.json`), cu locul (head / început body / sfârșit body) și categoria. Codurile de marketing, analiză și preferințe pornesc doar după acord; GTM/GA4 („google”) pornește mereu și respectă Consent Mode.
+- Actualizează lista de servicii din `Politica cookie` când adaugi sau scoți un cod.
+
+## Securitate
+
+`public/.htaccess`: redirect la `https://iglowstudio.ro`, HSTS, antete de securitate (nosniff, SAMEORIGIN, Referrer-Policy, Permissions-Policy, CSP frame-ancestors), fișierele ascunse blocate, niciun script executabil în `uploads/`, fișierele interne ale login-ului blocate.
+Generatorul de parole (`/api/parola.php`) se oprește singur după ce utilizatorii sunt configurați; pentru o parolă nouă se adaugă temporar `'generator_parole' => true` în `api/.config.php`.
+
 ## Dezvoltare locală
 
 ```bash
