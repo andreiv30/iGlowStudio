@@ -3,10 +3,12 @@
 // și se editează din /admin → Servicii. Exemplul de referință: /servicii/tuns.
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Media from '../../components/Media.astro';
+import Photo from '../../components/Photo.astro';
 import Icon from '../../components/Icon.astro';
+import PriceCard from '../../components/PriceCard.astro';
 import Faq from '../../components/Faq.astro';
-import CtaBand from '../../components/CtaBand.astro';
+import CtaCard from '../../components/CtaCard.astro';
+import { rezervaHref, rezervaExtern } from '../../lib/nav';
 
 export async function getStaticPaths() {
   const servicii = (await getCollection('servicii')).sort((a, b) => a.data.ordine - b.data.ordine);
@@ -16,33 +18,44 @@ export async function getStaticPaths() {
 const { s, toate } = Astro.props;
 const { Content } = await render(s);
 const altele = toate.filter((x) => x.id !== s.id);
+const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
+const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
 ---
 <Base title={s.data.titlu} description={s.data.rezumat}>
-  <section class="svc-hero wrap" aria-labelledby="svc-title">
-    <div class="svc-hero__copy">
-      <nav class="small svc-hero__crumbs" aria-label="Unde te afli" data-load><a class="link" href="/servicii">Servicii</a> / <span aria-current="page">{s.data.titlu}</span></nav>
-      <h1 id="svc-title" class="display" data-load style="--i: 1">{s.data.titlu}</h1>
-      <p class="lead" data-load style="--i: 2">{s.data.rezumat}</p>
-      <dl class="svc-hero__facts nums" data-load style="--i: 3">
-        <div><dt>Durată</dt><dd>{s.data.durata}</dd></div>
-        <div><dt>Preț</dt><dd>de la {s.data.pret_de_la} lei</dd></div>
-      </dl>
-      <div class="svc-hero__actions" data-load style="--i: 4">
-        <a class="button" href="/rezerva">Rezervă {s.data.titlu.toLowerCase()} <Icon name="arrow" /></a>
-        <a class="button button--quiet" href="#preturi">Vezi prețurile</a>
+  <!-- începutul: text în stânga, poza serviciului în dreapta -->
+  <section class="svc-head">
+    <div class="container svc-head__inner">
+      <div class="svc-head__copy head">
+        <nav class="crumbs" aria-label="Unde te afli" data-load><a href="/servicii">Servicii</a><span aria-hidden="true">/</span><span aria-current="page">{s.data.titlu}</span></nav>
+        <p class="eyebrow" data-load>{s.data.eticheta}</p>
+        <h1 class="h1" data-load style="--i: 1"><em>{s.data.titlu}</em></h1>
+        <p class="lead" data-load style="--i: 2">{s.data.rezumat}</p>
+        <dl class="facts" data-load style="--i: 3">
+          <div><dt><Icon name="clock" size={16} />Durată</dt><dd>{s.data.durata}</dd></div>
+          <div><dt><Icon name="calendar" size={16} />Preț</dt><dd>de la {s.data.pret_de_la} lei</dd></div>
+        </dl>
+        <div class="svc-head__actions" data-load style="--i: 4">
+          <a class="btn" href={rezervaHref} {...ext}>Programează-te <Icon name="arrow" size={16} /></a>
+          <a class="btn btn--outline" href="#preturi">Vezi prețurile</a>
+        </div>
       </div>
+      <div data-load style="--i: 2"><Photo src={s.data.imagine} alt={s.data.imagine_alt} ratio="4 / 5" eager /></div>
     </div>
-    <Media src={s.data.imagine} alt={s.data.imagine_alt} tone={s.data.ton} seed={`svc-${s.id}`} ratio="4 / 5" eager class="svc-hero__pic" />
   </section>
 
+  <!-- cum lucrăm: pașii, cu iconițe în cerc pe fundal închis (stilul flyerului) -->
   {s.data.pasi.length > 0 && (
-    <section class="steps field-surface" aria-labelledby="steps-title">
-      <div class="steps__inner wrap">
-        <h2 id="steps-title" class="head" data-reveal>Cum lucrăm</h2>
+    <section class="steps section section--dark" aria-labelledby="steps-title">
+      <div class="container">
+        <div class="head head--center">
+          <p class="eyebrow eyebrow--center" data-reveal>Cum lucrăm</p>
+          <h2 id="steps-title" class="h2" data-reveal style="--i: 1">Pas cu pas, <em>fără grabă</em></h2>
+        </div>
         <ol class="steps__list">
           {s.data.pasi.map((p, i) => (
-            <li data-reveal style={`--i: ${i}`}>
-              <h3 class="title">{p.titlu}</h3>
+            <li class="steps__item" data-reveal style={`--i: ${i}`}>
+              <span class="ring"><Icon name={pasIcon[i % pasIcon.length]} size={24} /></span>
+              <h3 class="steps__title">{p.titlu}</h3>
               <p>{p.text}</p>
             </li>
           ))}
@@ -51,108 +64,112 @@ const altele = toate.filter((x) => x.id !== s.id);
     </section>
   )}
 
-  <section class="detail wrap" aria-labelledby="detail-title">
-    <div class="detail__aside">
-      <h2 id="detail-title" class="head" data-reveal>Despre {s.data.titlu.toLowerCase()}</h2>
-      <Media tone={s.data.ton} seed={`detail-${s.id}`} variant="closeup" ratio="1 / 1" class="detail__pic" />
+  <!-- despre serviciu: textul din /admin, lângă o a doua poză -->
+  <section class="about section" aria-labelledby="about-title">
+    <div class="container about__inner">
+      <div data-reveal><Photo src={s.data.imagine_detaliu} alt={s.data.imagine_alt} ratio="1 / 1" /></div>
+      <div class="head">
+        <p class="eyebrow" data-reveal>Despre serviciu</p>
+        <h2 id="about-title" class="h2" data-reveal style="--i: 1">Ce înseamnă <em>{s.data.titlu.toLowerCase()}</em> la iGlow</h2>
+        <div class="prose" data-reveal style="--i: 2"><Content /></div>
+      </div>
     </div>
-    <div class="prose detail__text" data-reveal style="--i: 1"><Content /></div>
   </section>
 
+  <!-- prețuri -->
   {s.data.preturi.length > 0 && (
-    <section class="prices wrap" id="preturi" aria-labelledby="prices-title">
-      <h2 id="prices-title" class="head" data-reveal>Prețuri</h2>
-      <div class="prices__table" data-reveal style="--i: 1">
-        <table class="nums">
-          <caption class="sr-only">Prețuri pentru {s.data.titlu}</caption>
-          <thead><tr><th scope="col">Serviciu</th><th scope="col">Durată</th><th scope="col">Preț</th></tr></thead>
-          <tbody>
-            {s.data.preturi.map((p) => <tr><th scope="row">{p.nume}</th><td>{p.durata}</td><td>{p.pret}</td></tr>)}
-          </tbody>
-        </table>
-        <p class="small muted">Prețurile sunt orientative. Prețul final depinde de lungimea și densitatea părului și îl afli înainte să începem.</p>
+    <section class="prices section section--surface" id="preturi" aria-labelledby="prices-title">
+      <div class="container">
+        <div class="head head--center">
+          <p class="eyebrow eyebrow--center" data-reveal>Prețuri</p>
+          <h2 id="prices-title" class="h2" data-reveal style="--i: 1">Prețuri pentru <em>{s.data.titlu.toLowerCase()}</em></h2>
+        </div>
+        <div class="prices__grid">
+          {s.data.preturi.map((p, i) => <PriceCard nume={p.nume} descriere={p.descriere} durata={p.durata} pret={p.pret} i={i % 3} />)}
+        </div>
       </div>
     </section>
   )}
 
+  <!-- întrebări -->
   {s.data.intrebari.length > 0 && (
-    <section class="questions wrap" aria-labelledby="q-title">
-      <h2 id="q-title" class="head" data-reveal>Întrebări despre {s.data.titlu.toLowerCase()}</h2>
-      <div class="questions__list"><Faq items={s.data.intrebari} /></div>
+    <section class="section" aria-labelledby="q-title">
+      <div class="container">
+        <div class="head head--center q-head">
+          <h2 id="q-title" class="h2" data-reveal>Întrebări <em>frecvente</em></h2>
+        </div>
+        <Faq items={s.data.intrebari} />
+      </div>
     </section>
   )}
 
-  <section class="others wrap" aria-labelledby="others-title">
-    <h2 id="others-title" class="head" data-reveal>Alte servicii</h2>
-    <ul class="others__list">
-      {altele.map((o, i) => (
-        <li data-reveal style={`--i: ${i}`}>
-          <a href={`/servicii/${o.id}`}>
-            <Media src={o.data.imagine} alt="" tone={o.data.ton} seed={`svc-${o.id}`} ratio="3 / 4" shutter={false} />
-            <span class="others__name">{o.data.titlu}</span>
-            <span class="small muted nums">de la {o.data.pret_de_la} lei</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+  <!-- alte servicii -->
+  <section class="others section section--surface" aria-labelledby="others-title">
+    <div class="container">
+      <div class="head head--center">
+        <p class="eyebrow eyebrow--center" data-reveal>Servicii</p>
+        <h2 id="others-title" class="h2" data-reveal style="--i: 1">Poate te interesează <em>și</em></h2>
+      </div>
+      <ul class="others__grid">
+        {altele.map((o, i) => (
+          <li class="card others__card" data-reveal style={`--i: ${i}`}>
+            <a href={`/servicii/${o.id}`}>
+              <Photo src={o.data.imagine} alt="" ratio="4 / 3" rounded={false} />
+              <span class="others__body">
+                <span class="others__label">{o.data.eticheta}</span>
+                <span class="others__name">{o.data.titlu}</span>
+                <span class="more">Descoperă <Icon name="arrow" size={14} /></span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </section>
 
-  <CtaBand text={`Rezervă ${s.data.titlu.toLowerCase()}: alege ziua și ora, iar noi îți confirmăm programarea.`} />
+  <CtaCard titlu={`Rezervă *${s.data.titlu.toLowerCase()}*`} />
 </Base>
 
 <style>
-  .svc-hero { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2.5rem; padding-block: clamp(2rem, 5vw, 4rem) calc(var(--section) / 2); align-items: end; }
-  .svc-hero__copy { grid-column: 1 / 7; display: flex; flex-direction: column; gap: 1.75rem; }
-  .svc-hero :global(.svc-hero__pic) { grid-column: 8 / 13; }
-  .svc-hero__crumbs { color: var(--muted); }
-  .svc-hero h1 { font-size: clamp(3rem, 1rem + 6.4vw, 7.5rem); }
-  .svc-hero__facts { display: flex; gap: 2.5rem; margin: 0; }
-  .svc-hero__facts dt { font-size: var(--step-small); color: var(--muted); }
-  .svc-hero__facts dd { margin: 0; font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); letter-spacing: -0.015em; }
-  .svc-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .svc-head { padding-top: calc(var(--header-h) + var(--bar-h) + clamp(2rem, 5vw, 4rem)); padding-bottom: var(--section); background: var(--surface); }
+  .svc-head__inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+  .crumbs { display: flex; gap: 0.6rem; font-size: 0.8125rem; color: var(--muted); }
+  .crumbs a { color: inherit; text-underline-offset: 3px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.5rem 0; }
+  .facts div { background: var(--alb); border-radius: var(--radius-sm); padding: 0.9rem 1.25rem; box-shadow: var(--shadow); }
+  .facts dt { display: flex; align-items: center; gap: 0.4rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin: 0.25rem 0 0; font-family: var(--font-display); font-size: 1.4rem; }
+  .svc-head__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
-  .steps__inner { padding-block: calc(var(--section) / 2); display: flex; flex-direction: column; gap: 3rem; }
-  .steps__list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); }
-  .steps__list li { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.75rem; background: var(--bg); }
-  .steps__list li:nth-child(even) { margin-top: 3rem; }
+  .steps__list { list-style: none; padding: 0; margin-top: clamp(3rem, 5vw, 4rem); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .steps__item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.75rem; padding: 0.5rem 1.5rem; }
+  .steps__item + .steps__item { border-left: 1px solid rgb(177 139 90 / 0.35); }
+  .steps__item .ring { margin-bottom: 0.75rem; }
+  .steps__title { font-family: var(--font-text); font-size: 0.875rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+  .steps__item p { color: var(--nisip); font-size: 0.9375rem; }
 
-  .detail { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; padding-block: var(--section) calc(var(--section) / 2); }
-  .detail__aside { grid-column: 1 / 6; display: flex; flex-direction: column; gap: 2.5rem; }
-  .detail__aside :global(.detail__pic) { width: 70%; }
-  .detail__text { grid-column: 7 / 13; font-size: 1.125rem; }
+  .about__inner { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
 
-  .prices { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; padding-block: calc(var(--section) / 2); }
-  .prices h2 { grid-column: 1 / 6; }
-  .prices__table { grid-column: 7 / 13; display: flex; flex-direction: column; gap: 1rem; }
-  .prices table { width: 100%; border-collapse: collapse; font-size: 1.125rem; }
-  .prices thead th { font-size: var(--step-small); font-weight: 500; color: var(--muted); text-align: left; padding-bottom: 0.75rem; }
-  .prices thead th:last-child, .prices td:last-child { text-align: right; }
-  .prices tbody th { text-align: left; font-weight: 400; }
-  .prices tbody th, .prices tbody td { padding: 1rem 0; border-top: 1px solid #ebe4dc; }
-  .prices td { color: var(--muted); padding-left: 1rem !important; white-space: nowrap; }
-  .prices td:last-child { color: var(--ink); }
+  .prices__grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  .q-head { margin-bottom: 2.5rem; }
 
-  .questions { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; padding-block: calc(var(--section) / 2); }
-  .questions h2 { grid-column: 1 / 6; }
-  .questions__list { grid-column: 7 / 13; }
-
-  .others { padding-block: calc(var(--section) / 2) var(--section); display: flex; flex-direction: column; gap: 2.5rem; }
-  .others__list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); }
-  .others__list a { display: flex; flex-direction: column; gap: 0.6rem; text-decoration: none; }
-  .others__list :global(.media__inner) { transition: transform 500ms var(--ease-out); }
-  .others__name { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -0.015em; margin-top: 0.5rem; }
-  @media (hover: hover) and (pointer: fine) { .others__list a:hover :global(.media__inner) { transform: translateY(-6px); } }
+  .others__grid { list-style: none; padding: 0; margin-top: 3rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+  .others__card { overflow: hidden; }
+  .others__card a { display: flex; flex-direction: column; text-decoration: none; height: 100%; }
+  .others__body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.25rem 1.5rem 1rem; }
+  .others__label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  .others__name { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; }
 
   @media (max-width: 64rem) {
-    .steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .others__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
+    .steps__item + .steps__item:nth-child(3) { border-left: 0; }
+    .prices__grid, .others__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 48rem) {
-    .svc-hero, .detail, .prices, .questions { grid-template-columns: 1fr; }
-    .svc-hero__copy, .svc-hero :global(.svc-hero__pic), .detail__aside, .detail__text, .prices h2, .prices__table, .questions h2, .questions__list { grid-column: 1; }
-    .svc-hero :global(.svc-hero__pic) { grid-row: 1; width: 72%; margin-left: auto; }
-    .steps__list { grid-template-columns: 1fr; }
-    .steps__list li:nth-child(even) { margin-top: 0; margin-left: 12%; }
-    .prices td:nth-child(2), .prices thead th:nth-child(2) { display: none; }
+    .svc-head__inner, .about__inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 40rem) {
+    .steps__list, .prices__grid { grid-template-columns: 1fr; }
+    .steps__item + .steps__item { border-left: 0; }
   }
 </style>

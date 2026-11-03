@@ -3,7 +3,6 @@ nume: Andreea Pamfiloiu
 rol: Fondatoare, hair stylist și colorist
 ordine: 1
 foto:
-ton: taupe
 servicii: [tuns, vopsit, balayage, tratamente, coafat]
 ---
 

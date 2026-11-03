@@ -1,12 +1,19 @@
-// Comportamentul site-ului: header cu blur la scroll, meniul de pe mobil,
-// intrările la scroll, acordeonul din footer și mostrele de nuanță.
+// Comportamentul site-ului: header cu blur la scroll, anunțul de sus, meniul de pe mobil,
+// intrările la scroll, mișcarea pozei din hero, caruselul de servicii și acordeonul din footer.
 
 const root = document.documentElement;
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // ---------- header: blur după primii pixeli de scroll ----------
 const onScroll = () => root.classList.toggle('header-scrolled', window.scrollY > 8);
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
+
+// ---------- anunțul de sus se poate închide ----------
+document.querySelector('[data-bar-close]')?.addEventListener('click', () => {
+  root.classList.add('bar-closed');
+  try { sessionStorage.setItem('bar-closed', '1'); } catch {}
+});
 
 // ---------- meniul de pe mobil ----------
 const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
@@ -24,10 +31,10 @@ toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expand
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && root.classList.contains('menu-open')) { setMenu(false); toggle?.focus(); }
 });
-window.matchMedia('(min-width: 64.0625rem)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
+window.matchMedia('(min-width: 68.0625rem)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 
-// ---------- intrări la scroll (o singură dată) ----------
-const targets = document.querySelectorAll<HTMLElement>('[data-reveal], [data-shutter]');
+// ---------- intrări la scroll (o singură dată, ca pe tasteskill.dev) ----------
+const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
 if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver((entries) => {
     for (const entry of entries) {
@@ -35,9 +42,8 @@ if ('IntersectionObserver' in window) {
       entry.target.classList.add('is-in');
       io.unobserve(entry.target);
     }
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
   targets.forEach((el) => io.observe(el));
-  // plasă de siguranță: nimic nu rămâne ascuns dacă observatorul nu a pornit
   window.addEventListener('load', () => setTimeout(() => {
     targets.forEach((el) => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add('is-in'); });
   }, 2500));
@@ -45,9 +51,42 @@ if ('IntersectionObserver' in window) {
   targets.forEach((el) => el.classList.add('is-in'));
 }
 
+// ---------- poza din hero: urcă mai încet decât pagina (parallax) ----------
+const heroMedia = document.querySelector<HTMLElement>('[data-parallax]');
+if (heroMedia && !reduce.matches) {
+  let ticking = false;
+  const move = () => {
+    const y = Math.min(window.scrollY, window.innerHeight);
+    heroMedia.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
+}
+
+// ---------- carusel (servicii): săgețile derulează cu un card ----------
+document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((wrap) => {
+  const track = wrap.querySelector<HTMLElement>('[data-track]');
+  const prev = wrap.querySelector<HTMLButtonElement>('[data-prev]');
+  const next = wrap.querySelector<HTMLButtonElement>('[data-next]');
+  if (!track) return;
+  const step = () => {
+    const card = track.querySelector<HTMLElement>(':scope > *');
+    return card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || '0') : track.clientWidth;
+  };
+  const update = () => {
+    if (prev) prev.disabled = track.scrollLeft < 4;
+    if (next) next.disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
+  };
+  prev?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: reduce.matches ? 'auto' : 'smooth' }));
+  next?.addEventListener('click', () => track.scrollBy({ left: step(), behavior: reduce.matches ? 'auto' : 'smooth' }));
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+});
+
 // ---------- acordeonul din footer: pe mobil o singură secțiune deschisă, prima la început ----------
 const accs = [...document.querySelectorAll<HTMLDetailsElement>('[data-acc]')];
-const wide = window.matchMedia('(min-width: 56.0625rem)');
+const wide = window.matchMedia('(min-width: 48.0625rem)');
 const syncAcc = () => {
   if (wide.matches) accs.forEach((d) => (d.open = true));
   else accs.forEach((d, i) => (d.open = i === 0));
@@ -59,43 +98,4 @@ accs.forEach((d) => {
     if (wide.matches) { e.preventDefault(); return; }
     if (!d.open) accs.forEach((other) => { if (other !== d) other.open = false; });
   });
-});
-
-// ---------- mostrele de nuanță din prima pagină ----------
-document.querySelectorAll<HTMLElement>('[data-shades]').forEach((group) => {
-  const buttons = [...group.querySelectorAll<HTMLButtonElement>('[data-shade]')];
-  const out = group.querySelector<HTMLElement>('[data-shade-out]');
-  const pick = (btn: HTMLButtonElement) => {
-    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-    group.style.setProperty('--picked', btn.dataset.color || '');
-    if (!out) return;
-    out.querySelector('[data-shade-name]')!.textContent = btn.dataset.name || '';
-    out.querySelector('[data-shade-text]')!.textContent = btn.dataset.text || '';
-    const link = out.querySelector<HTMLAnchorElement>('[data-shade-link]');
-    if (link) { link.href = btn.dataset.href || '/servicii'; link.querySelector('span')!.textContent = btn.dataset.service || 'Servicii'; }
-  };
-  buttons.forEach((b) => {
-    b.addEventListener('click', () => pick(b));
-    b.addEventListener('mouseenter', () => { if (matchMedia('(hover: hover)').matches) pick(b); });
-  });
-});
-
-// ---------- lista de servicii: rândul activ schimbă imaginea fixată ----------
-document.querySelectorAll<HTMLElement>('[data-service-list]').forEach((list) => {
-  const rows = [...list.querySelectorAll<HTMLElement>('[data-row]')];
-  const pics = [...list.querySelectorAll<HTMLElement>('[data-pic]')];
-  const activate = (id: string) => {
-    rows.forEach((r) => r.classList.toggle('is-active', r.dataset.row === id));
-    pics.forEach((p) => p.classList.toggle('is-active', p.dataset.pic === id));
-  };
-  rows.forEach((r) => {
-    r.addEventListener('mouseenter', () => activate(r.dataset.row!));
-    r.addEventListener('focusin', () => activate(r.dataset.row!));
-  });
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) activate((e.target as HTMLElement).dataset.row!); });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    rows.forEach((r) => io.observe(r));
-  }
 });

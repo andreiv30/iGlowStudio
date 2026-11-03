@@ -4,8 +4,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import setari from '../data/setari.json';
 
-interface Props { title: string; description?: string; noindex?: boolean }
-const { title, description = setari.descriere_scurta, noindex = false } = Astro.props;
+interface Props { title: string; description?: string; noindex?: boolean; overlay?: boolean }
+const { title, description = setari.descriere_scurta, noindex = false, overlay = false } = Astro.props;
 const fullTitle = title === setari.nume ? `${setari.nume} · ${setari.semnatura}` : `${title} · ${setari.nume}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -22,13 +22,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ro_RO" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#1a130d" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <script is:inline>document.documentElement.classList.add('js')</script>
+    <slot name="head" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      try { if (sessionStorage.getItem('bar-closed') === '1') document.documentElement.classList.add('bar-closed'); } catch (e) {}
+    </script>
   </head>
   <body>
     <a class="skip" href="#continut">Sari la conținut</a>
-    <Header />
+    <Header overlay={overlay} />
     <main id="continut">
       <slot />
     </main>
@@ -39,7 +43,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <style>
       .skip { position: absolute; left: 1rem; top: -4rem; z-index: 200; background: var(--ink); color: var(--alb-cald); padding: 0.75rem 1rem; text-decoration: none; }
       .skip:focus { top: 1rem; }
-      main { padding-top: var(--header-h); }
+      :global(.bar-closed) { --bar-h: 0px; }
     </style>
   </body>
 </html>

@@ -1,10 +1,12 @@
 ---
+slug: tratamente
 titlu: Tratamente
 rezumat: Hidratare și reconstrucție pentru păr uscat, decolorat sau obosit de placă și foehn.
+eticheta: Îngrijire
+icon: layers
 ordine: 4
 durata: 30–60 min
 pret_de_la: 100
-ton: auriu
 pasi:
   - titlu: Diagnosticul firului
     text: Ne uităm la elasticitate, porozitate și vârfuri, ca să alegem între hidratare și reconstrucție.

@@ -1,0 +1,13 @@
+{
+  "nota": "[4,9]",
+  "numar": "[NR]",
+  "link_google": "https://www.google.com/maps",
+  "recenzii": [
+    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Balayage", "text": "[Copiază aici o recenzie reală de pe Google.]" },
+    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Tuns", "text": "[Copiază aici o recenzie reală de pe Google. Recenziile mai lungi se așază frumos în coloane, ca într-un perete de bilețele.]" },
+    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Vopsit", "text": "[Copiază aici o recenzie reală de pe Google.]" },
+    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Tratamente", "text": "[Copiază aici o recenzie reală de pe Google.]" },
+    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Coafat", "text": "[Copiază aici o recenzie reală de pe Google. Poți adăuga oricâte din panoul de administrare.]" },
+    { "nume": "[Nume clientă]", "data": "[lună an]", "serviciu": "Balayage", "text": "[Copiază aici o recenzie reală de pe Google.]" }
+  ]
+}

@@ -1,79 +1,87 @@
 ---
 import Base from '../layouts/Base.astro';
-import Media from '../components/Media.astro';
+import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
-import CtaBand from '../components/CtaBand.astro';
-import acasa from '../data/acasa.json';
+import despre from '../data/despre.json';
 import setari from '../data/setari.json';
+import { accent, rezervaHref, rezervaExtern } from '../lib/nav';
+const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
-<Base title="Despre noi" description="iGlow Studio, salonul Andreei Pamfiloiu: cum lucrăm și unde ne găsești.">
-  <header class="page-head wrap">
-    <h1 class="display" data-load>{acasa.despre_titlu}</h1>
-    <p class="lead" data-load style="--i: 1">{acasa.despre_text}</p>
+<Base title="Despre noi" description="iGlow Studio, salonul Andreei Pamfiloiu: povestea noastră și unde ne găsești.">
+  <!-- citatul fondatoarei, centrat -->
+  <header class="page-head">
+    <div class="container head head--center">
+      <p class="eyebrow eyebrow--center" data-load>Despre noi</p>
+      <h1 class="h1 quote" data-load style="--i: 1" set:html={`„${accent(despre.citat)}”`} />
+      <p class="quote__by" data-load style="--i: 2">— {despre.citat_autor}</p>
+    </div>
   </header>
 
-  <section class="story wrap" aria-labelledby="story-title">
-    <Media tone="taupe" seed="despre-1" variant="closeup" ratio="16 / 10" class="story__wide" />
-    <div class="story__copy">
-      <h2 id="story-title" class="head" data-reveal>De unde vine numele</h2>
-      <div class="prose" data-reveal style="--i: 1">
-        <p>„Glow” este strălucirea pe care o are părul sănătos în lumina zilei: nu luciul unui produs, ci firul care reflectă lumina pentru că e hrănit, tuns la timp și colorat cu grijă.</p>
-        <p>Paleta salonului vine din aceeași idee. Tonurile site-ului, de la Espresso la Auriu deschis, sunt nuanțele de păr cu care lucrăm în fiecare zi.</p>
-        <p>[Povestea Andreei: cum a început, ce a învățat, de ce a deschis iGlow. De completat din /admin.]</p>
+  <!-- povestea + poza -->
+  <section class="story section" aria-labelledby="story-title">
+    <div class="container story__inner">
+      <div class="head">
+        <p class="eyebrow" data-reveal id="story-title">{despre.poveste_titlu}</p>
+        <div class="story__text" data-reveal style="--i: 1">
+          {despre.poveste.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="story__actions" data-reveal style="--i: 2">
+          <a class="btn btn--outline" href="/echipa">Vezi echipa</a>
+          <a class="btn" href="/servicii">Vezi servicii</a>
+        </div>
+      </div>
+      <div data-reveal style="--i: 1"><Photo src={despre.poveste_imagine} alt="Salonul iGlow Studio" ratio="4 / 5" /></div>
+    </div>
+  </section>
+
+  <!-- contact și locație, ca pe Caracter -->
+  <section class="visit section section--surface" aria-labelledby="visit-title">
+    <div class="container">
+      <div class="visit__card card">
+        <div class="head head--center">
+          <p class="eyebrow eyebrow--center" data-reveal>Contact & locație</p>
+          <h2 id="visit-title" class="h2" data-reveal style="--i: 1" set:html={accent(despre.contact_titlu)} />
+          <p class="lead" data-reveal style="--i: 2">{despre.contact_text}</p>
+        </div>
+        <div class="visit__grid">
+          <div class="place" data-reveal>
+            <div class="place__name"><span class="ring ring--small"><Icon name="pin" size={18} /></span><div><h3>{setari.nume}</h3><p>{setari.oras}</p></div></div>
+            <dl class="place__info">
+              <div><dt>Adresă</dt><dd>{setari.adresa}<br />{setari.oras}<br /><span class="muted">{setari.adresa_detalii}</span></dd></div>
+              <div><dt>Telefon</dt><dd><a href={`tel:${setari.telefon.replace(/\s/g, '')}`}>{setari.telefon}</a></dd></div>
+              <div><dt>Program</dt><dd><ul class="hours">{setari.program.map((p) => <li><span>{p.zile}</span><span>{p.ore}</span></li>)}</ul></dd></div>
+            </dl>
+            <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă acum</a>
+          </div>
+          <a class="map" href={setari.link_harta} rel="noopener" target="_blank" data-reveal style="--i: 1">
+            <span class="map__inner"><Icon name="pin" size={30} /><span>Deschide în Google Maps</span><Icon name="arrow-up-right" size={16} /></span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
-
-  <section class="how field-surface" aria-labelledby="how-title">
-    <div class="how__inner wrap">
-      <h2 id="how-title" class="head" data-reveal>Cum lucrăm</h2>
-      <ol class="how__list">
-        {acasa.vizita.map((p, i) => (
-          <li data-reveal style={`--i: ${i}`}><h3 class="title">{p.titlu}</h3><p>{p.text}</p></li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="place wrap" aria-labelledby="place-title">
-    <div class="place__copy">
-      <h2 id="place-title" class="head" data-reveal>Unde ne găsești</h2>
-      <p class="lead" data-reveal style="--i: 1">{setari.adresa}, {setari.oras}</p>
-      <p class="muted" data-reveal style="--i: 2">{setari.adresa_detalii}</p>
-      <dl class="place__hours nums" data-reveal style="--i: 3">
-        {setari.program.map((p) => <div><dt>{p.zile}</dt><dd>{p.ore}</dd></div>)}
-      </dl>
-      <div class="place__actions" data-reveal style="--i: 4">
-        <a class="button" href={setari.link_harta} rel="noopener" target="_blank">Deschide în hartă <Icon name="arrow-up-right" /></a>
-        <a class="arrow-link" href="/rezerva">Rezervă o programare <Icon name="arrow" /></a>
-      </div>
-    </div>
-    <Media tone="caramel" seed="despre-2" ratio="3 / 4" class="place__pic" />
-  </section>
-
-  <CtaBand />
 </Base>
 
 <style>
-  .story { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 3rem; padding-bottom: calc(var(--section) / 2); }
-  .story :global(.story__wide) { grid-column: 1 / -1; }
-  .story__copy { grid-column: 5 / 12; display: flex; flex-direction: column; gap: 2rem; }
-  .story__copy .prose { font-size: 1.1875rem; }
-  .how__inner { padding-block: calc(var(--section) / 2); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 3rem; }
-  .how h2 { grid-column: 1 / 5; }
-  .how__list { grid-column: 5 / 13; list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
-  .how__list li { display: flex; flex-direction: column; gap: 0.75rem; }
-  .place { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 3rem; padding-block: var(--section); align-items: center; }
-  .place__copy { grid-column: 1 / 7; display: flex; flex-direction: column; gap: 1.25rem; }
-  .place :global(.place__pic) { grid-column: 8 / 13; }
-  .place__hours { margin: 1rem 0 0; display: flex; flex-direction: column; gap: 0.35rem; }
-  .place__hours div { display: grid; grid-template-columns: 10rem 1fr; }
-  .place__hours dt { color: var(--muted); }
-  .place__hours dd { margin: 0; }
-  .place__actions { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; margin-top: 1rem; }
-  @media (max-width: 48rem) {
-    .story__copy, .how h2, .how__list, .place__copy, .place :global(.place__pic) { grid-column: 1 / -1; }
-    .how__list { grid-template-columns: 1fr; }
-    .place :global(.place__pic) { width: 70%; margin-left: auto; }
-  }
+  .quote { max-width: 18ch; }
+  .quote__by { font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .story__inner { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .story__text { display: flex; flex-direction: column; gap: 1rem; font-size: 1.0625rem; max-width: 40rem; }
+  .story__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  .visit__card { padding: clamp(2rem, 5vw, 4rem); display: flex; flex-direction: column; gap: 3rem; }
+  .visit__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 1.5rem; }
+  .place { background: var(--surface); border-radius: var(--radius); padding: 1.75rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .place__name { display: flex; gap: 1rem; align-items: center; padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+  .place__name h3 { font-size: 1.4rem; }
+  .place__name p { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .place__info { display: flex; flex-direction: column; gap: 1.25rem; margin: 0; font-size: 0.9375rem; }
+  .place__info dt { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+  .place__info dd { margin: 0; }
+  .place__info a { color: var(--taupe); }
+  .hours { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .hours li { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; }
+  .map { display: flex; align-items: center; justify-content: center; min-height: 22rem; border-radius: var(--radius); background: #ede6df; text-decoration: none; color: var(--taupe); transition: background-color 200ms ease; }
+  .map__inner { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+  @media (hover: hover) and (pointer: fine) { .map:hover { background: #e4dbd1; } }
+  @media (max-width: 56rem) { .story__inner, .visit__grid { grid-template-columns: 1fr; } .map { min-height: 12rem; } }
 </style>

@@ -10,9 +10,18 @@
   "whatsapp": "407XXXXXXXX",
   "email": "contact@iglowstudio.ro",
   "program": [
-    { "zile": "Luni – Vineri", "ore": "10:00 – 20:00" },
-    { "zile": "Sâmbătă", "ore": "10:00 – 16:00" },
-    { "zile": "Duminică", "ore": "Închis" }
+    {
+      "zile": "Luni – Vineri",
+      "ore": "10:00 – 20:00"
+    },
+    {
+      "zile": "Sâmbătă",
+      "ore": "10:00 – 16:00"
+    },
+    {
+      "zile": "Duminică",
+      "ore": "Închis"
+    }
   ],
   "link_rezervare": "",
   "instagram": "https://www.instagram.com/",
@@ -25,5 +34,11 @@
     "sediu": "[Adresa sediului social]",
     "capital": "[Capital social]",
     "banca": "[Banca, IBAN]"
+  },
+  "anunt": {
+    "activ": true,
+    "text": "Oferta lunii",
+    "link_text": "vezi ofertele și programează-te",
+    "link": "/oferte"
   }
 }

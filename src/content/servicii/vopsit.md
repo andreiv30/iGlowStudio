@@ -1,10 +1,12 @@
 ---
+slug: vopsit
 titlu: Vopsit
 rezumat: Culoare uniformă, retuș de rădăcină sau acoperirea firelor albe, cu nuanța potrivită tenului tău.
+eticheta: Culoare
+icon: drop
 ordine: 2
 durata: 2–3 ore
 pret_de_la: 220
-ton: cacao
 pasi:
   - titlu: Diagnosticul culorii
     text: Ne uităm la nuanța naturală, la procentul de fire albe și la ce culoare ai purtat până acum.

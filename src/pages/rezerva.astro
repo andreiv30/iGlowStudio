@@ -1,85 +1,36 @@
 ---
+// „Rezervă” duce la platforma de programări. Când linkul e completat în /admin,
+// butoanele din site merg direct acolo, iar pagina aceasta redirecționează automat.
 import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
 import Icon from '../components/Icon.astro';
-import Swatch from '../components/Swatch.astro';
 import setari from '../data/setari.json';
-
-const tel = setari.telefon.replace(/\s/g, '');
 const online = setari.link_rezervare?.trim();
+const tel = setari.telefon.replace(/\s/g, '');
 ---
 <Base title="Rezervă" description="Programează-te la iGlow Studio: online, telefonic sau pe WhatsApp.">
-  <section class="book wrap" aria-labelledby="book-title">
-    <div class="book__copy">
-      <h1 id="book-title" class="display" data-load>Rezervă o programare</h1>
-      <p class="lead" data-load style="--i: 1">Alege serviciul, ziua și ora. Îți confirmăm programarea cât mai repede.</p>
-      <div class="book__actions" data-load style="--i: 2">
-        {online ? (
-          <a class="button book__main" href={online} rel="noopener">Alege ziua și ora <Icon name="arrow-up-right" /></a>
-        ) : (
-          <a class="button book__main" href={`tel:${tel}`}>Sună pentru programare <Icon name="phone" /></a>
-        )}
-        <a class="button button--quiet" href={`https://wa.me/${setari.whatsapp}?text=${encodeURIComponent('Bună! Aș dori o programare la iGlow Studio.')}`} rel="noopener" target="_blank"><Icon name="whatsapp" /> Programare pe WhatsApp</a>
-      </div>
+  {online && <meta http-equiv="refresh" content={`0;url=${online}`} slot="head" />}
+  <PageHead eticheta="Rezervă" titlu="Programează-te *online*" text="Alege serviciul, specialistul, ziua și ora. Îți confirmăm programarea cât mai repede.">
+    <div class="book__actions" data-load style="--i: 3">
+      {online
+        ? <a class="btn" href={online} rel="noopener">Alege ziua și ora <Icon name="arrow-up-right" size={16} /></a>
+        : <a class="btn" href={`tel:${tel}`}>Sună pentru programare <Icon name="phone" size={16} /></a>}
+      <a class="btn btn--outline" href={`https://wa.me/${setari.whatsapp}?text=${encodeURIComponent('Bună! Aș dori o programare la iGlow.')}`} rel="noopener" target="_blank"><Icon name="whatsapp" size={16} /> WhatsApp</a>
     </div>
-    <div class="book__hank" aria-hidden="true" data-load style="--i: 3"><Swatch tone="caramel" seed="rezerva" /></div>
-  </section>
+  </PageHead>
 
-  <section class="ways field-surface" aria-labelledby="ways-title">
-    <div class="ways__inner wrap">
-      <h2 id="ways-title" class="head" data-reveal>Alte căi</h2>
-      <ul class="ways__list">
-        <li data-reveal style="--i: 0"><a href={`tel:${tel}`}><Icon name="phone" size={28} /><span class="title">Telefon</span><span class="muted">{setari.telefon}</span></a></li>
-        <li data-reveal style="--i: 1"><a href={`https://wa.me/${setari.whatsapp}`} rel="noopener" target="_blank"><Icon name="whatsapp" size={28} /><span class="title">WhatsApp</span><span class="muted">Răspundem în programul salonului</span></a></li>
-        <li data-reveal style="--i: 2"><a href={`mailto:${setari.email}?subject=${encodeURIComponent('Programare iGlow Studio')}`}><Icon name="mail" size={28} /><span class="title">Email</span><span class="muted">{setari.email}</span></a></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="good wrap" aria-labelledby="good-title">
-    <h2 id="good-title" class="head" data-reveal>Bine de știut</h2>
-    <div class="good__cols">
-      <div data-reveal style="--i: 1">
-        <h3 class="title">Program</h3>
-        <dl class="good__hours nums">{setari.program.map((p) => <div><dt>{p.zile}</dt><dd>{p.ore}</dd></div>)}</dl>
-      </div>
-      <div data-reveal style="--i: 2">
-        <h3 class="title">Adresă</h3>
-        <p>{setari.adresa}, {setari.oras}</p>
-        <p class="muted">{setari.adresa_detalii}</p>
-        <a class="arrow-link" href={setari.link_harta} rel="noopener" target="_blank">Deschide în hartă <Icon name="arrow-up-right" /></a>
-      </div>
-      <div data-reveal style="--i: 3">
-        <h3 class="title">Anulare</h3>
-        <p>Dacă nu mai poți ajunge, anunță-ne cu cel puțin 24 de ore înainte, ca să oferim ora altei cliente.</p>
-      </div>
-    </div>
+  <section class="ways container section" aria-label="Alte moduri de programare">
+    <a class="way card" href={`tel:${tel}`} data-reveal><span class="ring"><Icon name="phone" size={24} /></span><span class="way__t">Telefon</span><span class="muted">{setari.telefon}</span></a>
+    <a class="way card" href={`https://wa.me/${setari.whatsapp}`} rel="noopener" target="_blank" data-reveal style="--i: 1"><span class="ring"><Icon name="whatsapp" size={24} /></span><span class="way__t">WhatsApp</span><span class="muted">Scrie-ne un mesaj</span></a>
+    <a class="way card" href={`mailto:${setari.email}`} data-reveal style="--i: 2"><span class="ring"><Icon name="mail" size={24} /></span><span class="way__t">Email</span><span class="muted">{setari.email}</span></a>
   </section>
 </Base>
-
 <style>
-  .book { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; padding-block: clamp(3rem, 8vw, 7rem) calc(var(--section) / 2); align-items: center; }
-  .book__copy { grid-column: 1 / 9; display: flex; flex-direction: column; gap: 2rem; }
-  .book__copy h1 { max-width: 12ch; }
-  .book__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-  .book__main { min-height: 3.75rem; padding-inline: 2rem; font-size: 1.125rem; }
-  .book__hank { grid-column: 10 / 13; }
-  .book__hank :global(.swatch) { height: clamp(20rem, 40vw, 36rem); }
-  .ways__inner { padding-block: calc(var(--section) / 2); display: flex; flex-direction: column; gap: 2.5rem; }
-  .ways__list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
-  .ways__list a { display: flex; flex-direction: column; gap: 0.5rem; padding: 2rem; background: var(--bg); text-decoration: none; min-height: 12rem; transition: transform 400ms var(--ease-out); }
-  .ways__list a > :global(svg) { color: var(--taupe); margin-bottom: auto; }
-  @media (hover: hover) and (pointer: fine) { .ways__list a:hover { transform: translateY(-4px); } }
-  .good { padding-block: calc(var(--section) / 2) var(--section); display: flex; flex-direction: column; gap: 2.5rem; }
-  .good__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
-  .good__cols > div { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
-  .good__hours { margin: 0; display: flex; flex-direction: column; gap: 0.3rem; width: 100%; }
-  .good__hours div { display: flex; justify-content: space-between; gap: 1rem; max-width: 20rem; }
-  .good__hours dt { color: var(--muted); }
-  .good__hours dd { margin: 0; }
-  @media (max-width: 48rem) {
-    .book__copy { grid-column: 1 / -1; }
-    .book__hank { display: none; }
-    .ways__list, .good__cols { grid-template-columns: 1fr; }
-    .ways__list a { min-height: 0; }
-  }
+  .book__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 0.5rem; }
+  .ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  .way { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; padding: 2.5rem 1.5rem; text-decoration: none; transition: transform 300ms var(--ease-out); }
+  .way .ring { margin-bottom: 0.75rem; }
+  .way__t { font-size: 0.875rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+  @media (hover: hover) and (pointer: fine) { .way:hover { transform: translateY(-4px); } }
+  @media (max-width: 48rem) { .ways { grid-template-columns: 1fr; } }
 </style>

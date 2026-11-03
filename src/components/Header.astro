@@ -1,90 +1,105 @@
 ---
 import Icon from './Icon.astro';
-import Wordmark from './Wordmark.astro';
+import Logo from './Logo.astro';
 import setari from '../data/setari.json';
-import { meniu } from '../lib/nav';
+import { meniu, rezervaHref, rezervaExtern } from '../lib/nav';
 
+interface Props { overlay?: boolean }
+const { overlay = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
-<header class="site-header" data-header>
-  <div class="site-header__bar wrap">
-    <a class="site-header__brand" href="/" aria-label={`${setari.nume}, pagina principală`}>
-      <Wordmark />
-    </a>
-    <nav class="site-header__nav" aria-label="Meniu principal">
-      <ul class="site-header__links">
-        {meniu.filter((m) => m.href !== '/rezerva').map((m) => (
-          <li><a href={m.href} class="site-header__link" aria-current={isActive(m.href) ? 'page' : undefined}>{m.label}</a></li>
-        ))}
-      </ul>
-    </nav>
-    <div class="site-header__actions">
-      <a class="button site-header__cta" href="/rezerva" aria-current={isActive('/rezerva') ? 'page' : undefined}>Rezervă</a>
-      <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="menu-mobil" data-menu-toggle>
-        <span class="sr-only" data-menu-label>Deschide meniul</span>
-        <span class="site-header__icon site-header__icon--open"><Icon name="menu" size={24} /></span>
-        <span class="site-header__icon site-header__icon--close"><Icon name="close" size={24} /></span>
-      </button>
+<div class:list={['top', overlay && 'top--overlay']} data-top>
+  {setari.anunt?.activ && (
+    <div class="bar" data-bar>
+      <p class="bar__text">{setari.anunt.text} — <a href={setari.anunt.link}>{setari.anunt.link_text}</a>.</p>
+      <button class="bar__close" type="button" aria-label="Închide anunțul" data-bar-close><Icon name="close" size={16} /></button>
     </div>
-  </div>
-</header>
-<!-- panoul stă în afara header-ului: backdrop-filter ar face din header containerul elementelor fixe -->
-<div class="menu-mobil" id="menu-mobil" data-menu hidden>
-    <nav class="wrap" aria-label="Meniu principal pe mobil">
-      <ul class="menu-mobil__links">
-        {meniu.map((m, i) => (
-          <li style={`--i: ${i}`}><a href={m.href} aria-current={isActive(m.href) ? 'page' : undefined}>{m.label}</a></li>
-        ))}
-      </ul>
-      <div class="menu-mobil__contact">
-        <a class="arrow-link" href={`tel:${setari.telefon.replace(/\s/g, '')}`}><Icon name="phone" />{setari.telefon}</a>
-        <a class="arrow-link" href={`https://wa.me/${setari.whatsapp}`}><Icon name="whatsapp" />WhatsApp</a>
+  )}
+  <header class="header">
+    <div class="header__inner container">
+      <a class="header__logo" href="/" aria-label={`${setari.nume}, pagina principală`}><Logo /></a>
+      <nav class="header__nav" aria-label="Meniu principal">
+        <ul>
+          {meniu.map((m) => (
+            <li><a href={m.href} aria-current={isActive(m.href) ? 'page' : undefined}>{m.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a class="btn btn--small header__cta" href={rezervaHref} {...ext}>Rezervă</a>
+        <button class="header__toggle" type="button" aria-expanded="false" aria-controls="meniu-mobil" data-menu-toggle>
+          <span class="sr-only" data-menu-label>Deschide meniul</span>
+          <span class="header__icon header__icon--open"><Icon name="menu" size={26} /></span>
+          <span class="header__icon header__icon--close"><Icon name="close" size={26} /></span>
+        </button>
       </div>
-    </nav>
+    </div>
+  </header>
+</div>
+<div class="mobile" id="meniu-mobil" data-menu hidden>
+  <nav class="container" aria-label="Meniu principal pe mobil">
+    <ul class="mobile__links">
+      {meniu.map((m, i) => (
+        <li style={`--i: ${i}`}><a href={m.href} aria-current={isActive(m.href) ? 'page' : undefined}>{m.label}</a></li>
+      ))}
+    </ul>
+    <a class="btn btn--block" href={rezervaHref} {...ext}>Rezervă o programare</a>
+  </nav>
 </div>
 
 <style>
-  .site-header {
-    position: fixed; inset: 0 0 auto 0; z-index: 100;
-    border-bottom: 1px solid transparent;
-    transition: background-color 200ms var(--ease-out), border-color 200ms var(--ease-out);
-  }
-  /* la scroll: alb translucid cu blur, ca pe tasteskill.dev */
-  :global(.header-scrolled) .site-header,
-  :global(.menu-open) .site-header {
+  .top { position: fixed; inset: 0 0 auto 0; z-index: 100; }
+  /* anunțul de sus */
+  .bar { height: var(--bar-h); background: var(--caramel); color: var(--espresso); display: flex; align-items: center; justify-content: center; position: relative; padding-inline: 3rem; font-size: 0.8125rem; }
+  .bar__text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar a { text-underline-offset: 3px; }
+  .bar__close { position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; }
+  :global(.bar-closed) .bar { display: none; }
+
+  /* header: transparent la început, alb translucid cu blur după scroll (ca pe tasteskill.dev) */
+  .header { height: var(--header-h); color: var(--ink); border-bottom: 1px solid transparent; transition: background-color 250ms var(--ease-out), border-color 250ms var(--ease-out), color 250ms var(--ease-out); }
+  .top--overlay .header { color: var(--alb-cald); }
+  :global(.header-scrolled) .top .header, :global(.menu-open) .top .header {
+    color: var(--ink);
     background-color: rgb(255 255 255 / 0.85);
     border-bottom-color: rgb(26 19 13 / 0.06);
     -webkit-backdrop-filter: blur(24px) saturate(1.5);
     backdrop-filter: blur(24px) saturate(1.5);
   }
-  .site-header__bar { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
-  .site-header__brand { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
-  .site-header__links { display: flex; gap: clamp(1rem, 2vw, 2rem); }
-  .site-header__link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 0.9375rem; color: var(--ink); position: relative; }
-  .site-header__link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 8px; height: 2px; background: var(--caramel); transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--ease-out); }
-  .site-header__link[aria-current='page']::after { transform: scaleX(1); }
-  @media (hover: hover) and (pointer: fine) { .site-header__link:hover::after { transform: scaleX(1); } }
-  .site-header__actions { display: flex; align-items: center; gap: 0.5rem; }
-  .site-header__cta { min-height: 2.75rem; padding: 0 1.25rem; }
-  .site-header__toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 999px; }
-  .site-header__icon--close { display: none; }
-  :global(.menu-open) .site-header__icon--open { display: none; }
-  :global(.menu-open) .site-header__icon--close { display: inline-flex; }
+  .header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+  .header__logo { height: 3.4rem; display: block; color: inherit; flex: none; }
+  .header__nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(1.25rem, 2.4vw, 2.5rem); }
+  .header__nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: inherit; }
+  .header__nav a::after { content: ''; position: absolute; left: 0; right: 0.2em; bottom: 8px; height: 1.5px; background: var(--caramel); transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--ease-out); }
+  .header__nav a[aria-current='page'] { color: var(--caramel); }
+  :global(html:not(.header-scrolled):not(.menu-open)) .top--overlay .header__nav a[aria-current='page'] { color: var(--auriu); }
+  .header__nav a[aria-current='page']::after { transform: scaleX(1); }
+  @media (hover: hover) and (pointer: fine) { .header__nav a:hover::after { transform: scaleX(1); } }
+  .header__actions { display: flex; align-items: center; gap: 0.5rem; }
+  .header__toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; color: inherit; }
+  .header__icon--close { display: none; }
+  :global(.menu-open) .header__icon--open { display: none; }
+  :global(.menu-open) .header__icon--close { display: inline-flex; }
 
-  .menu-mobil { position: fixed; z-index: 99; inset: var(--header-h) 0 0 0; background: var(--bg); overflow-y: auto; padding-block: 1.5rem 3rem; }
-  .menu-mobil__links { display: flex; flex-direction: column; }
-  .menu-mobil__links a { display: block; font-family: var(--font-display); font-size: clamp(2.25rem, 9vw, 3.5rem); line-height: 1.15; letter-spacing: -0.02em; text-decoration: none; padding-block: 0.25rem; }
-  .menu-mobil__links a[aria-current='page'] { color: var(--caramel); }
-  .menu-mobil__contact { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  /* meniul pe mobil (în afara header-ului: blur-ul ar limita elementele fixe la înălțimea lui) */
+  .mobile { position: fixed; inset: 0; z-index: 99; background: var(--bg); padding-top: calc(var(--header-h) + var(--bar-h) + 1.5rem); padding-bottom: 2rem; overflow-y: auto; }
+  :global(.bar-closed) .mobile { padding-top: calc(var(--header-h) + 1.5rem); }
+  .mobile nav { display: flex; flex-direction: column; gap: 2rem; }
+  .mobile__links { display: flex; flex-direction: column; }
+  .mobile__links a { display: block; padding-block: 0.6rem; font-family: var(--font-display); font-size: 2rem; line-height: 1.2; text-decoration: none; }
+  .mobile__links a[aria-current='page'] { color: var(--caramel); font-style: italic; }
   @media (prefers-reduced-motion: no-preference) {
-    .menu-mobil:not([hidden]) .menu-mobil__links li { animation: menu-in 600ms var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
+    .mobile:not([hidden]) .mobile__links li { animation: menu-in 600ms var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
   }
   @keyframes menu-in { from { opacity: 0; transform: translateY(14px); } }
 
-  @media (max-width: 64rem) {
-    .site-header__nav { display: none; }
-    .site-header__toggle { display: inline-flex; }
+  @media (max-width: 68rem) {
+    .header__nav { display: none; }
+    .header__toggle { display: inline-flex; }
+    .header__logo { height: 2.9rem; }
   }
-  @media (max-width: 22rem) { .site-header__cta { display: none; } }
+  @media (max-width: 26rem) { .header__cta { display: none; } }
+  @media (max-width: 40rem) { .bar { font-size: 0.75rem; padding-inline: 1rem 2.75rem; } }
 </style>

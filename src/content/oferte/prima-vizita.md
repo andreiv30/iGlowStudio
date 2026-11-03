@@ -5,6 +5,6 @@ pret: 100 lei
 pret_vechi: 140 lei
 valabil_pana:
 activ: true
+eticheta: Clientă nouă
 ordine: 2
-ton: taupe
 ---

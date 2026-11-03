@@ -1,12 +1,27 @@
 {
-  "titlu": "Păr care strălucește.",
-  "subtitlu": "Salon de coafură și colorare creat de Andreea Pamfiloiu. Tuns, vopsit, balayage și tratamente, cu programare.",
-  "fraza_vizita": "Fiecare vizită începe cu o discuție despre ce îți dorești și se termină cu un păr pe care îl porți ușor acasă.",
-  "vizita": [
-    { "titlu": "Discuția", "text": "Ne spui ce îți place, ce nu mai vrei și cât timp ai dimineața pentru păr. Ne arăți poze, dacă ai." },
-    { "titlu": "Diagnosticul", "text": "Ne uităm la textura, porozitatea și istoricul culorii. Îți spunem sincer ce se poate obține într-o vizită și ce în două." },
-    { "titlu": "Acasă", "text": "Pleci cu rutina scrisă: ce produs, cât de des și când revii pentru întreținere." }
+  "hero_imagine": "",
+  "hero_imagine_alt": "",
+  "hero_eticheta": "Salon de înfrumusețare",
+  "hero_titlu": "Unde părul tău își găsește *strălucirea*.",
+  "hero_buton": "Programează-te",
+  "cuvinte": ["Formă", "Culoare", "Strălucire", "Grijă", "Eleganță", "Lumină", "Rafinament", "Încredere"],
+  "de_ce_eticheta": "De ce noi",
+  "de_ce_titlu": "Fiecare detaliu, gândit *pentru tine*",
+  "de_ce_text": "La iGlow, fiecare programare începe cu o discuție și se termină cu un păr pe care îl porți ușor acasă. Lucrăm fără grabă, cu produse profesionale și cu atenție la ce își dorește fiecare clientă.",
+  "de_ce": [
+    { "icon": "search", "titlu": "Consultație", "text": "înainte de fiecare serviciu" },
+    { "icon": "doc", "titlu": "Diagnostic", "text": "al firului și al scalpului" },
+    { "icon": "star", "titlu": "Produse profesionale", "text": "alese pentru părul tău" },
+    { "icon": "diamond", "titlu": "Rutină pentru acasă", "text": "ca rezultatul să țină" }
   ],
-  "despre_titlu": "Andreea Pamfiloiu Concept",
-  "despre_text": "iGlow e salonul Andreei Pamfiloiu: un salon în care fiecare programare are timpul ei. Culoarea și tunsoarea se gândesc împreună, ca părul să arate bine și la trei săptămâni după vizită."
+  "servicii_titlu": "Gama de *servicii*",
+  "servicii_text": "Fiecare tratament este gândit să îți pună în valoare stilul, de la primul contact până la rezultat.",
+  "echipa_titlu": "Cunoaște *echipa*",
+  "echipa_text": "Oamenii din spatele fiecărui look: experiență, atenție la detalii și grijă pentru fiecare clientă. Alege specialistul potrivit și programează-te.",
+  "intrebari": [
+    { "intrebare": "Cum mă pot programa?", "raspuns": "Online, din butonul Rezervă, telefonic sau pe WhatsApp. Alegi serviciul, ziua și ora, iar noi îți confirmăm programarea." },
+    { "intrebare": "Cât durează o programare?", "raspuns": "Un tuns durează aproximativ o oră, un vopsit două–trei ore, iar un balayage trei–patru ore. Durata exactă o găsești la fiecare serviciu." },
+    { "intrebare": "Pot anula sau reprograma?", "raspuns": "Da. Te rugăm să ne anunți cu cel puțin 24 de ore înainte, ca să putem oferi ora altei cliente." },
+    { "intrebare": "Ce servicii oferiți?", "raspuns": "Tuns, coafat, vopsit, balayage și tratamente pentru păr. Lista completă, cu prețuri, este pe pagina Servicii." }
+  ]
 }

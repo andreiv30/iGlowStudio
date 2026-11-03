@@ -2,26 +2,25 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-// Tonurile din paleta iGlow. Fiecare serviciu sau ofertă are un ton,
-// folosit ca fundal până când se încarcă o fotografie din /admin.
-export const tonuri = ['espresso', 'mocha', 'cacao', 'taupe', 'piatra', 'greige', 'caramel', 'auriu'] as const;
-
 const servicii = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/servicii' }),
   schema: z.object({
+    slug: z.string().optional(),
     titlu: z.string(),
     rezumat: z.string(),
+    eticheta: z.string().default(''),
+    icon: z.string().default('scissors'),
     ordine: z.number().default(10),
     durata: z.string(),
     pret_de_la: z.number(),
-    ton: z.enum(tonuri).default('caramel'),
     imagine: z.string().optional().nullable(),
     imagine_alt: z.string().optional().nullable(),
+    imagine_detaliu: z.string().optional().nullable(),
     pasi: z
       .array(z.object({ titlu: z.string(), text: z.string() }))
       .default([]),
     preturi: z
-      .array(z.object({ nume: z.string(), durata: z.string().optional().nullable(), pret: z.string() }))
+      .array(z.object({ nume: z.string(), descriere: z.string().optional().nullable(), durata: z.string().optional().nullable(), pret: z.string() }))
       .default([]),
     intrebari: z
       .array(z.object({ intrebare: z.string(), raspuns: z.string() }))
@@ -34,9 +33,9 @@ const echipa = defineCollection({
   schema: z.object({
     nume: z.string(),
     rol: z.string(),
+    rezumat: z.string().optional().nullable(),
     ordine: z.number().default(10),
     foto: z.string().optional().nullable(),
-    ton: z.enum(tonuri).default('taupe'),
     servicii: z.array(z.string()).default([]),
   }),
 });
@@ -51,7 +50,7 @@ const oferte = defineCollection({
     valabil_pana: z.string().optional().nullable(),
     activ: z.boolean().default(true),
     ordine: z.number().default(10),
-    ton: z.enum(tonuri).default('caramel'),
+    eticheta: z.string().optional().nullable(),
     imagine: z.string().optional().nullable(),
   }),
 });

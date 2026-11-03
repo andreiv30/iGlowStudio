@@ -1,10 +1,12 @@
 ---
+slug: tuns
 titlu: Tuns
 rezumat: Tunsori gândite după trăsăturile, textura și rutina ta, care își păstrează forma între vizite.
+eticheta: Precizie
+icon: scissors
 ordine: 1
 durata: 45–60 min
 pret_de_la: 120
-ton: taupe
 imagine:
 imagine_alt:
 pasi:

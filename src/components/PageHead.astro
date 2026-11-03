@@ -1,0 +1,14 @@
+---
+// Începutul paginilor interioare: etichetă, titlu cu cuvânt evidențiat și text, centrate (ca pe Caracter).
+import { accent } from '../lib/nav';
+interface Props { eticheta: string; titlu: string; text?: string }
+const { eticheta, titlu, text } = Astro.props;
+---
+<header class="page-head">
+  <div class="container head head--center">
+    <p class="eyebrow eyebrow--center" data-load>{eticheta}</p>
+    <h1 class="h1" data-load style="--i: 1" set:html={accent(titlu)} />
+    {text && <p class="lead" data-load style="--i: 2">{text}</p>}
+    <slot />
+  </div>
+</header>

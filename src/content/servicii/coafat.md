@@ -1,10 +1,12 @@
 ---
+slug: coafat
 titlu: Coafat
 rezumat: Coafuri de zi, de seară sau de eveniment, cu probă înainte pentru mirese.
+eticheta: Stil
+icon: wave
 ordine: 5
 durata: 45–90 min
 pret_de_la: 90
-ton: greige
 pasi:
   - titlu: Ideea
     text: Ne arăți ținuta, rochia sau o poză și stabilim cât de lejer sau de strâns vrei coafura.

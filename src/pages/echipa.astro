@@ -1,55 +1,54 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import Media from '../components/Media.astro';
+import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
-import CtaBand from '../components/CtaBand.astro';
+import CtaCard from '../components/CtaCard.astro';
+import { rezervaHref, rezervaExtern } from '../lib/nav';
 
 const echipa = (await getCollection('echipa')).sort((a, b) => a.data.ordine - b.data.ordine);
 const servicii = await getCollection('servicii');
 const titlu = (slug: string) => servicii.find((s) => s.id === slug)?.data.titlu;
 const membri = await Promise.all(echipa.map(async (m) => ({ m, Content: (await render(m)).Content })));
+const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
 <Base title="Echipa" description="Oamenii din spatele iGlow Studio.">
-  <header class="page-head wrap">
-    <h1 class="display" data-load>Echipa</h1>
-    <p class="lead" data-load style="--i: 1">Alege specialistul care ți se potrivește și rezervă-te direct la el.</p>
-  </header>
+  <PageHead eticheta="Echipă" titlu="Cunoaște *echipa*" text="Oamenii din spatele fiecărui look: experiență, atenție la detalii și grijă pentru fiecare clientă. Alege specialistul potrivit și programează-te." />
 
-  <div class="team">
+  <section class="team container" aria-label="Membrii echipei">
     {membri.map(({ m, Content }, i) => (
-      <section class:list={['member wrap', i % 2 === 1 && 'member--flip']} aria-labelledby={`m-${m.id}`}>
-        <Media src={m.data.foto} alt={`${m.data.nume}, ${m.data.rol}`} tone={m.data.ton} seed={`team-${m.id}`} ratio="4 / 5" class="member__pic" eager={i === 0} label={m.data.foto ? undefined : `Locul fotografiei: ${m.data.nume}`} />
-        <div class="member__copy">
-          <h2 id={`m-${m.id}`} class="head" data-reveal>{m.data.nume}</h2>
-          <p class="lead" data-reveal style="--i: 1">{m.data.rol}</p>
-          <div class="prose" data-reveal style="--i: 2"><Content /></div>
+      <article class="person" data-reveal style={`--i: ${i % 4}`}>
+        <Photo src={m.data.foto} alt={`${m.data.nume}, ${m.data.rol}`} ratio="4 / 5" />
+        <div class="person__body">
+          <h2 class="person__name">{m.data.nume}</h2>
+          <p class="person__role">{m.data.rol}</p>
+          <div class="person__bio"><Content /></div>
           {m.data.servicii.length > 0 && (
-            <ul class="member__services" data-reveal style="--i: 3" aria-label={`Servicii oferite de ${m.data.nume}`}>
+            <ul class="person__tags" aria-label={`Servicii oferite de ${m.data.nume}`}>
               {m.data.servicii.map((slug) => titlu(slug) && <li><a href={`/servicii/${slug}`}>{titlu(slug)}</a></li>)}
             </ul>
           )}
-          <a class="button" href="/rezerva" data-reveal style="--i: 4">Rezervă la {m.data.nume.split(' ')[0]} <Icon name="arrow" /></a>
+          <a class="more" href={rezervaHref} {...ext}>Rezervă la {m.data.nume.split(' ')[0]} <Icon name="arrow" size={14} /></a>
         </div>
-      </section>
+      </article>
     ))}
-  </div>
+  </section>
 
-  <CtaBand />
+  <CtaCard />
 </Base>
 
 <style>
-  .team { display: flex; flex-direction: column; gap: var(--section); padding-bottom: var(--section); }
-  .member { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 2rem; align-items: end; }
-  .member :global(.member__pic) { grid-column: 1 / 7; }
-  .member__copy { grid-column: 8 / 13; display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; }
-  .member--flip :global(.member__pic) { grid-column: 7 / 13; grid-row: 1; }
-  .member--flip .member__copy { grid-column: 1 / 6; grid-row: 1; }
-  .member__services { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .member__services a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; background: var(--surface); border-radius: 999px; text-decoration: none; transition: background-color var(--t-hover) ease; }
-  @media (hover: hover) and (pointer: fine) { .member__services a:hover { background: #ebe4dc; } }
-  @media (max-width: 48rem) {
-    .member { grid-template-columns: 1fr; }
-    .member :global(.member__pic), .member__copy, .member--flip :global(.member__pic), .member--flip .member__copy { grid-column: 1; grid-row: auto; }
-  }
+  .team { padding-top: clamp(3.5rem, 6vw, 5rem); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; justify-content: center; }
+  .team:has(> :only-child) { grid-template-columns: minmax(0, 22rem); }
+  .person { display: flex; flex-direction: column; gap: 1.25rem; }
+  .person__body { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.35rem; }
+  .person__name { font-size: 1.6rem; font-style: italic; }
+  .person__role { color: var(--muted); font-size: 0.9375rem; }
+  .person__bio { color: var(--muted); font-size: 0.9375rem; margin-top: 0.5rem; }
+  .person__tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin-top: 0.75rem; }
+  .person__tags a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 0.8rem; border: 1px solid var(--line); border-radius: 999px; font-size: 0.8125rem; text-decoration: none; transition: border-color 200ms ease; }
+  @media (hover: hover) and (pointer: fine) { .person__tags a:hover { border-color: var(--caramel); } }
+  @media (max-width: 64rem) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 40rem) { .team { grid-template-columns: 1fr; } }
 </style>

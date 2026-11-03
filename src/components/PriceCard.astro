@@ -1,0 +1,28 @@
+---
+// Cardul unui serviciu din lista de prețuri (ca pe pagina de servicii Caracter).
+import Icon from './Icon.astro';
+import { rezervaHref, rezervaExtern } from '../lib/nav';
+interface Props { nume: string; descriere?: string | null; durata?: string | null; pret: string; i?: number }
+const { nume, descriere, durata, pret, i = 0 } = Astro.props;
+const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
+const [label, value] = /^de la\s+/i.test(pret) ? ['De la', pret.replace(/^de la\s+/i, '')] : ['Preț', pret];
+---
+<article class="price card" data-reveal style={`--i: ${i}`}>
+  <h3 class="price__name">{nume}</h3>
+  {descriere && <p class="price__desc">{descriere}</p>}
+  {durata && <p class="price__time"><Icon name="clock" size={16} />{durata}</p>}
+  <div class="price__foot">
+    <p class="price__value"><span>{label}</span>{value}</p>
+    <a class="more" href={rezervaHref} {...ext}>Rezervă <Icon name="arrow" size={14} /></a>
+  </div>
+</article>
+<style>
+  .price { padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; transition: transform 300ms var(--ease-out), box-shadow 300ms ease; }
+  .price__name { font-size: 1.5rem; font-style: italic; line-height: 1.2; }
+  .price__desc { color: var(--muted); font-size: 0.9375rem; }
+  .price__time { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.875rem; }
+  .price__foot { margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--line); display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+  .price__value { display: flex; flex-direction: column; font-family: var(--font-display); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .price__value span { font-family: var(--font-text); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+  @media (hover: hover) and (pointer: fine) { .price:hover { transform: translateY(-4px); } }
+</style>

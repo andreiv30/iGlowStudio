@@ -1,10 +1,12 @@
 ---
+slug: balayage
 titlu: Balayage
 rezumat: Lumină pictată de mână, cu treceri moi de la rădăcină spre vârfuri, care crește frumos.
+eticheta: Lumină
+icon: sparkle
 ordine: 3
 durata: 3–4 ore
 pret_de_la: 450
-ton: caramel
 pasi:
   - titlu: Planul de lumină
     text: Hotărâm unde cade lumina pe față și cât de deschis vrei să fie rezultatul, astăzi și în timp.

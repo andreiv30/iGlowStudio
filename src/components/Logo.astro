@@ -1,0 +1,25 @@
+---
+// Logo iGlow hair · Andreea Pamfiloiu CONCEPT, redesenat ca SVG după sigla primită.
+// Ia culoarea textului din jur (currentColor): alb peste poza din hero, espresso pe fundal deschis.
+// Când avem fișierul original, îl putem pune în locul acestui desen fără alte modificări.
+interface Props { class?: string; title?: string }
+const { class: cls, title = 'iGlow hair, Andreea Pamfiloiu Concept' } = Astro.props;
+---
+<svg class:list={['logo', cls]} viewBox="0 0 276 142" role="img" aria-label={title} xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M5 31 V82" stroke-width="3.2" />
+    <path d="M69.9 39.3 A26 26 0 1 0 76 56 H54" stroke-width="3.2" />
+    <path d="M88 1 V140" stroke-width="2.4" />
+    <circle cx="112" cy="66" r="14.5" stroke-width="3" />
+    <path d="M131 51 V66 a14 14 0 0 0 28 0 V51 M159 66 a14 14 0 0 0 28 0 V51" stroke-width="3" />
+  </g>
+  <circle cx="201" cy="69" r="2.6" fill="currentColor" />
+  <g fill="currentColor" font-family="Montserrat, 'Inter Variable', sans-serif" font-weight="400">
+    <text x="210" y="79" font-size="30" letter-spacing="0.3">hair</text>
+    <text x="97" y="110" font-size="15">Andreea Pamfiloiu</text>
+    <text x="97" y="128" font-size="15">CONCEPT</text>
+  </g>
+</svg>
+<style>
+  .logo { display: block; height: 100%; width: auto; overflow: visible; }
+</style>

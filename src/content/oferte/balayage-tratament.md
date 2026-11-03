@@ -5,6 +5,6 @@ pret: 490 lei
 pret_vechi: 610 lei
 valabil_pana: 30 noiembrie 2026
 activ: true
+eticheta: Oferta lunii
 ordine: 1
-ton: caramel
 ---
