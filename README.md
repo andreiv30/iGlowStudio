@@ -48,7 +48,13 @@ Fișierul nu este în repo, `.htaccess` îl blochează din browser, iar deploy-u
 
 ## Video în hero
 
-Din /admin → Pagina Acasă → „Fundalul de sus” alegi Poză sau Video. Videoul trebuie să fie **.webm** și de cel mult **20 MB**: panoul refuză fișierele mai mari, iar la salvare cere format .webm. La build, un video care nu respectă regulile (sau lipsește) este ignorat și se afișează poza. Videoul rulează fără sunet, în buclă; poza mare se vede până pornește și pe browserele care nu redau WebM. Pentru „reduce motion” și când hero-ul nu e pe ecran, videoul stă pe pauză.
+Din /admin → Pagina Acasă → „Fundalul de sus” alegi Poză sau Video. Videoul trebuie să fie **.webm** și de cel mult **20 MB**: panoul refuză fișierele mai mari, iar la salvare cere format .webm. La build, un video care nu respectă regulile (sau lipsește) este ignorat și se afișează poza. Videoul rulează fără sunet, în buclă; poza mare se vede până pornește și pe browserele care nu redau WebM. Videoul nu se descarcă deloc pentru „reduce motion”, „economizor de date” sau conexiuni 2G (rămâne poza), iar când hero-ul nu e pe ecran stă pe pauză.
+
+Pentru viteză, ține videoul cât mai mic: 720p, fără sunet, ideal sub 5 MB (cel actual: 57 s, 720p, 4,7 MB). Exemplu de conversie cu ffmpeg:
+
+```bash
+ffmpeg -i original.mp4 -an -vf scale=1280:-2 -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 hero-video.webm
+```
 
 ## SEO
 

@@ -48,7 +48,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
   <section class="svc-head">
     <div class="container svc-head__inner">
       <div class="svc-head__copy head">
-        <nav class="crumbs" aria-label="Unde te afli" data-load><a href="/servicii">Servicii</a><span aria-hidden="true">/</span><span aria-current="page">{s.data.titlu}</span></nav>
+        <nav class="crumbs" aria-label="Unde te afli" data-load><a href="/servicii/">Servicii</a><span aria-hidden="true">/</span><span aria-current="page">{s.data.titlu}</span></nav>
         <p class="eyebrow" data-load>{s.data.eticheta}</p>
         <h1 class="h1" data-load style="--i: 1"><em>{s.data.titlu}</em></h1>
         <p class="lead" data-load style="--i: 2">{s.data.rezumat}</p>
@@ -135,7 +135,7 @@ const pasIcon = ['search', 'drop', 'scissors', 'star', 'diamond', 'sparkle'];
       <ul class="others__grid">
         {altele.map((o, i) => (
           <li class="card others__card" data-reveal style={`--i: ${i}`}>
-            <a href={`/servicii/${o.id}`}>
+            <a href={`/servicii/${o.id}/`}>
               <Photo src={o.data.imagine} alt={altImg(o.data.titlu, o.data.imagine_alt)} ratio="4 / 3" rounded={false} />
               <span class="others__body">
                 <span class="others__label">{o.data.eticheta}</span>

@@ -32,7 +32,7 @@ const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
             <div class="person__bio"><Content /></div>
             {m.data.servicii.length > 0 && (
               <ul class="person__tags" aria-label={`Servicii oferite de ${m.data.nume}`}>
-                {m.data.servicii.map((slug) => titlu(slug) && <li><a href={`/servicii/${slug}`}>{titlu(slug)}</a></li>)}
+                {m.data.servicii.map((slug) => titlu(slug) && <li><a href={`/servicii/${slug}/`}>{titlu(slug)}</a></li>)}
               </ul>
             )}
             <a class="btn btn--small btn--outline person__book" href={rezervaHref} {...ext}>Rezervă la {m.data.nume.split(' ')[0]} <Icon name="external" size={14} /></a>

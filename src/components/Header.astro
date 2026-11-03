@@ -2,18 +2,19 @@
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import setari from '../data/setari.json';
-import { meniu, rezervaHref, rezervaExtern } from '../lib/nav';
+import { meniu, rezervaHref, rezervaExtern, cale } from '../lib/nav';
 
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+const fara = (p: string) => p.replace(/\/$/, '') || '/';
+const path = fara(Astro.url.pathname);
+const isActive = (href: string) => { const h = fara(href); return h === '/' ? path === '/' : path === h || path.startsWith(h + '/'); };
 const ext = rezervaExtern ? { rel: 'noopener', target: '_blank' } : {};
 ---
 <div class:list={['top', overlay && 'top--overlay']} data-top>
   {setari.anunt?.activ && (
     <div class="bar" data-bar>
-      <p class="bar__text">{setari.anunt.text} — <a href={setari.anunt.link}>{setari.anunt.link_text}</a>.</p>
+      <p class="bar__text">{setari.anunt.text} — <a href={cale(setari.anunt.link)}>{setari.anunt.link_text}</a>.</p>
       <button class="bar__close" type="button" aria-label="Închide anunțul" data-bar-close><Icon name="close" size={16} /></button>
     </div>
   )}
