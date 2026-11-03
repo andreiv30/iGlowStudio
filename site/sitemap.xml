@@ -11,17 +11,17 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iglowstudio.ro/servicii/colorare/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iglowstudio.ro/servicii/tuns/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://iglowstudio.ro/servicii/vopsit/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://iglowstudio.ro/servicii/balayage/</loc>
+    <loc>https://iglowstudio.ro/servicii/diagnoza-scalp/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,7 +31,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://iglowstudio.ro/servicii/coafat/</loc>
+    <loc>https://iglowstudio.ro/servicii/vouchere-cadou/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -54,11 +54,6 @@
     <loc>https://iglowstudio.ro/despre-noi/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://iglowstudio.ro/rezerva/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iglowstudio.ro/date-identificare/</loc>

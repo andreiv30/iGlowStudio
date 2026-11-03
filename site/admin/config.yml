@@ -36,7 +36,8 @@ collections:
           - { name: oras, label: Oraș, widget: string }
           - { name: adresa, label: Adresă, widget: string }
           - { name: adresa_detalii, label: Detalii adresă (etaj, parcare), widget: string, required: false }
-          - { name: link_harta, label: Link Google Maps, widget: string }
+          - { name: link_harta, label: Link Google Maps (butonul de sub hartă), widget: string }
+          - { name: harta_embed, label: "Harta de pe Despre noi – coordonate (ex. 45.8013,24.1294) sau adresa completă", widget: string }
           - { name: telefon, label: Telefon, widget: string }
           - { name: whatsapp, label: "WhatsApp (doar cifre, cu 40 în față)", widget: string }
           - { name: email, label: Email, widget: string }
@@ -46,7 +47,7 @@ collections:
             fields:
               - { name: zile, label: Zile, widget: string }
               - { name: ore, label: Ore, widget: string }
-          - { name: link_rezervare, label: "Link platformă de rezervări (gol = pagina Rezervă)", widget: string, required: false }
+          - { name: link_rezervare, label: "Link programări online (Mero) – toate butoanele Rezervă duc aici", widget: string }
           - { name: instagram, label: Instagram, widget: string, required: false }
           - { name: facebook, label: Facebook, widget: string, required: false }
           - { name: tiktok, label: TikTok, widget: string, required: false }
@@ -116,11 +117,12 @@ collections:
         label: Recenzii
         file: src/data/recenzii.json
         fields:
-          - { name: nota, label: Nota pe Google, widget: string }
+          - { name: nota, label: "Nota (ex. 4,96)", widget: string }
           - { name: numar, label: Număr de recenzii, widget: string }
-          - { name: link_google, label: Link profil Google, widget: string }
+          - { name: sursa, label: "Platforma recenziilor (ex. Mero, Google)", widget: string }
+          - { name: link, label: Link către recenzii, widget: string }
           - name: recenzii
-            label: Recenzii (copiate de pe Google)
+            label: Recenzii (copiate de pe platformă)
             widget: list
             fields:
               - { name: nume, label: Nume, widget: string }
@@ -190,13 +192,6 @@ collections:
                 fields:
                   - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
                   - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
-              - name: rezerva
-                label: Rezervă
-                widget: object
-                collapsed: true
-                fields:
-                  - { name: titlu, label: "Titlu SEO (opțional; gol = „Nume pagină - iGlow Studio”)", widget: string, required: false }
-                  - { name: descriere, label: "Descriere (ideal 120–160 de caractere)", widget: text }
               - name: date-identificare
                 label: Date identificare societate
                 widget: object
@@ -238,10 +233,10 @@ collections:
                   - { label: "Necesar – pornește mereu (fără cookie-uri de urmărire)", value: necesare }
               - { name: cod, label: Codul, widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
 
-  # ---------------- Servicii (câte o pagină fiecare) ----------------
+  # ---------------- Servicii (câte o pagină pentru fiecare categorie; serviciile sunt în „Prețuri”) ----------------
   - name: servicii
-    label: Servicii
-    label_singular: Serviciu
+    label: Servicii (categorii)
+    label_singular: Categorie
     folder: src/content/servicii
     create: true
     slug: '{{fields.slug}}'
@@ -254,7 +249,7 @@ collections:
       - { name: icon, label: Iconiță, widget: select, options: [scissors, drop, sparkle, layers, wave, star, diamond, search, doc, gift] }
       - { name: rezumat, label: Rezumat, widget: text }
       - { name: ordine, label: Ordine, widget: number, value_type: int }
-      - { name: durata, label: Durată (ex. 45–60 min), widget: string }
+      - { name: durata, label: "Durată (ex. 45–60 min; gol = nu se afișează)", widget: string, required: false }
       - { name: pret_de_la, label: Preț de la (lei), widget: number, value_type: int }
       - { name: imagine, label: Poza principală, widget: image, required: false }
       - { name: imagine_detaliu, label: A doua poză, widget: image, required: false }
@@ -272,7 +267,7 @@ collections:
         widget: list
         fields:
           - { name: nume, label: Nume, widget: string }
-          - { name: descriere, label: Descriere, widget: string, required: false }
+          - { name: descriere, label: "Descriere (rânduri cu „- ” la început devin listă)", widget: text, required: false }
           - { name: durata, label: Durată, widget: string, required: false }
           - { name: pret, label: "Preț (ex. 120 lei)", widget: string }
       - name: intrebari
@@ -297,7 +292,7 @@ collections:
       - { name: rol, label: Rol, widget: string }
       - { name: ordine, label: Ordine, widget: number, value_type: int }
       - { name: foto, label: Fotografie, widget: image, required: false }
-      - { name: servicii, label: "Servicii (adresele paginilor: tuns, vopsit...)", widget: list, required: false }
+      - { name: servicii, label: "Servicii (adresele categoriilor: colorare, tuns, diagnoza-scalp, tratamente, vouchere-cadou)", widget: list, required: false }
       - { name: body, label: Despre, widget: markdown }
 
   # ---------------- Oferte ----------------

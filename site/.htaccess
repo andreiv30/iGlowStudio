@@ -15,6 +15,11 @@ Options -Indexes
   # Fișierele ascunse (.git, .env, .config.php...) nu se servesc; excepție .well-known (certificate SSL)
   RewriteRule (^|/)\.(?!well-known/) - [F,L]
 
+  # Programările se fac pe Mero; paginile vechi de servicii au fost unite în categorii
+  RewriteRule ^rezerva/?$ https://mero.ro/p/iglow-studio [R=301,L]
+  RewriteRule ^servicii/(vopsit|balayage)/?$ /servicii/colorare/ [R=301,L]
+  RewriteRule ^servicii/coafat/?$ /servicii/tratamente/ [R=301,L]
+
   # În folderul de poze nu rulează niciodată scripturi
   RewriteRule ^uploads/.*\.(php\d?|phtml|phar|pl|py|cgi|sh|asp|aspx|jsp|htaccess)$ - [F,NC,L]
 </IfModule>
