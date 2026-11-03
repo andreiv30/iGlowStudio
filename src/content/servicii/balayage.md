@@ -1,21 +1,25 @@
 ---
 slug: balayage
 titlu: Balayage
-rezumat: Lumină pictată de mână, cu treceri moi de la rădăcină spre vârfuri, care crește frumos.
-eticheta: Lumină
+eticheta: ""
 icon: sparkle
+rezumat: Lumină pictată de mână, cu treceri moi de la rădăcină spre vârfuri,
+  care crește frumos.
 ordine: 3
 durata: 3–4 ore
 pret_de_la: 450
 pasi:
   - titlu: Planul de lumină
-    text: Hotărâm unde cade lumina pe față și cât de deschis vrei să fie rezultatul, astăzi și în timp.
+    text: Hotărâm unde cade lumina pe față și cât de deschis vrei să fie rezultatul,
+      astăzi și în timp.
   - titlu: Pictatul
-    text: Decolorăm șuvițe pictate de mână, cu protecție pentru fibră, fără benzi vizibile.
+    text: Decolorăm șuvițe pictate de mână, cu protecție pentru fibră, fără benzi
+      vizibile.
   - titlu: Tonifierea
     text: Alegem tonul final, cald sau rece, cu un toner adaptat nuanței tale.
   - titlu: Tratament și coafat
-    text: Refacem fibra cu un tratament de reconstrucție și coafăm ca să vezi trecerile.
+    text: Refacem fibra cu un tratament de reconstrucție și coafăm ca să vezi
+      trecerile.
 preturi:
   - nume: Balayage păr mediu
     durata: 3 ore
@@ -31,9 +35,11 @@ preturi:
     pret: 150 lei
 intrebari:
   - intrebare: Pot face balayage dacă am părul vopsit închis?
-    raspuns: De multe ori da, dar uneori în două vizite. Îți spunem la diagnostic ce se poate obține sigur din prima.
+    raspuns: De multe ori da, dar uneori în două vizite. Îți spunem la diagnostic ce
+      se poate obține sigur din prima.
   - intrebare: Cât de des trebuie refăcut?
-    raspuns: Balayage-ul crește frumos. Majoritatea clientelor revin la 3–4 luni, cu o tonifiere la mijloc.
+    raspuns: Balayage-ul crește frumos. Majoritatea clientelor revin la 3–4 luni, cu
+      o tonifiere la mijloc.
 ---
 
 Balayage-ul bun nu are linie de demarcație. Rădăcina rămâne aproape de nuanța ta naturală, iar lumina crește spre vârfuri, acolo unde soarele ar deschide părul firesc.
