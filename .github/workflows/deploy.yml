@@ -89,7 +89,21 @@ jobs:
               "https://${CPANEL_HOST}:2083/execute/$1" "${@:2}"
           }
           ok() { python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("errors") or "ok"); sys.exit(0 if d.get("status")==1 else 1)'; }
-          echo "Update from Remote (ramura deploy)…"
-          api VersionControl/update --data-urlencode "repository_root=${ROOT}" --data-urlencode "branch=deploy" | ok
-          echo "Deploy HEAD Commit…"
-          api VersionControlDeployment/create --data-urlencode "repository_root=${ROOT}" | ok
+          publica() {
+            echo "Update from Remote (ramura deploy)…"
+            api VersionControl/update --data-urlencode "repository_root=${ROOT}" --data-urlencode "branch=deploy" | ok || return 1
+            echo "Deploy HEAD Commit…"
+            api VersionControlDeployment/create --data-urlencode "repository_root=${ROOT}" | ok || return 1
+          }
+          # Uneori cPanel nu poate contacta GitHub pentru câteva secunde („could not contact the remote repository”).
+          # Reîncercăm de 3 ori (după 30 s, apoi după 60 s); pașii se pot repeta fără risc, publică aceleași fișiere.
+          for i in 1 2 3; do
+            if publica; then exit 0; fi
+            if [ "$i" -lt 3 ]; then
+              pauza=$((i * 30))
+              echo "Încercarea $i nu a mers; reîncerc peste ${pauza} s…"
+              sleep "$pauza"
+            fi
+          done
+          echo "::error::Publicarea pe server a eșuat de 3 ori. Verifică hosting-ul sau tokenul cPanel, apoi apasă Re-run jobs."
+          exit 1
