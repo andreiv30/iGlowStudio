@@ -8,7 +8,7 @@ rezumat: Vouchere pentru orice serviciu din salon și Nashi Ritual Box, un cadou
 ordine: 5
 durata: ""
 pret_de_la: 100
-imagine: /uploads/voucher.jpg
+imagine: /uploads/voucher.webp
 imagine_alt: null
 seo_descriere: "Vouchere cadou iGlow Studio Sibiu pentru orice serviciu din
   salon și Nashi Ritual Box: un cadou elegant pentru aniversări și sărbători."
