@@ -1,14 +1,14 @@
 {
-  "citat": "iGlow este despre *grijă*, *răbdare* și *lumină*.",
+  "citat": "iGlow este despre *grijă*, *răbdare* și *un păr sănătos*.",
   "citat_autor": "Andreea Pamfiloiu, fondatoare",
   "poveste_titlu": "Povestea noastră",
   "poveste": [
-    "[Cum a început iGlow: de unde a pornit Andreea și de ce a deschis salonul.]",
+    "Frumusețea nu e doar despre părul aranjat, ci despre starea de „mă simt 100% eu”.\n\nLa iGlow, asta facem în fiecare zi: creăm frumusețe, dar mai ales încredere. Adorăm să vedem femeile feminine, sigure pe ele, care intră cu o energie și ies luminoase.\n\nȘi pentru că știm cât de prețios este timpul tău, la iGlow lucrăm ca o echipă unită. Asta înseamnă că nu depinzi niciodată de programul unei singure persoane – ne completăm și avem grijă ca tu să te poți programa, exact atunci când ai nevoie.",
     "Credem că o vizită la salon trebuie să fie mai mult decât un serviciu corect. Este un moment doar al tău: o discuție sinceră, un plan pentru părul tău și un rezultat care arată bine și la câteva săptămâni după.",
     "Lucrăm fără grabă, cu produse profesionale, și îți spunem deschis ce se poate obține într-o vizită și ce în două.",
     "[Încă un paragraf despre echipă, salon sau valori. De completat din /admin.]"
   ],
-  "poveste_imagine": "",
+  "poveste_imagine": "/uploads/iglow2.jpg",
   "contact_titlu": "Vino să ne *cunoști*",
   "contact_text": "Te așteptăm cu drag la salon. Ne găsești ușor, iar echipa te ghidează de la primul mesaj până la programare."
 }
