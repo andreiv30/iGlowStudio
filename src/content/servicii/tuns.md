@@ -8,7 +8,7 @@ rezumat: Tunsori personalizate, adaptate formei feței și stilului tău de via�
 ordine: 2
 durata: 1 h – 1 h 35 min
 pret_de_la: 250
-imagine: /uploads/tuns.jpg
+imagine: /uploads/tuns.webp
 imagine_alt: null
 seo_descriere: "Tuns la iGlow Studio Sibiu: tunsori personalizate după forma
   feței și stilul tău, plus pachete cu Scalp Detox sau tratament Nashi Argan."
