@@ -2,7 +2,7 @@
 nume: Andreea Pamfiloiu
 rol: Fondatoare, hair stylist și colorist
 ordine: 1
-foto: /uploads/iglow-team-135.jpg
+foto: /uploads/iglow-team-135.webp
 servicii:
   - colorare
   - tuns
