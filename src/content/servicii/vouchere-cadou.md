@@ -1,38 +1,49 @@
 ---
 slug: vouchere-cadou
 titlu: Vouchere cadou
-rezumat: Vouchere pentru orice serviciu din salon și Nashi Ritual Box, un cadou elegant pentru aniversări, sărbători sau orice moment special.
 eticheta: Cadou
 icon: gift
+rezumat: Vouchere pentru orice serviciu din salon și Nashi Ritual Box, un cadou
+  elegant pentru aniversări, sărbători sau orice moment special.
 ordine: 5
-durata: ''
+durata: ""
 pret_de_la: 100
-seo_descriere: "Vouchere cadou iGlow Studio Sibiu pentru orice serviciu din salon și Nashi Ritual Box: un cadou elegant pentru aniversări și sărbători."
-imagine: null
+imagine: /uploads/voucher.jpg
 imagine_alt: null
+seo_descriere: "Vouchere cadou iGlow Studio Sibiu pentru orice serviciu din
+  salon și Nashi Ritual Box: un cadou elegant pentru aniversări și sărbători."
 pasi: []
 preturi:
-- nume: Voucher Experiența
-  descriere: |-
-    Oferă în dar mai mult decât un serviciu de înfrumusețare – oferă o experiență de răsfăț, relaxare și încredere.
+  - nume: Voucher Experiența
+    descriere: >-
+      Oferă în dar mai mult decât un serviciu de înfrumusețare – oferă o
+      experiență de răsfăț, relaxare și încredere.
 
-    Voucherul poate fi utilizat pentru orice serviciu sau tratament disponibil în salon și reprezintă alegerea perfectă pentru aniversări, sărbători sau orice moment în care dorești să surprinzi pe cineva drag.
 
-    Un cadou elegant, personal și memorabil, dedicat frumuseții și stării de bine.
-  pret: 100 – 1.000 lei
-- nume: Nashi Ritual Box
-  descriere: |-
-    Transformă îngrijirea părului într-un adevărat ritual de răsfăț. Acest pachet conține produse profesionale Nashi Argan atent selectate pentru hidratare, protecție și strălucire, oferind părului îngrijirea completă de care are nevoie atât în salon, cât și acasă.
+      Voucherul poate fi utilizat pentru orice serviciu sau tratament disponibil în salon și reprezintă alegerea perfectă pentru aniversări, sărbători sau orice moment în care dorești să surprinzi pe cineva drag.
 
-    Ideal pentru a fi oferit cadou sau pentru a continua acasă rezultatele obținute în salon.
 
-    Conține: produse Nashi Argan pentru curățare, hidratare și întreținerea sănătății și frumuseții părului.
-  pret: 200 – 1.000 lei
+      Un cadou elegant, personal și memorabil, dedicat frumuseții și stării de bine.
+    pret: 100 – 1.000 lei
+  - nume: Nashi Ritual Box
+    descriere: >-
+      Transformă îngrijirea părului într-un adevărat ritual de răsfăț. Acest
+      pachet conține produse profesionale Nashi Argan atent selectate pentru
+      hidratare, protecție și strălucire, oferind părului îngrijirea completă de
+      care are nevoie atât în salon, cât și acasă.
+
+
+      Ideal pentru a fi oferit cadou sau pentru a continua acasă rezultatele obținute în salon.
+
+
+      Conține: produse Nashi Argan pentru curățare, hidratare și întreținerea sănătății și frumuseții părului.
+    pret: 200 – 1.000 lei
 intrebari:
-- intrebare: Pentru ce servicii se poate folosi voucherul?
-  raspuns: Voucherul poate fi folosit pentru orice serviciu sau tratament disponibil în salon.
-- intrebare: Ce valoare poate avea un voucher?
-  raspuns: Alegi tu valoarea, între 100 și 1.000 de lei.
+  - intrebare: Pentru ce servicii se poate folosi voucherul?
+    raspuns: Voucherul poate fi folosit pentru orice serviciu sau tratament
+      disponibil în salon.
+  - intrebare: Ce valoare poate avea un voucher?
+    raspuns: Alegi tu valoarea, între 100 și 1.000 de lei.
 ---
 
 Oferă în dar mai mult decât un serviciu de înfrumusețare: o experiență de răsfăț, relaxare și încredere.
