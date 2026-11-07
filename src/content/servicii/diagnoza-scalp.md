@@ -8,7 +8,7 @@ rezumat: Analiza profesională a firului de păr și a scalpului, cu tehnologie
 ordine: 3
 durata: 1 h – 1 h 30 min
 pret_de_la: 255
-imagine: /uploads/diagnoza.jpg
+imagine: /uploads/diagnoza.webp
 imagine_alt: null
 seo_descriere: Diagnoză capilară Koemia și analiza scalpului cu tricocameră la
   iGlow Studio Sibiu, urmate de tratamente și programe personalizate.
