@@ -8,7 +8,7 @@ rezumat: Tratamente profesionale Nashi Argan, Davines, Olaplex și iHair pentru
 ordine: 4
 durata: 45 min – 4 h
 pret_de_la: 200
-imagine: /uploads/tratamente.jpg
+imagine: /uploads/tratamente.webp
 imagine_alt: null
 seo_descriere: "Tratamente de păr la iGlow Studio Sibiu: Nashi Argan, Davines,
   Olaplex și iHair pentru hidratare, reconstrucție, bucle și păr neted."
