@@ -2,7 +2,7 @@
 nume: Ana Virtopeanu
 rol: Hair specialist
 ordine: 3
-foto: /uploads/iglow-team-92.jpg
+foto: /uploads/iglow-team-92.webp
 servicii:
   - colorare
   - tuns
