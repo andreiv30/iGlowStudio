@@ -15,10 +15,15 @@ detaliu: >-
   ✅️ Îngrijire mai eficientă, pentru un păr sănătos și frumos
 
   📅 Oferta este valabilă în perioada 1–30 noiembrie 2026.
-pret: "389"
-pret_vechi: "0"
+pret: "0"
+pret_vechi: Larisa e calmul și căldura salonului. E pasionată de culoare și de
+  tratamente. Are grijă ca părul tău să arate bine și să fie sănătos de la
+  rădăcină până la vârfuri.
 valabil_pana: 30 noiembrie
 activ: true
 ordine: 1
-imagine: /uploads/whatsapp-image-2026-11-03-at-14-31-35.webp
+imagine: ""
 ---
+
+
+![](/uploads/whatsapp-image-2026-11-03-at-14-31-35.webp)
