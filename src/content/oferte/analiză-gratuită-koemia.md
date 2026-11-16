@@ -16,9 +16,7 @@ detaliu: >-
 
   📅 Oferta este valabilă în perioada 1–30 noiembrie 2026.
 pret: "0"
-pret_vechi: Larisa e calmul și căldura salonului. E pasionată de culoare și de
-  tratamente. Are grijă ca părul tău să arate bine și să fie sănătos de la
-  rădăcină până la vârfuri.
+pret_vechi: "390"
 valabil_pana: 30 noiembrie
 activ: true
 ordine: 1
